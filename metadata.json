@@ -1,0 +1,6 @@
+{
+  "name": "Trampo CWB - Mobile UI",
+  "description": "Interface mobile componentizada em React, TypeScript e Tailwind CSS para o app Trampo CWB.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
