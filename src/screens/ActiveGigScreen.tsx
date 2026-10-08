@@ -10,19 +10,20 @@ import {
   MapPin, 
   Clock, 
   CheckCircle, 
-  ExternalLink,
-  ShieldCheck,
-  Phone,
-  ChevronLeft
+  ExternalLink, 
+  ShieldCheck, 
+  Phone, 
+  ChevronLeft 
 } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GigOffer } from '../types';
 import { GOOGLE_MAPS_API_KEY } from '../constants/maps';
-
+import { mockGigs } from '../data/mockGigs';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
 interface ActiveGigScreenProps {
-  gig: GigOffer;
+  gig?: GigOffer;
   onFinishShift?: (gig: GigOffer) => void;
   onOpenNavigation?: () => void;
   onCancelGig?: () => void;
@@ -115,12 +116,16 @@ const darkMapStyles: google.maps.MapTypeStyle[] = [
 ];
 
 export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
-  gig,
+  gig: propGig,
   onFinishShift,
   onOpenNavigation,
   onCancelGig,
   onBackToDashboard,
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const gig = propGig || (location.state as { gig?: GigOffer })?.gig || mockGigs[0];
+
   const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>('heading_to_venue');
   const apiKey = GOOGLE_MAPS_API_KEY;
 
@@ -132,7 +137,25 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
     } else {
       if (onFinishShift) {
         onFinishShift(gig);
+      } else {
+        navigate('/earnings');
       }
+    }
+  };
+
+  const handleBack = () => {
+    if (onBackToDashboard) {
+      onBackToDashboard();
+    } else {
+      navigate('/map');
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancelGig) {
+      onCancelGig();
+    } else {
+      navigate('/map');
     }
   };
 
@@ -160,15 +183,13 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
         {/* Top Header & Breadcrumb */}
         <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div className="flex items-center gap-3">
-            {onBackToDashboard && (
-              <button
-                type="button"
-                onClick={onBackToDashboard}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4 text-[#00E676]" />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleBack}
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4 text-[#00E676]" />
+            </button>
             <div className="flex items-center gap-2">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
@@ -327,17 +348,15 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                   : 'FINALIZAR TURNO E RECEBER TAXA'}
               </PrimaryButton>
 
-              {onCancelGig && (
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={onCancelGig}
-                    className="text-xs text-red-400/80 hover:text-red-300 transition-colors cursor-pointer py-1"
-                  >
-                    Precisa cancelar este turno?
-                  </button>
-                </div>
-              )}
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="text-xs text-red-400/80 hover:text-red-300 transition-colors cursor-pointer py-1"
+                >
+                  Precisa cancelar este turno?
+                </button>
+              </div>
             </div>
           </div>
         </div>

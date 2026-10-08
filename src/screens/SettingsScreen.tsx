@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Sliders, Wine, Utensils, MapPin, Bell, Shield, Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 
 interface SettingsScreenProps {
-  onBack: () => void;
+  onBack?: () => void;
   onSave?: (settings: {
     bartenderActive: boolean;
     garcomActive: boolean;
@@ -15,6 +16,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   onBack,
   onSave,
 }) => {
+  const navigate = useNavigate();
   const [bartenderActive, setBartenderActive] = useState(true);
   const [garcomActive, setGarcomActive] = useState(true);
   const [maxDistanceKm, setMaxDistanceKm] = useState(10);
@@ -28,7 +30,11 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
     if (onSave) {
       onSave({ bartenderActive, garcomActive, maxDistanceKm });
     }
-    onBack();
+    if (onBack) {
+      onBack();
+    } else {
+      navigate('/profile');
+    }
   };
 
   return (

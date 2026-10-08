@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { LogIn, Sparkles, ArrowRight, ShieldCheck, CheckCircle } from 'lucide-react';
+import { 
+  LogIn, 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  CheckCircle, 
+  User, 
+  Building2,
+  Check
+} from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { TextInput } from '../components/ui/TextInput';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { SocialButton } from '../components/ui/SocialButton';
+import { useAuth, UserRole } from '../context/AuthContext';
 
 interface LoginScreenProps {
   onNavigateToCadastro?: () => void;
@@ -13,27 +24,59 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   onNavigateToCadastro,
   onLoginSuccess,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+
+  const [role, setRole] = useState<UserRole>('Freelancer');
   const [email, setEmail] = useState('freelancer@curitiba.com');
   const [password, setPassword] = useState('••••••••');
   const [isLoading, setIsLoading] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleRoleChange = (newRole: UserRole) => {
+    setRole(newRole);
+    if (newRole === 'Freelancer') {
+      setEmail('freelancer@curitiba.com');
+    } else {
+      setEmail('gerente@restaurante.com');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    setFeedbackMessage(null);
+
+    try {
+      await login(email, role);
       if (onLoginSuccess) {
         onLoginSuccess();
+      } else {
+        // Redireciona para o destino original ou para a rota do mapa
+        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/map';
+        navigate(from, { replace: true });
       }
-    }, 500);
+    } catch {
+      setFeedbackMessage('Erro ao efetuar login. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoToCadastro = () => {
+    if (onNavigateToCadastro) {
+      onNavigateToCadastro();
+    } else {
+      navigate('/cadastro');
+    }
   };
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-        {/* Left Side: Brand Visual (Desktop only highlight) */}
+        {/* Left Side: Brand Visual */}
         <div className="hidden lg:flex flex-col justify-between p-10 bg-gradient-to-br from-[#161920] to-[#0d0f12] border-r border-white/5 relative overflow-hidden">
-          {/* Subtle Glow Background */}
           <div className="absolute top-0 right-0 w-72 h-72 bg-[#00E676]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div>
@@ -48,35 +91,43 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             </div>
 
             <h2 className="text-3xl font-extrabold text-white leading-tight mb-4">
-              Os melhores turnos em restaurantes e bares de Curitiba.
+              {role === 'Freelancer'
+                ? 'Os melhores turnos em restaurantes e bares de Curitiba.'
+                : 'Encontre garçons e bartenders qualificados para o seu turno.'}
             </h2>
             <p className="text-sm text-zinc-400 leading-relaxed mb-6">
-              Conectamos garçons e bartenders qualificados a bares renomados com repasse rápido via PIX.
+              {role === 'Freelancer'
+                ? 'Conectamos garçons e bartenders a bares renomados com repasse rápido via PIX.'
+                : 'Contrate profissionais verificados para cobrir eventos e turnos de pico com segurança.'}
             </p>
 
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-xs text-zinc-300">
                 <CheckCircle className="w-4 h-4 text-[#00E676]" />
-                <span>Taxas competitivas a partir de R$ 180 por turno</span>
+                <span>
+                  {role === 'Freelancer'
+                    ? 'Taxas competitivas a partir de R$ 180 por turno'
+                    : 'Garantia de comparecimento e avaliação prévia'}
+                </span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
                 <CheckCircle className="w-4 h-4 text-[#00E676]" />
-                <span>Microtreinamento Speckit com regras do local</span>
+                <span>Microtreinamento Speckit com dress code e regras em tempo real</span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
                 <CheckCircle className="w-4 h-4 text-[#00E676]" />
-                <span>Histórico e repasses transparentes</span>
+                <span>Histórico de turnos e repasses transparentes</span>
               </div>
             </div>
           </div>
 
           <div className="pt-6 border-t border-white/5 flex items-center gap-3 text-xs text-zinc-400">
             <ShieldCheck className="w-4 h-4 text-[#00E676]" />
-            <span>Ambiente seguro para profissionais da gastronomia</span>
+            <span>Ambiente seguro para o mercado gastronômico</span>
           </div>
         </div>
 
-        {/* Right Side: Form (Mobile & Desktop) */}
+        {/* Right Side: Form */}
         <div className="p-6 sm:p-10 flex flex-col justify-between bg-[#121418]">
           <div>
             {/* Mobile Header Brand */}
@@ -93,12 +144,46 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">
               Bem-vindo de volta
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-              Entre na sua conta para encontrar seus próximos turnos.
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-4">
+              Selecione seu perfil e acesse a plataforma:
             </p>
 
+            {/* Alternador de Perfil: Freelancer vs Contratante */}
+            <div className="grid grid-cols-2 gap-2 bg-[#171A22] p-1.5 rounded-2xl border border-white/5 mb-5">
+              <button
+                type="button"
+                onClick={() => handleRoleChange('Freelancer')}
+                className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  role === 'Freelancer'
+                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Freelancer</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRoleChange('Contratante')}
+                className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  role === 'Contratante'
+                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                <span>Contratante</span>
+              </button>
+            </div>
+
+            {feedbackMessage && (
+              <div className="mb-4 p-3 bg-amber-500/15 border border-amber-500/30 rounded-xl text-xs text-amber-300">
+                {feedbackMessage}
+              </div>
+            )}
+
             {/* Form */}
-            <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <TextInput
                 label="E-MAIL"
                 type="email"
@@ -118,7 +203,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 <div className="flex justify-end mt-2">
                   <button
                     type="button"
-                    onClick={() => alert('Link de recuperação enviado para o seu e-mail!')}
+                    onClick={() =>
+                      setFeedbackMessage(
+                        'Link de redefinição de senha enviado para o seu e-mail cadastrado.'
+                      )
+                    }
                     className="text-xs text-[#00E676] hover:text-[#00FF77] hover:underline font-semibold transition-colors cursor-pointer"
                   >
                     Esqueceu a senha?
@@ -132,7 +221,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   icon={<LogIn className="w-4 h-4 text-black" />}
                   disabled={isLoading}
                 >
-                  {isLoading ? 'ENTRANDO...' : 'ENTRAR NA CONTA'}
+                  {isLoading
+                    ? 'AUTENTICANDO...'
+                    : `ENTRAR COMO ${role.toUpperCase()}`}
                 </PrimaryButton>
               </div>
             </form>
@@ -152,15 +243,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
               <SocialButton
                 provider="Google"
                 onClick={() => {
-                  setEmail('google.user@curitiba.com');
-                  if (onLoginSuccess) onLoginSuccess();
+                  login('google.user@curitiba.com', role).then(() => {
+                    navigate('/map');
+                  });
                 }}
               />
               <SocialButton
                 provider="Apple"
                 onClick={() => {
-                  setEmail('apple.user@curitiba.com');
-                  if (onLoginSuccess) onLoginSuccess();
+                  login('apple.user@curitiba.com', role).then(() => {
+                    navigate('/map');
+                  });
                 }}
               />
             </div>
@@ -170,10 +263,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 Não tem uma conta?{' '}
                 <button
                   type="button"
-                  onClick={onNavigateToCadastro}
+                  onClick={handleGoToCadastro}
                   className="text-[#00E676] hover:text-[#00FF77] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
                 >
-                  <span>Cadastre-se</span>
+                  <span>Cadastre-se (Primeiro Acesso)</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </p>

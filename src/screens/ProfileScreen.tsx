@@ -18,9 +18,12 @@ import {
   User,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  Building2
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
+import { useAuth } from '../context/AuthContext';
 
 export interface UserProfileData {
   name: string;
@@ -41,20 +44,27 @@ interface ProfileScreenProps {
 }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
-  userProfile = {
-    name: 'Gabriel Silva',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
-    roleDescription: 'Bartender & Garçom Pro',
-    phone: '(41) 99999-0000',
-    email: 'freelancer@curitiba.com',
-    city: 'Curitiba, PR'
-  },
+  userProfile: propProfile,
   onUpdateProfile,
   onOpenSettings,
   onLogout,
   onViewHistory,
   onHelpCenter,
 }) => {
+  const navigate = useNavigate();
+  const { user, logout, switchRole } = useAuth();
+
+  const userProfile = propProfile || {
+    name: user?.name || 'Gabriel Silva',
+    avatarUrl:
+      user?.avatarUrl ||
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
+    roleDescription: user?.role === 'Contratante' ? 'Gestor de Contratações' : 'Bartender & Garçom Pro',
+    phone: user?.phone || '(41) 99999-0000',
+    email: user?.email || 'freelancer@curitiba.com',
+    city: 'Curitiba, PR',
+  };
+
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userProfile.name);
   const [avatarUrl, setAvatarUrl] = useState(userProfile.avatarUrl);
@@ -62,6 +72,23 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [phone, setPhone] = useState(userProfile.phone);
   const [email, setEmail] = useState(userProfile.email);
   const [city, setCity] = useState(userProfile.city);
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    } else {
+      logout();
+      navigate('/login', { replace: true });
+    }
+  };
+
+  const handleOpenSettings = () => {
+    if (onOpenSettings) {
+      onOpenSettings();
+    } else {
+      navigate('/settings');
+    }
+  };
 
   // Avatares rápidos para o usuário escolher com 1 clique
   const presetAvatars = [
@@ -393,7 +420,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <div className="bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-sm divide-y divide-white/5">
           <button
             type="button"
-            onClick={onOpenSettings}
+            onClick={handleOpenSettings}
             className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
           >
             <div className="flex items-center gap-4">
@@ -444,7 +471,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
           <button
             type="button"
-            onClick={onLogout}
+            onClick={handleLogout}
             className="w-full flex items-center justify-between p-5 hover:bg-red-500/10 transition-colors cursor-pointer text-left group"
           >
             <div className="flex items-center gap-4">
