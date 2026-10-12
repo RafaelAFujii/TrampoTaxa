@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
 import { CodeViewerModal } from '../components/CodeViewerModal';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 import { NavTab } from '../types';
 
 export const AppLayout: React.FC = () => {
@@ -246,6 +247,9 @@ export const AppLayout: React.FC = () => {
 
         {/* Right: Role Switcher, Online Status, Profile & Code Modal */}
         <div className="flex items-center gap-2.5">
+          {/* Botão de Instalação Mobile PWA */}
+          <PWAInstallButton />
+
           {/* Alternador Rápido de Perfil (Contratante <-> Freelancer) */}
           <button
             type="button"

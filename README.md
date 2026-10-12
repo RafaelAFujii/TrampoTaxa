@@ -62,7 +62,13 @@ trampo-taxa/
 ├── docs/
 │   ├── openapi.yaml              # Especificação OpenAPI 3.0 (Swagger) para integração mobile/backend
 │   ├── DATABASE_MER.md           # Modelo Entidade-Relacionamento (MER/DER), dicionário e DBML
+│   ├── EXPO_GO_GUIDE.md          # Guia passo a passo para execução no Expo Go
 │   └── RELATORIO_ETAPA_02_SECAO_3.md # Relatório institucional da Etapa 02
+├── mobile-expo/                  # Versão móvel React Native pronta para Expo Go
+│   ├── App.tsx                   # Container nativo com WebView e StatusBar
+│   ├── app.json                  # Manifesto e identificador mobile
+│   ├── package.json              # Dependências do Expo / React Native
+│   └── README.md                 # Guia detalhado de uso e geração de APK
 ├── src/
 │   ├── __tests__/                # Suíte de testes automatizados (Vitest TDD)
 │   │   ├── auth_flow.test.ts
