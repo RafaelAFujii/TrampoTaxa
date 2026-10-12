@@ -1,22 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { 
-  Power, 
-  Wallet, 
-  MapPin, 
-  Clock, 
+import {
+  Power,
+  Wallet,
+  MapPin,
+  Clock,
   ArrowRight,
   X,
   WifiOff,
   Filter,
-  Sparkles,
-  ShieldCheck,
-  Building2,
-  UserCheck
+  UserCheck,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { MapPlaceholder } from '../components/map/MapPlaceholder';
-import { GigMarker } from '../components/map/GigMarker';
 import { GigOfferBottomSheet } from './GigOfferBottomSheet';
 import { mockGigs } from '../data/mockGigs';
 import { GigOffer } from '../types';
@@ -40,7 +35,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   selectedGigId: externalSelectedGigId,
   isOnline: controlledOnline,
   onToggleOnline,
-  onOpenProfile,
+  onOpenProfile: _onOpenProfile,
   onOpenEarnings,
   earningsToday = 'R$ 150,00',
   onAcceptGigSuccess,
@@ -139,14 +134,14 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold text-white">
-                    {user?.name || 'Gabriel Silva'}
-                  </h3>
+                  <h3 className="text-sm font-bold text-white">{user?.name || 'Gabriel Silva'}</h3>
                   <span className="text-[10px] uppercase font-black px-1.5 py-0.2 rounded bg-white/10 text-zinc-300">
                     {user?.role || 'Freelancer'}
                   </span>
                 </div>
-                <span className={`text-[11px] font-medium ${isOnline ? 'text-[#00E676]' : 'text-zinc-500'}`}>
+                <span
+                  className={`text-[11px] font-medium ${isOnline ? 'text-[#00E676]' : 'text-zinc-500'}`}
+                >
                   {isOnline ? 'Radar Ativo em Curitiba' : 'Desconectado'}
                 </span>
               </div>
@@ -237,9 +232,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                               {gig.distance}
                             </span>
                           </div>
-                          <h4 className="font-bold text-white text-sm mt-1">
-                            {gig.venueName}
-                          </h4>
+                          <h4 className="font-bold text-white text-sm mt-1">{gig.venueName}</h4>
                           <span className="text-xs text-zinc-400 flex items-center gap-1 mt-0.5">
                             <MapPin className="w-3 h-3 text-zinc-500" />
                             {gig.neighborhood}
@@ -345,14 +338,14 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
           <div className="pointer-events-auto hidden sm:flex items-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                switchRole(user?.role === 'Freelancer' ? 'Contratante' : 'Freelancer')
-              }
+              onClick={() => switchRole(user?.role === 'Freelancer' ? 'Contratante' : 'Freelancer')}
               className="bg-[#121620]/90 hover:bg-[#1A1F2D] border border-white/10 text-zinc-300 text-xs px-3 py-2 rounded-full backdrop-blur-md flex items-center gap-1.5 shadow-lg transition-colors cursor-pointer"
               title="Alternar Perfil para Validação"
             >
               <UserCheck className="w-3.5 h-3.5 text-[#00E676]" />
-              <span>Perfil: <strong className="text-white">{user?.role || 'Freelancer'}</strong></span>
+              <span>
+                Perfil: <strong className="text-white">{user?.role || 'Freelancer'}</strong>
+              </span>
             </button>
           </div>
         </div>
@@ -372,9 +365,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                     </span>
                     <span className="text-[11px] text-zinc-400">{selectedGig.distance}</span>
                   </div>
-                  <h4 className="text-base font-black text-white mt-1">
-                    {selectedGig.venueName}
-                  </h4>
+                  <h4 className="text-base font-black text-white mt-1">{selectedGig.venueName}</h4>
                   <p className="text-xs text-zinc-400">{selectedGig.neighborhood}, Curitiba</p>
                 </div>
 

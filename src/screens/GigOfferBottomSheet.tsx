@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Star, 
-  MapPin, 
-  X, 
-  Clock, 
-  ShieldCheck, 
-  Check, 
-  DollarSign
-} from 'lucide-react';
+import { Star, MapPin, X, Clock, ShieldCheck, Check, DollarSign } from 'lucide-react';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GigOffer } from '../types';
 
@@ -25,7 +17,7 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
   onAccept,
   onDecline,
   onClose,
-  }) => {
+}) => {
   const [acknowledgedDressCode, setAcknowledgedDressCode] = useState(false);
 
   // Redefine a confirmação sempre que uma nova vaga for aberta
@@ -56,10 +48,7 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
       {/* Click outside backdrop */}
-      <div 
-        className="absolute inset-0 cursor-pointer" 
-        onClick={handleClose} 
-      />
+      <div className="absolute inset-0 cursor-pointer" onClick={handleClose} />
 
       {/* Modal / Bottom Sheet Container */}
       <div className="relative z-10 w-full sm:max-w-lg bg-[#12141A] border border-white/10 sm:rounded-3xl rounded-t-[32px] p-6 shadow-2xl overflow-hidden flex flex-col gap-4 max-h-[92vh] overflow-y-auto">
@@ -132,12 +121,8 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
               <Clock className="w-3 h-3 text-zinc-400" />
               HORÁRIO
             </span>
-            <span className="text-base font-bold text-white mt-0.5">
-              {gig.shiftTime}
-            </span>
-            <span className="text-[11px] text-zinc-400">
-              {gig.shiftDuration}
-            </span>
+            <span className="text-base font-bold text-white mt-0.5">{gig.shiftTime}</span>
+            <span className="text-[11px] text-zinc-400">{gig.shiftDuration}</span>
           </div>
         </div>
 
@@ -158,11 +143,11 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           </div>
 
           {/* Confirmação de ciência das regras de apresentação */}
-          <div 
+          <div
             onClick={() => setAcknowledgedDressCode(!acknowledgedDressCode)}
             className={`flex items-center gap-3 cursor-pointer p-2.5 rounded-xl border transition-all select-none ${
-              acknowledgedDressCode 
-                ? 'bg-[#00E676]/10 border-[#00E676]/40 text-white shadow-[0_0_12px_rgba(0,230,118,0.1)]' 
+              acknowledgedDressCode
+                ? 'bg-[#00E676]/10 border-[#00E676]/40 text-white shadow-[0_0_12px_rgba(0,230,118,0.1)]'
                 : 'bg-black/30 border-white/10 hover:border-white/20 text-zinc-300 hover:bg-white/[0.02]'
             }`}
             role="checkbox"
@@ -185,7 +170,9 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
               {acknowledgedDressCode && <Check className="w-3.5 h-3.5 stroke-[3]" />}
             </div>
             <div className="flex flex-col">
-              <span className={`text-xs font-semibold leading-tight ${acknowledgedDressCode ? 'text-white' : 'text-zinc-300'}`}>
+              <span
+                className={`text-xs font-semibold leading-tight ${acknowledgedDressCode ? 'text-white' : 'text-zinc-300'}`}
+              >
                 Estou ciente das regras de apresentação deste contratante.
               </span>
               {!acknowledgedDressCode && (
@@ -208,14 +195,18 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           </button>
 
           <div className="sm:order-2 order-1 flex-1 flex flex-col">
-            <PrimaryButton 
+            <PrimaryButton
               onClick={() => {
                 if (acknowledgedDressCode) {
                   onAccept(gig);
                 }
               }}
               disabled={!acknowledgedDressCode}
-              title={!acknowledgedDressCode ? 'Confirme a ciência das regras de apresentação para aceitar' : undefined}
+              title={
+                !acknowledgedDressCode
+                  ? 'Confirme a ciência das regras de apresentação para aceitar'
+                  : undefined
+              }
               icon={<ShieldCheck className="w-4 h-4 text-black" />}
             >
               ACEITAR TAXA ({gig.rateFormatted})

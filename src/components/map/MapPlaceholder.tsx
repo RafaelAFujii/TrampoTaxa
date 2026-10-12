@@ -20,8 +20,8 @@ interface MapPlaceholderProps {
 }
 
 // Coordenadas centrais de Curitiba (Batel / Centro)
-const CURITIBA_CENTER = { lat: -25.4385, lng: -49.2820 };
-const USER_LOCATION = { lat: -25.4390, lng: -49.2810 };
+const CURITIBA_CENTER = { lat: -25.4385, lng: -49.282 };
+const USER_LOCATION = { lat: -25.439, lng: -49.281 };
 
 // MapId válido obrigatório para WebGL e AdvancedMarkerElement na Google Maps API
 const GOOGLE_MAP_ID = 'DEMO_MAP_ID';
@@ -151,15 +151,18 @@ function MinimalVectorMap({
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    isDraggingRef.current = true;
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      panX: panOffset.x,
-      panY: panOffset.y,
-    };
-  }, [panOffset]);
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      isDraggingRef.current = true;
+      dragStartRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+        panX: panOffset.x,
+        panY: panOffset.y,
+      };
+    },
+    [panOffset]
+  );
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDraggingRef.current) return;
@@ -197,7 +200,12 @@ function MinimalVectorMap({
         <path d="M 500 0 L 490 1000" stroke="#1E2430" strokeWidth="8" strokeLinecap="round" />
         <path d="M 100 200 L 900 800" stroke="#1A202A" strokeWidth="5" />
         <path d="M 200 900 L 850 150" stroke="#1A202A" strokeWidth="5" />
-        <path d="M 300 400 L 700 400 L 700 650 L 300 650 Z" stroke="#161B24" strokeWidth="3" fill="none" />
+        <path
+          d="M 300 400 L 700 400 L 700 650 L 300 650 Z"
+          stroke="#161B24"
+          strokeWidth="3"
+          fill="none"
+        />
       </svg>
 
       {/* Ponto do usuário no fallback vetorial */}
@@ -274,10 +282,7 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
     >
       {hasKey ? (
         <ErrorBoundary fallback={fallbackView}>
-          <div
-            className="absolute inset-0 w-full h-full"
-            style={{ width: '100%', height: '100%' }}
-          >
+          <div className="absolute inset-0 w-full h-full" style={{ width: '100%', height: '100%' }}>
             <Map
               id="cwb-radar-map"
               mapId={GOOGLE_MAP_ID}
@@ -316,4 +321,3 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
     </div>
   );
 };
-

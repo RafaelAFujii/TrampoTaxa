@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  TrendingUp, 
-  Wallet, 
-  Users, 
-  CheckCircle2, 
-  Calendar, 
-  Download, 
-  Filter, 
-  FileText, 
-  Clock, 
-  DollarSign, 
-  ArrowUpRight,
+import {
+  TrendingUp,
+  Wallet,
+  Users,
+  CheckCircle2,
+  FileText,
+  DollarSign,
   ShieldCheck,
-  ChevronRight,
   X,
-  Printer
+  Printer,
 } from 'lucide-react';
 import { useContractor } from '../../context/ContractorContext';
 import { ContractorGig } from '../../types/contractor';
-import { formatCurrency } from '../../utils/formatters';
 
 type PeriodFilter = '7dias' | 'esteMes' | '3meses' | 'todos';
 type StatusReportFilter = 'All' | 'Finalizada' | 'Cancelada' | 'Preenchida';
@@ -51,7 +44,8 @@ export const ContractorReportsScreen: React.FC = () => {
             Relatório Financeiro & Operacional
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400">
-            Acompanhe o volume de taxas pagas, horas de freelancers contratados e recibos operacionais.
+            Acompanhe o volume de taxas pagas, horas de freelancers contratados e recibos
+            operacionais.
           </p>
         </div>
 
@@ -152,10 +146,14 @@ export const ContractorReportsScreen: React.FC = () => {
       <div className="p-6 bg-[#121418] border border-white/10 rounded-3xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-extrabold text-white">Investimento em Turnos por Período</h3>
+            <h3 className="text-sm font-extrabold text-white">
+              Investimento em Turnos por Período
+            </h3>
             <p className="text-xs text-zinc-400">Comparativo de despesas com escalas temporárias</p>
           </div>
-          <span className="text-xs text-[#00E676] font-bold">Total: {kpis.totalInvestedFormatted}</span>
+          <span className="text-xs text-[#00E676] font-bold">
+            Total: {kpis.totalInvestedFormatted}
+          </span>
         </div>
 
         {/* Barras visuais */}
@@ -279,10 +277,10 @@ export const ContractorReportsScreen: React.FC = () => {
                           gig.status === 'Finalizada'
                             ? 'bg-zinc-800 text-zinc-300 border border-zinc-700'
                             : gig.status === 'Preenchida'
-                            ? 'bg-blue-500/15 text-blue-300 border border-blue-500/30'
-                            : gig.status === 'Aberta'
-                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                            : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                              ? 'bg-blue-500/15 text-blue-300 border border-blue-500/30'
+                              : gig.status === 'Aberta'
+                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                                : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                         }`}
                       >
                         {gig.status}
@@ -355,11 +353,15 @@ export const ContractorReportsScreen: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-400">Data do Turno:</span>
-                  <span className="font-semibold text-white">{selectedReceiptGig.dateFormatted}</span>
+                  <span className="font-semibold text-white">
+                    {selectedReceiptGig.dateFormatted}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-400">Horário:</span>
-                  <span>{selectedReceiptGig.startTime} às {selectedReceiptGig.endTime}</span>
+                  <span>
+                    {selectedReceiptGig.startTime} às {selectedReceiptGig.endTime}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-400">Estabelecimento Contratante:</span>

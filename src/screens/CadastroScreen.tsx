@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  UserPlus, 
-  Check, 
-  ArrowLeft, 
-  ShieldCheck, 
-  CheckCircle, 
+import {
+  UserPlus,
+  Check,
+  ArrowLeft,
+  ShieldCheck,
+  CheckCircle,
   Building2,
   User,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { TextInput } from '../components/ui/TextInput';
@@ -39,7 +39,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
   const { cadastrar } = useAuth();
 
   const [role, setRole] = useState<UserRole>('Contratante');
-  
+
   // Campos comuns
   const [nome, setNome] = useState('Bistrô do Batel');
   const [email, setEmail] = useState('contato@bistrodobatel.com.br');
@@ -88,7 +88,9 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
     setErrorMessage(null);
 
     if (!acceptTerms) {
-      setErrorMessage('Por favor, confirme que aceita os Termos de Uso e Políticas para continuar.');
+      setErrorMessage(
+        'Por favor, confirme que aceita os Termos de Uso e Políticas para continuar.'
+      );
       return;
     }
 
@@ -116,7 +118,9 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
       // Validação amigável
       if (!isValidCNPJ(cnpj)) {
         // Se for um teste arbitrário avisamos mas permitimos continuar ou alertamos
-        setErrorMessage('CNPJ com dígitos verificadores inválidos. Verifique a digitação ou use um CNPJ válido.');
+        setErrorMessage(
+          'CNPJ com dígitos verificadores inválidos. Verifique a digitação ou use um CNPJ válido.'
+        );
         return;
       }
     }
@@ -132,7 +136,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
         profession: role === 'Freelancer' ? profession : undefined,
         cnpj: role === 'Contratante' ? cnpj : undefined,
         businessSegment: role === 'Contratante' ? ramoAtuacao : undefined,
-        corporateName: role === 'Contratante' ? (razaoSocial || nome) : undefined,
+        corporateName: role === 'Contratante' ? razaoSocial || nome : undefined,
       });
 
       if (onCadastroSuccess) {
@@ -247,9 +251,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-1">
               Criar Conta no TrampoTaxa
             </h1>
-            <p className="text-xs text-zinc-400 mb-4">
-              Escolha seu tipo de perfil para continuar:
-            </p>
+            <p className="text-xs text-zinc-400 mb-4">Escolha seu tipo de perfil para continuar:</p>
 
             {/* Alternar Perfil: Contratante vs Freelancer */}
             <div className="grid grid-cols-2 gap-2 bg-[#171A22] p-1.5 rounded-2xl border border-white/5 mb-5">
@@ -354,10 +356,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                     <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                       ESCOLHA SUA FUNÇÃO PRINCIPAL
                     </label>
-                    <ProfessionToggle
-                      selected={profession}
-                      onChange={(p) => setProfession(p)}
-                    />
+                    <ProfessionToggle selected={profession} onChange={(p) => setProfession(p)} />
                   </div>
 
                   <TextInput
@@ -425,8 +424,8 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                   className="text-xs text-zinc-400 cursor-pointer select-none"
                 >
                   Li e concordo com os{' '}
-                  <span className="text-white underline font-medium">Termos de Uso</span>{' '}
-                  e as Políticas do TrampoTaxa.
+                  <span className="text-white underline font-medium">Termos de Uso</span> e as
+                  Políticas do TrampoTaxa.
                 </label>
               </div>
 
@@ -439,8 +438,8 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                   {isLoading
                     ? 'CRIANDO CONTA...'
                     : role === 'Contratante'
-                    ? 'CADASTRAR ESTABELECIMENTO'
-                    : 'CONCLUIR CADASTRO FREELANCER'}
+                      ? 'CADASTRAR ESTABELECIMENTO'
+                      : 'CONCLUIR CADASTRO FREELANCER'}
                 </PrimaryButton>
               </div>
             </form>

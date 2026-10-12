@@ -1,21 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Send, 
-  MessageSquare, 
-  Phone, 
-  MapPin, 
-  Clock, 
-  CheckCheck, 
-  Sparkles, 
-  Search, 
-  Info,
-  ChevronLeft,
-  Calendar,
-  DollarSign
-} from 'lucide-react';
+import { Send, MessageSquare, CheckCheck, Search, Info } from 'lucide-react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useContractor } from '../../context/ContractorContext';
-import { ContractorGig, FreelancerApplicant } from '../../types/contractor';
+import { FreelancerApplicant } from '../../types/contractor';
 
 const QUICK_MESSAGES = [
   'Qual a sua previsão de chegada para o turno?',
@@ -33,7 +20,11 @@ export const ContractorChatScreen: React.FC = () => {
 
   // Filtrar apenas vagas que possuem candidatos ou estão preenchidas/finalizadas
   const chatGigs = gigs.filter(
-    (g) => g.status === 'Preenchida' || g.status === 'Finalizada' || g.approvedFreelancerId || g.applicants.length > 0
+    (g) =>
+      g.status === 'Preenchida' ||
+      g.status === 'Finalizada' ||
+      g.approvedFreelancerId ||
+      g.applicants.length > 0
   );
 
   const [selectedGigId, setSelectedGigId] = useState<string>(() => {
@@ -130,9 +121,7 @@ export const ContractorChatScreen: React.FC = () => {
                   gig.applicants.find(
                     (a) => a.id === gig.approvedFreelancerId || a.status === 'Aprovado'
                   ) || gig.applicants[0];
-                const lastMsg = messages
-                  .filter((m) => m.gigId === gig.id)
-                  .slice(-1)[0];
+                const lastMsg = messages.filter((m) => m.gigId === gig.id).slice(-1)[0];
 
                 return (
                   <button
@@ -167,9 +156,7 @@ export const ContractorChatScreen: React.FC = () => {
                         </span>
                       </div>
 
-                      <p className="text-[11px] text-[#00E676] font-medium truncate">
-                        {gig.title}
-                      </p>
+                      <p className="text-[11px] text-[#00E676] font-medium truncate">{gig.title}</p>
 
                       <p className="text-[11px] text-zinc-400 truncate mt-0.5">
                         {lastMsg ? lastMsg.text : 'Nenhuma mensagem trocada ainda'}
@@ -263,9 +250,7 @@ export const ContractorChatScreen: React.FC = () => {
                 return (
                   <div
                     key={msg.id}
-                    className={`flex flex-col ${
-                      isContratante ? 'items-end' : 'items-start'
-                    }`}
+                    className={`flex flex-col ${isContratante ? 'items-end' : 'items-start'}`}
                   >
                     <div
                       className={`max-w-[85%] sm:max-w-[70%] rounded-2xl px-4 py-2.5 text-xs shadow-md ${
@@ -291,9 +276,7 @@ export const ContractorChatScreen: React.FC = () => {
 
           {/* Sugestões Rápidas de Mensagens */}
           <div className="px-4 py-2 bg-[#121418] border-t border-white/5 overflow-x-auto scrollbar-none flex items-center gap-2">
-            <span className="text-[10px] uppercase font-bold text-zinc-400 shrink-0">
-              Rápido:
-            </span>
+            <span className="text-[10px] uppercase font-bold text-zinc-400 shrink-0">Rápido:</span>
             {QUICK_MESSAGES.map((qm) => (
               <button
                 key={qm}

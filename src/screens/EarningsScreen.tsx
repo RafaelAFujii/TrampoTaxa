@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  TrendingUp, 
-  Wallet, 
-  Calendar, 
-  ArrowUpRight, 
-  Download, 
-  Filter, 
-  Award, 
-  Clock, 
-  CheckCircle2,
-  DollarSign,
-  ChevronRight
-} from 'lucide-react';
+import { TrendingUp, Wallet, CheckCircle2, Download, Check } from 'lucide-react';
 
 type PeriodMode = 'diario' | 'semanal' | 'mensal';
 
@@ -19,8 +7,9 @@ interface EarningsScreenProps {
   onBackToMap?: () => void;
 }
 
-export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) => {
+export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap: _onBackToMap }) => {
   const [period, setPeriod] = useState<PeriodMode>('semanal');
+  const [exported, setExported] = useState(false);
 
   // Dados para os 3 períodos
   const chartData = {
@@ -35,9 +24,25 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         { label: '19h - 01h', value: 220, formatted: 'R$ 220', subtitle: 'Bistrô do Batel' },
       ],
       recentShifts: [
-        { id: '1', venue: 'Bistrô do Batel', role: 'Bartender', time: '19:00 - 01:00', date: 'Hoje', amount: 'R$ 220,00', status: 'Processando PIX' },
-        { id: '2', venue: 'Boteco São Jorge', role: 'Garçom', time: '14:00 - 18:00', date: 'Hoje', amount: 'R$ 150,00', status: 'Pago via PIX' },
-      ]
+        {
+          id: '1',
+          venue: 'Bistrô do Batel',
+          role: 'Bartender',
+          time: '19:00 - 01:00',
+          date: 'Hoje',
+          amount: 'R$ 220,00',
+          status: 'Processando PIX',
+        },
+        {
+          id: '2',
+          venue: 'Boteco São Jorge',
+          role: 'Garçom',
+          time: '14:00 - 18:00',
+          date: 'Hoje',
+          amount: 'R$ 150,00',
+          status: 'Pago via PIX',
+        },
+      ],
     },
     semanal: {
       total: 'R$ 1.280,00',
@@ -49,17 +54,49 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         { label: 'Seg', value: 180, formatted: 'R$ 180', subtitle: '1 turno' },
         { label: 'Ter', value: 220, formatted: 'R$ 220', subtitle: '1 turno' },
         { label: 'Qua', value: 190, formatted: 'R$ 190', subtitle: '1 turno' },
-        { label: 'Qui', value: 0,   formatted: 'Folga',   subtitle: '0 turnos' },
+        { label: 'Qui', value: 0, formatted: 'Folga', subtitle: '0 turnos' },
         { label: 'Sex', value: 250, formatted: 'R$ 250', subtitle: '1 turno' },
         { label: 'Sáb', value: 290, formatted: 'R$ 290', subtitle: '2 turnos' },
         { label: 'Dom', value: 150, formatted: 'R$ 150', subtitle: '1 turno' },
       ],
       recentShifts: [
-        { id: '1', venue: 'Lounge Bar & Drinks', role: 'Bartender', time: '20:00 - 03:00', date: 'Sábado', amount: 'R$ 250,00', status: 'Pago via PIX' },
-        { id: '2', venue: 'Choperia Avenida', role: 'Garçom', time: '19:30 - 01:30', date: 'Sexta-feira', amount: 'R$ 190,00', status: 'Pago via PIX' },
-        { id: '3', venue: 'Boteco São Jorge', role: 'Bartender', time: '19:00 - 01:00', date: 'Quarta-feira', amount: 'R$ 220,00', status: 'Pago via PIX' },
-        { id: '4', venue: 'Bistrô do Batel', role: 'Garçom', time: '18:00 - 23:30', date: 'Terça-feira', amount: 'R$ 180,00', status: 'Pago via PIX' },
-      ]
+        {
+          id: '1',
+          venue: 'Lounge Bar & Drinks',
+          role: 'Bartender',
+          time: '20:00 - 03:00',
+          date: 'Sábado',
+          amount: 'R$ 250,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '2',
+          venue: 'Choperia Avenida',
+          role: 'Garçom',
+          time: '19:30 - 01:30',
+          date: 'Sexta-feira',
+          amount: 'R$ 190,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '3',
+          venue: 'Boteco São Jorge',
+          role: 'Bartender',
+          time: '19:00 - 01:00',
+          date: 'Quarta-feira',
+          amount: 'R$ 220,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '4',
+          venue: 'Bistrô do Batel',
+          role: 'Garçom',
+          time: '18:00 - 23:30',
+          date: 'Terça-feira',
+          amount: 'R$ 180,00',
+          status: 'Pago via PIX',
+        },
+      ],
     },
     mensal: {
       total: 'R$ 4.960,00',
@@ -74,17 +111,57 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         { label: 'Sem 4', value: 1280, formatted: 'R$ 1.280', subtitle: '6 turnos' },
       ],
       recentShifts: [
-        { id: '1', venue: 'Lounge Bar & Drinks', role: 'Bartender', time: '20:00 - 03:00', date: '28 Set', amount: 'R$ 250,00', status: 'Pago via PIX' },
-        { id: '2', venue: 'Boteco São Jorge', role: 'Bartender', time: '19:00 - 01:00', date: '25 Set', amount: 'R$ 220,00', status: 'Pago via PIX' },
-        { id: '3', venue: 'Choperia Avenida', role: 'Garçom', time: '19:30 - 01:30', date: '21 Set', amount: 'R$ 190,00', status: 'Pago via PIX' },
-        { id: '4', venue: 'Bistrô do Batel', role: 'Garçom', time: '18:00 - 23:30', date: '17 Set', amount: 'R$ 180,00', status: 'Pago via PIX' },
-        { id: '5', venue: 'Taj Bar Curitiba', role: 'Bartender', time: '20:00 - 02:30', date: '12 Set', amount: 'R$ 240,00', status: 'Pago via PIX' },
-      ]
-    }
+        {
+          id: '1',
+          venue: 'Lounge Bar & Drinks',
+          role: 'Bartender',
+          time: '20:00 - 03:00',
+          date: '28 Set',
+          amount: 'R$ 250,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '2',
+          venue: 'Boteco São Jorge',
+          role: 'Bartender',
+          time: '19:00 - 01:00',
+          date: '25 Set',
+          amount: 'R$ 220,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '3',
+          venue: 'Choperia Avenida',
+          role: 'Garçom',
+          time: '19:30 - 01:30',
+          date: '21 Set',
+          amount: 'R$ 190,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '4',
+          venue: 'Bistrô do Batel',
+          role: 'Garçom',
+          time: '18:00 - 23:30',
+          date: '17 Set',
+          amount: 'R$ 180,00',
+          status: 'Pago via PIX',
+        },
+        {
+          id: '5',
+          venue: 'Taj Bar Curitiba',
+          role: 'Bartender',
+          time: '20:00 - 02:30',
+          date: '12 Set',
+          amount: 'R$ 240,00',
+          status: 'Pago via PIX',
+        },
+      ],
+    },
   };
 
   const current = chartData[period];
-  const maxVal = Math.max(...current.bars.map(b => b.value), 1);
+  const maxVal = Math.max(...current.bars.map((b) => b.value), 1);
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-12 bg-[#0A0B0E]">
@@ -202,11 +279,23 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
             </div>
 
             <button
-              onClick={() => alert('Extrato exportado em PDF com sucesso!')}
+              onClick={() => {
+                setExported(true);
+                setTimeout(() => setExported(false), 3000);
+              }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-zinc-300 hover:text-white transition-colors cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-[#00E676]" />
-              <span className="hidden sm:inline">Exportar Relatório</span>
+              {exported ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-[#00E676]" />
+                  <span className="text-[#00E676]">PDF Exportado!</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-3.5 h-3.5 text-[#00E676]" />
+                  <span className="hidden sm:inline">Exportar Relatório</span>
+                </>
+              )}
             </button>
           </div>
 
@@ -218,7 +307,10 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                 const isMax = bar.value === maxVal && bar.value > 0;
 
                 return (
-                  <div key={idx} className="flex-1 flex flex-col items-center h-full justify-end group">
+                  <div
+                    key={idx}
+                    className="flex-1 flex flex-col items-center h-full justify-end group"
+                  >
                     {/* Tooltip value */}
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mb-2 text-center pointer-events-none">
                       <span className="text-[11px] font-black text-white bg-black/90 px-2 py-1 rounded-md border border-white/10 shadow-md">
@@ -234,8 +326,8 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                           bar.value === 0
                             ? 'bg-zinc-800/40 border border-dashed border-zinc-700/50'
                             : isMax
-                            ? 'bg-[#00E676] shadow-[0_0_20px_rgba(0,230,118,0.5)] border border-[#00FF77]/40'
-                            : 'bg-[#18231c] hover:bg-[#00E676]/30 border border-[#00E676]/30'
+                              ? 'bg-[#00E676] shadow-[0_0_20px_rgba(0,230,118,0.5)] border border-[#00FF77]/40'
+                              : 'bg-[#18231c] hover:bg-[#00E676]/30 border border-[#00E676]/30'
                         }`}
                       >
                         {isMax && (
@@ -248,7 +340,9 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
 
                     {/* Bottom Label */}
                     <div className="text-center mt-3">
-                      <span className={`text-xs font-bold block ${isMax ? 'text-[#00E676]' : 'text-zinc-300'}`}>
+                      <span
+                        className={`text-xs font-bold block ${isMax ? 'text-[#00E676]' : 'text-zinc-300'}`}
+                      >
                         {bar.label}
                       </span>
                       <span className="text-[10px] text-zinc-500 font-medium hidden sm:block">
@@ -266,12 +360,8 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-white/5">
             <div>
-              <h3 className="text-base font-bold text-white">
-                Histórico de Turnos e Repasses
-              </h3>
-              <p className="text-xs text-zinc-400">
-                Registros auditados dos locais contratantes
-              </p>
+              <h3 className="text-base font-bold text-white">Histórico de Turnos e Repasses</h3>
+              <p className="text-xs text-zinc-400">Registros auditados dos locais contratantes</p>
             </div>
             <span className="text-xs font-semibold text-[#00E676] bg-[#00E676]/10 px-2.5 py-1 rounded-full border border-[#00E676]/20">
               PIX Instantâneo
@@ -289,9 +379,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white tracking-tight">
-                      {shift.venue}
-                    </h4>
+                    <h4 className="text-sm font-bold text-white tracking-tight">{shift.venue}</h4>
                     <div className="flex items-center gap-2 text-xs text-zinc-400 mt-0.5">
                       <span className="text-[#00E676] font-semibold">{shift.role}</span>
                       <span>•</span>

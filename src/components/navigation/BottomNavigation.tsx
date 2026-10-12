@@ -1,13 +1,13 @@
 import React from 'react';
-import { 
-  Map, 
-  Wallet, 
-  User, 
-  Briefcase, 
-  PlusCircle, 
-  BarChart3, 
+import {
+  Map,
+  Wallet,
+  User,
+  Briefcase,
+  PlusCircle,
+  BarChart3,
   MessageSquare,
-  Building2
+  Building2,
 } from 'lucide-react';
 import { NavTab } from '../../types';
 import { UserRole } from '../../context/AuthContext';

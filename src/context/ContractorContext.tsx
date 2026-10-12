@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import { 
-  ContractorGig, 
-  FreelancerApplicant, 
-  ContractorEvaluation, 
-  ChatMessage, 
+import {
+  ContractorGig,
+  FreelancerApplicant,
+  ContractorEvaluation,
+  ChatMessage,
   ContractorKPIs,
-  ContractorGigStatus
+  ContractorGigStatus,
 } from '../types/contractor';
 import { INITIAL_CONTRACTOR_GIGS, INITIAL_CHAT_MESSAGES } from '../data/mockContractorData';
 import { formatCurrency } from '../utils/formatters';
@@ -99,7 +99,7 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const kpis: ContractorKPIs = useMemo(() => {
     const completed = gigs.filter((g) => g.status === 'Finalizada');
     const totalInvested = completed.reduce((acc, curr) => acc + curr.rate, 0);
-    
+
     // Contagem de freelancers únicos aprovados/contratados
     const hiredIds = new Set<string>();
     gigs.forEach((g) => {
@@ -153,7 +153,8 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         {
           id: `free-${Date.now()}`,
           name: 'Renan Castro',
-          avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=240&auto=format&fit=crop&q=80',
+          avatarUrl:
+            'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=240&auto=format&fit=crop&q=80',
           profession: `${data.role} Especialista`,
           rating: 4.88,
           totalGigsCompleted: 24,
@@ -176,9 +177,7 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
    * Atualização de status da vaga
    */
   const updateGigStatus = (gigId: string, status: ContractorGigStatus) => {
-    setGigs((prev) =>
-      prev.map((g) => (g.id === gigId ? { ...g, status } : g))
-    );
+    setGigs((prev) => prev.map((g) => (g.id === gigId ? { ...g, status } : g)));
   };
 
   /**
@@ -195,8 +194,6 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           }
           return app;
         });
-
-        const approvedApp = updatedApplicants.find((a) => a.id === applicantId);
 
         return {
           ...gig,

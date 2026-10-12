@@ -12,8 +12,10 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
     endTime: '02:00',
     rate: 260,
     rateFormatted: 'R$ 260,00',
-    dressCode: 'Camisa social preta, calça jeans escura ou alfaiataria, sapato fechado antiderrapante. Trazer avental e abridor de garrafa.',
-    rulesAndNotes: 'Chegar com 20 minutos de antecedência na entrada de serviço lateral. Foco na preparação rápida de drinks autorais e clássicos (Negroni, Gin Tonic, Moscow Mule).',
+    dressCode:
+      'Camisa social preta, calça jeans escura ou alfaiataria, sapato fechado antiderrapante. Trazer avental e abridor de garrafa.',
+    rulesAndNotes:
+      'Chegar com 20 minutos de antecedência na entrada de serviço lateral. Foco na preparação rápida de drinks autorais e clássicos (Negroni, Gin Tonic, Moscow Mule).',
     venueName: 'Bistrô do Batel',
     neighborhood: 'Batel Soho',
     address: 'Av. do Batel, 1540 - Curitiba/PR',
@@ -24,12 +26,18 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-1',
         name: 'Gabriel Silva',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
         profession: 'Bartender Pro',
         rating: 4.9,
         totalGigsCompleted: 48,
         punctualityRate: '99%',
-        specialties: ['Mixologia Clássica', 'Velocidade de Balcão', 'Drinks Autorais', 'Abridor Próprio'],
+        specialties: [
+          'Mixologia Clássica',
+          'Velocidade de Balcão',
+          'Drinks Autorais',
+          'Abridor Próprio',
+        ],
         status: 'Pendente',
         appliedAt: 'Há 25 minutos',
         phone: '(41) 99123-4567',
@@ -39,7 +47,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-2',
         name: 'Bruno Matos',
-        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&auto=format&fit=crop&q=80',
         profession: 'Bartender & Barback',
         rating: 4.7,
         totalGigsCompleted: 19,
@@ -53,7 +62,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-3',
         name: 'Letícia Fontana',
-        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&auto=format&fit=crop&q=80',
         profession: 'Mixologista',
         rating: 5.0,
         totalGigsCompleted: 34,
@@ -78,8 +88,10 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
     endTime: '23:30',
     rate: 190,
     rateFormatted: 'R$ 190,00',
-    dressCode: 'Camisa preta manga longa ou curta, calça social preta ou sarja escura, sapatos pretos confortáveis. Avental fornecido pela casa.',
-    rulesAndNotes: 'Atendimento às mesas do salão principal com comanda eletrônica. Cordialidade, postura atenta e recolhimento proativo de louças.',
+    dressCode:
+      'Camisa preta manga longa ou curta, calça social preta ou sarja escura, sapatos pretos confortáveis. Avental fornecido pela casa.',
+    rulesAndNotes:
+      'Atendimento às mesas do salão principal com comanda eletrônica. Cordialidade, postura atenta e recolhimento proativo de louças.',
     venueName: 'Bistrô do Batel',
     neighborhood: 'Batel Soho',
     address: 'Av. do Batel, 1540 - Curitiba/PR',
@@ -90,12 +102,18 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-4',
         name: 'Lucas Ferreira',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop&q=80',
         profession: 'Garçom Executivo',
         rating: 4.8,
         totalGigsCompleted: 31,
         punctualityRate: '98%',
-        specialties: ['Serviço à Inglesa', 'Abertura de Vinhos', 'Bandeja Dupla', 'Comanda Eletrônica'],
+        specialties: [
+          'Serviço à Inglesa',
+          'Abertura de Vinhos',
+          'Bandeja Dupla',
+          'Comanda Eletrônica',
+        ],
         status: 'Pendente',
         appliedAt: 'Há 3 horas',
         phone: '(41) 99444-1122',
@@ -104,7 +122,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-5',
         name: 'Camila Rocha',
-        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&auto=format&fit=crop&q=80',
         profession: 'Garçonete & Atendente',
         rating: 4.9,
         totalGigsCompleted: 27,
@@ -128,8 +147,10 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
     endTime: '23:30',
     rate: 200,
     rateFormatted: 'R$ 200,00',
-    dressCode: 'Traje esporte fino escuro (blazer ou camisa social), maquiagem leve e calçado preto confortável.',
-    rulesAndNotes: 'Organizar fila de espera, receber clientes com reservas pelo tablet e encaminhar às mesas indicadas pelo metre.',
+    dressCode:
+      'Traje esporte fino escuro (blazer ou camisa social), maquiagem leve e calçado preto confortável.',
+    rulesAndNotes:
+      'Organizar fila de espera, receber clientes com reservas pelo tablet e encaminhar às mesas indicadas pelo metre.',
     venueName: 'Bistrô do Batel',
     neighborhood: 'Batel Soho',
     address: 'Av. do Batel, 1540 - Curitiba/PR',
@@ -141,7 +162,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-6',
         name: 'Mariana Souza',
-        avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=240&auto=format&fit=crop&q=80',
         profession: 'Hostess & Recepcionista VIP',
         rating: 4.95,
         totalGigsCompleted: 42,
@@ -179,7 +201,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-1',
         name: 'Gabriel Silva',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
         profession: 'Bartender Pro',
         rating: 4.9,
         totalGigsCompleted: 48,
@@ -218,7 +241,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
       {
         id: 'free-4',
         name: 'Lucas Ferreira',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop&q=80',
+        avatarUrl:
+          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&auto=format&fit=crop&q=80',
         profession: 'Garçom Executivo',
         rating: 4.8,
         totalGigsCompleted: 31,
@@ -231,7 +255,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
     ],
     evaluation: {
       rating: 5,
-      feedback: 'Profissional exemplar! Chegou com 25 minutos de antecedência, dominou a apresentação dos vinhos e foi elogiado por todos os clientes da mesa 4.',
+      feedback:
+        'Profissional exemplar! Chegou com 25 minutos de antecedência, dominou a apresentação dos vinhos e foi elogiado por todos os clientes da mesa 4.',
       tags: ['Pontual', 'Excelente apresentação', 'Proativo', 'Seguiu o dress code'],
       isFavorite: true,
       evaluatedAt: '2026-10-13T01:30:00Z',

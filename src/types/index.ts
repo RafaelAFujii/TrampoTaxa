@@ -29,10 +29,10 @@ export interface GigOffer {
   active: boolean;
 }
 
-export type ScreenType = 
-  | 'login-screen' 
-  | 'cadastro-screen' 
-  | 'map-dashboard' 
+export type ScreenType =
+  | 'login-screen'
+  | 'cadastro-screen'
+  | 'map-dashboard'
   | 'gig-offer-bottom-sheet'
   | 'earnings-screen'
   | 'profile-screen'
@@ -43,12 +43,11 @@ export type ScreenType =
   | 'contractor-reports'
   | 'contractor-chat';
 
-export type NavTab = 
-  | 'map' 
-  | 'earnings' 
+export type NavTab =
+  | 'map'
+  | 'earnings'
   | 'profile'
   | 'contractor-gigs'
   | 'contractor-create'
   | 'contractor-reports'
   | 'contractor-chat';
-

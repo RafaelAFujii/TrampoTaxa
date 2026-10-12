@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Map, 
-  Wallet, 
-  User, 
-  Sliders, 
-  Code, 
+import {
+  Map,
+  Wallet,
+  User,
+  Sliders,
+  Code,
   LogOut,
   Building2,
   Briefcase,
@@ -13,7 +13,6 @@ import {
   BarChart3,
   MessageSquare,
   ArrowRightLeft,
-  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
@@ -25,7 +24,6 @@ export const AppLayout: React.FC = () => {
   const location = useLocation();
   const { user, logout, switchRole } = useAuth();
 
-  const [isOnline, setIsOnline] = useState(true);
   const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
 
   const isContractor = user?.role === 'Contratante';
@@ -95,8 +93,8 @@ export const AppLayout: React.FC = () => {
       <header className="sticky top-0 z-40 bg-[#121418]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
-          <div 
-            onClick={() => navigate(isContractor ? '/contractor/gigs' : '/map')} 
+          <div
+            onClick={() => navigate(isContractor ? '/contractor/gigs' : '/map')}
             className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
             <div className="w-8 h-8 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(0,230,118,0.5)] transition-transform group-hover:scale-105">
@@ -110,7 +108,9 @@ export const AppLayout: React.FC = () => {
                 </span>
               </div>
               <p className="hidden sm:block text-[10px] text-zinc-400">
-                {isContractor ? 'Painel de Contratação & Taxas' : 'Plataforma de Turnos para Restaurantes'}
+                {isContractor
+                  ? 'Painel de Contratação & Taxas'
+                  : 'Plataforma de Turnos para Restaurantes'}
               </p>
             </div>
           </div>
@@ -260,7 +260,7 @@ export const AppLayout: React.FC = () => {
           </button>
 
           {/* User profile dropdown trigger */}
-          <div 
+          <div
             onClick={() => navigate('/profile')}
             className="flex items-center gap-2 pl-1 cursor-pointer group"
             title="Ver e Editar Perfil"
@@ -316,10 +316,7 @@ export const AppLayout: React.FC = () => {
       {/* ======================================================== */}
       {/* MODAL DO VISUALIZADOR DE CÓDIGO FONTE                    */}
       {/* ======================================================== */}
-      <CodeViewerModal
-        isOpen={isCodeModalOpen}
-        onClose={() => setIsCodeModalOpen(false)}
-      />
+      <CodeViewerModal isOpen={isCodeModalOpen} onClose={() => setIsCodeModalOpen(false)} />
     </div>
   );
 };

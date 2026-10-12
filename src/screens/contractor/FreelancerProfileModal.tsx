@@ -1,16 +1,15 @@
 import React from 'react';
-import { 
-  X, 
-  Star, 
-  CheckCircle2, 
-  Clock, 
-  Award, 
-  Phone, 
-  MessageSquare, 
-  Check, 
+import {
+  X,
+  Star,
+  CheckCircle2,
+  Clock,
+  Award,
+  Phone,
+  MessageSquare,
+  Check,
   Heart,
   ShieldCheck,
-  Calendar
 } from 'lucide-react';
 import { FreelancerApplicant } from '../../types/contractor';
 
@@ -182,8 +181,8 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
                 isApproved
                   ? 'bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30'
                   : isRejected
-                  ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                  : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                    ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                    : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
               }`}
             >
               {applicant.status}

@@ -1,30 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  PlusCircle, 
-  Sparkles, 
-  Clock, 
-  DollarSign, 
-  Shirt, 
-  FileText, 
-  MapPin, 
-  Calendar, 
-  CheckCircle2, 
-  ArrowRight,
+import {
+  PlusCircle,
+  Sparkles,
+  Clock,
+  Shirt,
+  MapPin,
+  Calendar,
+  CheckCircle2,
   ShieldCheck,
-  AlertCircle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useContractor } from '../../context/ContractorContext';
 import { ContractorGigCategory } from '../../types/contractor';
 import { formatCurrencyInput, formatCurrency } from '../../utils/formatters';
 
-const DEFAULT_ROLES = [
-  'Bartender',
-  'Garçom',
-  'Recepcionista',
-  'Hostess',
-  'Copeiro',
-] as const;
+const DEFAULT_ROLES = ['Bartender', 'Garçom', 'Recepcionista', 'Hostess', 'Copeiro'] as const;
 
 const CATEGORIES: ContractorGigCategory[] = [
   'Turno Normal',
@@ -33,9 +23,18 @@ const CATEGORIES: ContractorGigCategory[] = [
 ];
 
 const DRESS_CODE_PRESETS = [
-  { label: 'All Black Noturno', text: 'Camisa preta lisa sem estampa, calça escura e sapato fechado antiderrapante.' },
-  { label: 'Social Clássico', text: 'Camisa social manga longa ou curta preta, calça social de alfaiataria e sapatos pretos.' },
-  { label: 'Casual Bistrô', text: 'Camiseta preta básica de algodão, calça jeans escura sem rasgos e tênis escuro discreto.' },
+  {
+    label: 'All Black Noturno',
+    text: 'Camisa preta lisa sem estampa, calça escura e sapato fechado antiderrapante.',
+  },
+  {
+    label: 'Social Clássico',
+    text: 'Camisa social manga longa ou curta preta, calça social de alfaiataria e sapatos pretos.',
+  },
+  {
+    label: 'Casual Bistrô',
+    text: 'Camiseta preta básica de algodão, calça jeans escura sem rasgos e tênis escuro discreto.',
+  },
 ];
 
 const RULES_PRESETS = [
@@ -55,7 +54,7 @@ export const CreateGigScreen: React.FC = () => {
   const [date, setDate] = useState<string>('2026-10-24');
   const [startTime, setStartTime] = useState<string>('19:00');
   const [endTime, setEndTime] = useState<string>('01:30');
-  
+
   const [rateRaw, setRateRaw] = useState<number>(240);
   const [rateText, setRateText] = useState<string>('R$ 240,00');
 
@@ -89,7 +88,7 @@ export const CreateGigScreen: React.FC = () => {
     try {
       const [startH, startM] = startTime.split(':').map(Number);
       const [endH, endM] = endTime.split(':').map(Number);
-      let diff = (endH * 60 + endM) - (startH * 60 + startM);
+      let diff = endH * 60 + endM - (startH * 60 + startM);
       if (diff < 0) diff += 24 * 60; // Passou da meia noite
       const hours = Math.floor(diff / 60);
       const mins = diff % 60;
@@ -104,7 +103,7 @@ export const CreateGigScreen: React.FC = () => {
     setIsSubmitting(true);
 
     setTimeout(() => {
-      const created = addGig({
+      addGig({
         title: customTitle,
         role,
         category,
@@ -123,7 +122,9 @@ export const CreateGigScreen: React.FC = () => {
       });
 
       setIsSubmitting(false);
-      setSuccessMessage('Vaga de taxa publicada com sucesso! Redirecionando para o painel de vagas...');
+      setSuccessMessage(
+        'Vaga de taxa publicada com sucesso! Redirecionando para o painel de vagas...'
+      );
 
       setTimeout(() => {
         navigate('/contractor/gigs');
@@ -299,7 +300,8 @@ export const CreateGigScreen: React.FC = () => {
                   />
                 </div>
                 <p className="text-[10px] text-zinc-400 mt-1">
-                  Duração estimada: <span className="text-white font-medium">{calculateDuration()}</span>
+                  Duração estimada:{' '}
+                  <span className="text-white font-medium">{calculateDuration()}</span>
                 </p>
               </div>
 
@@ -378,9 +380,7 @@ export const CreateGigScreen: React.FC = () => {
                   <button
                     key={rule}
                     type="button"
-                    onClick={() =>
-                      setRulesAndNotes((prev) => (prev ? `${prev} ${rule}` : rule))
-                    }
+                    onClick={() => setRulesAndNotes((prev) => (prev ? `${prev} ${rule}` : rule))}
                     className="text-[11px] bg-[#181a20] hover:bg-[#20232c] text-zinc-300 px-2.5 py-1 rounded-lg border border-white/5 transition-colors cursor-pointer truncate max-w-xs"
                   >
                     + {rule}
@@ -477,7 +477,9 @@ export const CreateGigScreen: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-[#00E676]" />
-                    <span>{startTime} - {endTime}</span>
+                    <span>
+                      {startTime} - {endTime}
+                    </span>
                   </div>
                 </div>
 

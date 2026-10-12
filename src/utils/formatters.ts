@@ -20,14 +20,14 @@ export const formatCNPJ = (value: string): string => {
 export const isValidCNPJ = (cnpj: string): boolean => {
   const clean = cnpj.replace(/\D/g, '');
   if (clean.length !== 14) return false;
-  
+
   // Elimina sequências conhecidas de dígitos iguais
   if (/^(\d)\1{13}$/.test(clean)) return false;
 
   // Validação do 1º dígito verificador
   let length = 12;
-  let numbers = clean.substring(0, length);
-  let digits = clean.substring(length);
+  const numbers = clean.substring(0, length);
+  const digits = clean.substring(length);
   let sum = 0;
   let pos = length - 7;
   for (let i = length; i >= 1; i--) {
@@ -39,15 +39,15 @@ export const isValidCNPJ = (cnpj: string): boolean => {
 
   // Validação do 2º dígito verificador
   length = 13;
-  numbers = clean.substring(0, length);
+  const numbers2 = clean.substring(0, length);
   sum = 0;
   pos = length - 7;
   for (let i = length; i >= 1; i--) {
-    sum += parseInt(numbers.charAt(length - i), 10) * pos--;
+    sum += parseInt(numbers2.charAt(length - i), 10) * pos--;
     if (pos < 2) pos = 9;
   }
   result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
-  return result === parseInt(digits.charAt(1), 10);
+  return result === parseInt(clean.charAt(13), 10);
 };
 
 /**
@@ -56,13 +56,9 @@ export const isValidCNPJ = (cnpj: string): boolean => {
 export const formatPhone = (value: string): string => {
   const digits = value.replace(/\D/g, '').slice(0, 11);
   if (digits.length <= 10) {
-    return digits
-      .replace(/^(\d{2})(\d)/, '($1) $2')
-      .replace(/(\d{4})(\d)/, '$1-$2');
+    return digits.replace(/^(\d{2})(\d)/, '($1) $2').replace(/(\d{4})(\d)/, '$1-$2');
   }
-  return digits
-    .replace(/^(\d{2})(\d)/, '($1) $2')
-    .replace(/(\d{5})(\d)/, '$1-$2');
+  return digits.replace(/^(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
 };
 
 /**

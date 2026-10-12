@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Map, useMapsLibrary, useMap } from '@vis.gl/react-google-maps';
 import {
-  Map,
-  useMapsLibrary,
-  useMap,
-  ColorScheme
-} from '@vis.gl/react-google-maps';
-import { 
-  Navigation, 
-  MapPin, 
-  Clock, 
-  CheckCircle, 
-  ExternalLink, 
-  ShieldCheck, 
-  Phone, 
-  ChevronLeft 
+  Navigation,
+  MapPin,
+  Clock,
+  CheckCircle,
+  ExternalLink,
+  ShieldCheck,
+  Phone,
+  ChevronLeft,
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
@@ -37,8 +32,11 @@ const USER_ORIGIN = { lat: -25.4297, lng: -49.2719 };
 function RealRouteRenderer({ destination }: { destination: { lat: number; lng: number } }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary('routes');
-  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(null);
-  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer | null>(null);
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(
+    null
+  );
+  const [directionsRenderer, setDirectionsRenderer] =
+    useState<google.maps.DirectionsRenderer | null>(null);
   const [routeInfo, setRouteInfo] = useState<{ distance: string; duration: string } | null>(null);
 
   useEffect(() => {
@@ -51,7 +49,7 @@ function RealRouteRenderer({ destination }: { destination: { lat: number; lng: n
         strokeColor: '#00E676',
         strokeWeight: 6,
         strokeOpacity: 0.95,
-      }
+      },
     });
 
     setDirectionsService(new routesLibrary.DirectionsService());
@@ -65,24 +63,27 @@ function RealRouteRenderer({ destination }: { destination: { lat: number; lng: n
   useEffect(() => {
     if (!directionsService || !directionsRenderer) return;
 
-    directionsService.route({
-      origin: USER_ORIGIN,
-      destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }).then((res: google.maps.DirectionsResult | null) => {
-      if (res) {
-        directionsRenderer.setDirections(res);
-        const leg = res.routes[0]?.legs[0];
-        if (leg) {
-          setRouteInfo({
-            distance: leg.distance?.text || '3.8 km',
-            duration: leg.duration?.text || '11 mins',
-          });
+    directionsService
+      .route({
+        origin: USER_ORIGIN,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+      })
+      .then((res: google.maps.DirectionsResult | null) => {
+        if (res) {
+          directionsRenderer.setDirections(res);
+          const leg = res.routes[0]?.legs[0];
+          if (leg) {
+            setRouteInfo({
+              distance: leg.distance?.text || '3.8 km',
+              duration: leg.duration?.text || '11 mins',
+            });
+          }
         }
-      }
-    }).catch((err: unknown) => {
-      console.warn('Google Directions route error:', err);
-    });
+      })
+      .catch((err: unknown) => {
+        console.warn('Google Directions route error:', err);
+      });
   }, [directionsService, directionsRenderer, destination]);
 
   return (
@@ -118,7 +119,7 @@ const darkMapStyles: google.maps.MapTypeStyle[] = [
 export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   gig: propGig,
   onFinishShift,
-  onOpenNavigation,
+  onOpenNavigation: _onOpenNavigation,
   onCancelGig,
   onBackToDashboard,
 }) => {
@@ -126,7 +127,9 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const navigate = useNavigate();
   const gig = propGig || (location.state as { gig?: GigOffer })?.gig || mockGigs[0];
 
-  const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>('heading_to_venue');
+  const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
+    'heading_to_venue'
+  );
   const apiKey = GOOGLE_MAPS_API_KEY;
 
   const gigLocation = gig.latLng || { lat: -25.4398, lng: -49.2885 };
@@ -166,7 +169,9 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
       <div className="w-12 h-12 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/20 flex items-center justify-center text-[#00E676] mb-3">
         <Navigation className="w-6 h-6 animate-pulse" />
       </div>
-      <h4 className="text-sm font-bold text-white mb-1">Rota Curitiba: Centro → {gig.neighborhood}</h4>
+      <h4 className="text-sm font-bold text-white mb-1">
+        Rota Curitiba: Centro → {gig.neighborhood}
+      </h4>
       <p className="text-xs text-zinc-400 max-w-xs mb-3">
         Distância estimada: {gig.distance} • Tempo aproximado: ~12 minutos
       </p>
@@ -270,13 +275,12 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => alert(`Ligando para a gerência de ${gig.venueName}...`)}
+              <a
+                href="tel:41987654321"
                 className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white cursor-pointer transition-colors"
               >
                 Chamar
-              </button>
+              </a>
             </div>
           </div>
 
@@ -299,7 +303,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                     <Map
                       id="active-gig-map"
                       mapId="DEMO_MAP_ID"
-                      colorScheme={ColorScheme.DARK}
+                      styles={darkMapStyles}
                       defaultCenter={gigLocation}
                       defaultZoom={14}
                       gestureHandling="greedy"

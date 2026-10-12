@@ -16,13 +16,15 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'relative flex items-center justify-center font-bold tracking-wide transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none select-none text-sm';
-  
+  const baseStyles =
+    'relative flex items-center justify-center font-bold tracking-wide transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none select-none text-sm';
+
   const variantStyles = {
     neon: 'bg-[#00E676] hover:bg-[#00FF77] text-black font-extrabold shadow-[0_4px_20px_rgba(0,230,118,0.35)] hover:shadow-[0_6px_28px_rgba(0,230,118,0.5)] rounded-2xl py-4 px-6 border border-[#52ff9e]/40',
     dark: 'bg-[#1C1C1E] hover:bg-[#252528] text-white border border-white/10 rounded-2xl py-4 px-6 shadow-sm',
     ghost: 'bg-transparent hover:bg-white/5 text-zinc-400 hover:text-white rounded-2xl py-3 px-6',
-    danger: 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-2xl py-4 px-6'
+    danger:
+      'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-2xl py-4 px-6',
   };
 
   return (

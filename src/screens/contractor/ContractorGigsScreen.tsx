@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Users, 
-  Clock, 
-  Calendar, 
-  DollarSign, 
-  MessageSquare, 
-  CheckCircle2, 
-  Star, 
-  ArrowRight,
-  ShieldCheck,
+import {
+  Plus,
+  Search,
+  Filter,
+  Users,
+  Clock,
+  Calendar,
+  DollarSign,
+  MessageSquare,
+  Star,
   ChevronRight,
-  Check,
-  X,
-  AlertCircle,
-  Sparkles
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useContractor } from '../../context/ContractorContext';
@@ -34,13 +27,7 @@ const STATUS_FILTERS: { label: string; value: 'All' | ContractorGigStatus }[] = 
 
 export const ContractorGigsScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { 
-    gigs, 
-    approveApplicant, 
-    rejectApplicant, 
-    toggleFavoriteFreelancer,
-    updateGigStatus 
-  } = useContractor();
+  const { gigs, approveApplicant, rejectApplicant, toggleFavoriteFreelancer } = useContractor();
 
   const [statusFilter, setStatusFilter] = useState<'All' | ContractorGigStatus>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -182,7 +169,8 @@ export const ContractorGigsScreen: React.FC = () => {
           </div>
           <h3 className="text-base font-bold text-white">Nenhuma vaga encontrada</h3>
           <p className="text-xs text-zinc-400 max-w-sm mx-auto">
-            Não existem vagas com o filtro selecionado. Tente alterar o status ou criar uma nova taxa.
+            Não existem vagas com o filtro selecionado. Tente alterar o status ou criar uma nova
+            taxa.
           </p>
           <button
             type="button"
@@ -233,7 +221,9 @@ export const ContractorGigsScreen: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-[#00E676]" />
-                        <span>{gig.startTime} - {gig.endTime}</span>
+                        <span>
+                          {gig.startTime} - {gig.endTime}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1 text-[#00E676] font-bold">
                         <DollarSign className="w-3.5 h-3.5" />
@@ -261,16 +251,17 @@ export const ContractorGigsScreen: React.FC = () => {
                     )}
 
                     {/* Botão de Chat Direto se Preenchida */}
-                    {(gig.status === 'Preenchida' || gig.status === 'Finalizada') && approvedApplicant && (
-                      <button
-                        type="button"
-                        onClick={() => handleOpenChat(gig.id)}
-                        className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#181a20] hover:bg-[#20232c] border border-white/10 text-xs font-bold text-zinc-200 transition-colors cursor-pointer"
-                      >
-                        <MessageSquare className="w-3.5 h-3.5 text-[#00E676]" />
-                        <span>Chat com {approvedApplicant.name.split(' ')[0]}</span>
-                      </button>
-                    )}
+                    {(gig.status === 'Preenchida' || gig.status === 'Finalizada') &&
+                      approvedApplicant && (
+                        <button
+                          type="button"
+                          onClick={() => handleOpenChat(gig.id)}
+                          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#181a20] hover:bg-[#20232c] border border-white/10 text-xs font-bold text-zinc-200 transition-colors cursor-pointer"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5 text-[#00E676]" />
+                          <span>Chat com {approvedApplicant.name.split(' ')[0]}</span>
+                        </button>
+                      )}
 
                     {/* Botão de alternar lista de candidatos */}
                     <button
@@ -283,9 +274,7 @@ export const ContractorGigsScreen: React.FC = () => {
                       }`}
                     >
                       <Users className="w-3.5 h-3.5 text-[#00E676]" />
-                      <span>
-                        Candidatos ({gig.applicants.length})
-                      </span>
+                      <span>Candidatos ({gig.applicants.length})</span>
                       <ChevronRight
                         className={`w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
                       />
@@ -317,7 +306,9 @@ export const ContractorGigsScreen: React.FC = () => {
                       <div className="flex items-center justify-between mb-3">
                         <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
                           <Users className="w-4 h-4 text-[#00E676]" />
-                          <span>Profissionais que Solicitaram a Taxa ({gig.applicants.length})</span>
+                          <span>
+                            Profissionais que Solicitaram a Taxa ({gig.applicants.length})
+                          </span>
                         </h4>
                         <span className="text-[11px] text-zinc-400">
                           Clique no candidato para ver o perfil completo
@@ -327,7 +318,8 @@ export const ContractorGigsScreen: React.FC = () => {
                       {gig.applicants.length === 0 ? (
                         <div className="p-6 text-center bg-[#14161c] rounded-2xl border border-white/5">
                           <p className="text-xs text-zinc-400">
-                            Ainda não há candidatos para esta taxa. Vagas abertas costumam receber inscrições em até 20 minutos no radar.
+                            Ainda não há candidatos para esta taxa. Vagas abertas costumam receber
+                            inscrições em até 20 minutos no radar.
                           </p>
                         </div>
                       ) : (
@@ -344,8 +336,8 @@ export const ContractorGigsScreen: React.FC = () => {
                                   isApproved
                                     ? 'bg-[#13231a] border-[#00E676]/40 shadow-[0_0_15px_rgba(0,230,118,0.1)]'
                                     : isRejected
-                                    ? 'bg-[#181a20]/60 border-white/5 opacity-60'
-                                    : 'bg-[#16181f] border-white/10 hover:border-[#00E676]/50 hover:bg-[#1a1d26]'
+                                      ? 'bg-[#181a20]/60 border-white/5 opacity-60'
+                                      : 'bg-[#16181f] border-white/10 hover:border-[#00E676]/50 hover:bg-[#1a1d26]'
                                 }`}
                               >
                                 <div>
@@ -403,8 +395,8 @@ export const ContractorGigsScreen: React.FC = () => {
                                       isApproved
                                         ? 'bg-[#00E676]/20 text-[#00E676]'
                                         : isRejected
-                                        ? 'bg-rose-500/20 text-rose-400'
-                                        : 'bg-amber-500/15 text-amber-300'
+                                          ? 'bg-rose-500/20 text-rose-400'
+                                          : 'bg-amber-500/15 text-amber-300'
                                     }`}
                                   >
                                     {applicant.status}
@@ -445,7 +437,7 @@ export const ContractorGigsScreen: React.FC = () => {
             rejectApplicant(applicantModalGig.id, appId);
           }
         }}
-        onOpenChat={(appId) => {
+        onOpenChat={(_appId) => {
           if (applicantModalGig) {
             navigate(`/contractor/chat?gigId=${applicantModalGig.id}`);
           }

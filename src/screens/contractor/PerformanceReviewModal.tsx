@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Star, 
-  Heart, 
-  Send, 
-  CheckCircle2, 
-  Sparkles, 
-  ThumbsUp,
-  Tag
-} from 'lucide-react';
+import { X, Star, Heart, Send, CheckCircle2, Sparkles } from 'lucide-react';
 import { ContractorGig, FreelancerApplicant } from '../../types/contractor';
 import { useContractor } from '../../context/ContractorContext';
 
@@ -137,7 +128,8 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
             </div>
             <h4 className="text-xl font-extrabold text-white mb-2">Avaliação Registrada!</h4>
             <p className="text-xs text-zinc-400 max-w-sm">
-              Obrigado pelo feedback. A reputação do profissional foi atualizada na comunidade TrampoTaxa.
+              Obrigado pelo feedback. A reputação do profissional foi atualizada na comunidade
+              TrampoTaxa.
             </p>
           </div>
         ) : (

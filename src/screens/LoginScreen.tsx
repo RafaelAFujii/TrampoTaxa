@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { 
-  LogIn, 
-  Sparkles, 
-  ArrowRight, 
-  ShieldCheck, 
-  CheckCircle, 
-  User, 
+import {
+  LogIn,
+  Sparkles,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle,
+  User,
   Building2,
-  Check
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { TextInput } from '../components/ui/TextInput';
@@ -55,7 +54,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       } else {
         // Redireciona para o destino original ou para a rota do papel específico
         const defaultPath = role === 'Contratante' ? '/contractor/gigs' : '/map';
-        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || defaultPath;
+        const from =
+          (location.state as { from?: { pathname: string } })?.from?.pathname || defaultPath;
         navigate(from, { replace: true });
       }
     } catch {
@@ -222,9 +222,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   icon={<LogIn className="w-4 h-4 text-black" />}
                   disabled={isLoading}
                 >
-                  {isLoading
-                    ? 'AUTENTICANDO...'
-                    : `ENTRAR COMO ${role.toUpperCase()}`}
+                  {isLoading ? 'AUTENTICANDO...' : `ENTRAR COMO ${role.toUpperCase()}`}
                 </PrimaryButton>
               </div>
             </form>

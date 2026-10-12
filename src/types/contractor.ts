@@ -1,6 +1,7 @@
 export type ContractorGigCategory = 'Turno Normal' | 'Cobertura de Emergência' | 'Evento Especial';
 
-export type ContractorGigStatus = 'Aberta' | 'Aguardando Confirmação' | 'Preenchida' | 'Finalizada' | 'Cancelada';
+export type ContractorGigStatus =
+  'Aberta' | 'Aguardando Confirmação' | 'Preenchida' | 'Finalizada' | 'Cancelada';
 
 export type ApplicantStatus = 'Pendente' | 'Aprovado' | 'Recusado';
 

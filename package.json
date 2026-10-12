@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "eslint src/ && tsc --noEmit",
+    "test": "vitest run",
+    "format": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -32,9 +35,13 @@
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.28.2",
+    "eslint": "^10.12.0",
     "install": "^0.13.0",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3"
   }
 }

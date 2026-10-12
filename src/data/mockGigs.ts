@@ -15,7 +15,8 @@ export const mockGigs: GigOffer[] = [
     microtraining: {
       title: 'Regras de Apresentação',
       rulesTitle: 'Regras de Apresentação',
-      description: 'Dress code: camisa preta lisa e calça escura sem detalhes. Traga seu abridor e avental preto se tiver.',
+      description:
+        'Dress code: camisa preta lisa e calça escura sem detalhes. Traga seu abridor e avental preto se tiver.',
     },
     coords: {
       x: 48,
@@ -41,7 +42,8 @@ export const mockGigs: GigOffer[] = [
     microtraining: {
       title: 'Regras de Apresentação',
       rulesTitle: 'Protocolo de Atendimento',
-      description: 'Traje social com avental preto e sapatos confortáveis pretos. Foco em agilidade no salão e cortesia.',
+      description:
+        'Traje social com avental preto e sapatos confortáveis pretos. Foco em agilidade no salão e cortesia.',
     },
     coords: {
       x: 72,
@@ -93,7 +95,8 @@ export const mockGigs: GigOffer[] = [
     microtraining: {
       title: 'Regras de Apresentação',
       rulesTitle: 'Coquetelaria Autoral',
-      description: 'Experiência em coquetelaria clássica (Negroni, Old Fashioned, Gin Tônica) e velocidade.',
+      description:
+        'Experiência em coquetelaria clássica (Negroni, Old Fashioned, Gin Tônica) e velocidade.',
     },
     coords: {
       x: 60,
@@ -119,15 +122,16 @@ export const mockGigs: GigOffer[] = [
     microtraining: {
       title: 'Regras de Apresentação',
       rulesTitle: 'Serviço Tradicional Italiano',
-      description: 'Atendimento de rodízio de massas e frango com polenta. Foco em cordialidade e postura clássica.',
+      description:
+        'Atendimento de rodízio de massas e frango com polenta. Foco em cordialidade e postura clássica.',
     },
     coords: {
       x: 22,
       y: 25,
     },
     latLng: {
-      lat: -25.4050,
-      lng: -49.3320, // Santa Felicidade
+      lat: -25.405,
+      lng: -49.332, // Santa Felicidade
     },
     active: true,
   },
@@ -145,7 +149,8 @@ export const mockGigs: GigOffer[] = [
     microtraining: {
       title: 'Regras de Apresentação',
       rulesTitle: 'Chopp Submarino & Coquetéis',
-      description: 'Mestria na tiragem rápida de chopp e preparo de drinks clássicos. Uniforme preto fornecido.',
+      description:
+        'Mestria na tiragem rápida de chopp e preparo de drinks clássicos. Uniforme preto fornecido.',
     },
     coords: {
       x: 52,
@@ -153,8 +158,16 @@ export const mockGigs: GigOffer[] = [
     },
     latLng: {
       lat: -25.4278,
-      lng: -49.2730, // Centro Histórico / Largo da Ordem
+      lng: -49.273, // Centro Histórico / Largo da Ordem
     },
     active: true,
   },
 ];
+
+/**
+ * Filtra oportunidades por profissão
+ */
+export const filterGigsByProfession = (gigs: GigOffer[], profession?: string): GigOffer[] => {
+  if (!profession || profession === 'Todos') return gigs;
+  return gigs.filter((gig) => gig.profession.toLowerCase() === profession.toLowerCase());
+};

@@ -30,11 +30,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0A0D14] text-zinc-400">
-          <p className="text-sm font-semibold text-white mb-1">Visualização indisponível</p>
-          <p className="text-xs">Não foi possível carregar este componente no momento.</p>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0A0D14] text-zinc-400">
+            <p className="text-sm font-semibold text-white mb-1">Visualização indisponível</p>
+            <p className="text-xs">Não foi possível carregar este componente no momento.</p>
+          </div>
+        )
       );
     }
 

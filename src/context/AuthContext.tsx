@@ -81,7 +81,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const mockUser: AuthUser = {
       id: `usr-${Date.now()}`,
       name: role === 'Freelancer' ? 'Gabriel Silva' : 'Restaurante Bistrô do Batel',
-      email: email || (role === 'Freelancer' ? 'freelancer@curitiba.com' : 'gerente@restaurante.com'),
+      email:
+        email || (role === 'Freelancer' ? 'freelancer@curitiba.com' : 'gerente@restaurante.com'),
       role,
       avatarUrl:
         role === 'Freelancer'

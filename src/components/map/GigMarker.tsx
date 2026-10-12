@@ -12,7 +12,7 @@ export interface GigMarkerProps {
 /**
  * Coordenadas de referência de Curitiba para cálculo de posições relativas
  */
-const CURITIBA_CENTER = { lat: -25.4385, lng: -49.2820 };
+const CURITIBA_CENTER = { lat: -25.4385, lng: -49.282 };
 
 /**
  * Componente de Marcador de Taxa/Vaga (GigMarker)
@@ -54,9 +54,7 @@ export const GigMarker: React.FC<GigMarkerProps> = ({
           }`}
         >
           <span
-            className={`w-1.5 h-1.5 rounded-full ${
-              isSelected ? 'bg-black' : 'bg-[#00E676]'
-            }`}
+            className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#00E676]'}`}
           />
           <span>{gig.rateFormatted}</span>
         </div>
@@ -91,14 +89,9 @@ export const GigMarker: React.FC<GigMarkerProps> = ({
             : 'bg-[#12141C]/90 backdrop-blur-md text-white border border-white/20 hover:border-[#00E676]/80 hover:scale-105'
         }`}
       >
-        <span
-          className={`w-1.5 h-1.5 rounded-full ${
-            isSelected ? 'bg-black' : 'bg-[#00E676]'
-          }`}
-        />
+        <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#00E676]'}`} />
         <span>{gig.rateFormatted}</span>
       </div>
     </AdvancedMarker>
   );
 };
-

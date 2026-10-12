@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import { 
-  Star, 
-  Settings, 
-  History, 
-  HelpCircle, 
-  LogOut, 
-  ChevronRight, 
-  Award, 
-  TrendingUp, 
-  ShieldCheck, 
-  CheckCircle, 
-  CreditCard, 
-  Edit3, 
-  Check, 
-  X, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Building2,
+import {
+  Star,
+  Settings,
+  History,
+  LogOut,
+  ChevronRight,
+  Award,
+  TrendingUp,
+  ShieldCheck,
+  CheckCircle,
+  CreditCard,
+  Edit3,
+  Phone,
+  Mail,
   Briefcase,
-  PlusCircle,
   BarChart3,
-  MessageSquare
+  MessageSquare,
+  X as CloseIcon,
+  Check as SaveIcon,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { useAuth } from '../context/AuthContext';
 import { useContractor } from '../context/ContractorContext';
 
@@ -53,8 +48,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onUpdateProfile,
   onOpenSettings,
   onLogout,
-  onViewHistory,
-  onHelpCenter,
+  onViewHistory: _onViewHistory,
+  onHelpCenter: _onHelpCenter,
 }) => {
   const navigate = useNavigate();
   const { user, logout, switchRole } = useAuth();
@@ -71,7 +66,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80'),
     roleDescription: isContractor ? 'Restaurante & Casa Noturna' : 'Bartender & Garçom Pro',
     phone: user?.phone || '(41) 99887-1234',
-    email: user?.email || (isContractor ? 'contato@bistrodobatel.com.br' : 'freelancer@curitiba.com'),
+    email:
+      user?.email || (isContractor ? 'contato@bistrodobatel.com.br' : 'freelancer@curitiba.com'),
     city: 'Curitiba, PR',
     cnpj: user?.cnpj || '12.345.678/0001-90',
     businessSegment: user?.businessSegment || 'Restaurante',
@@ -258,7 +254,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   <span className="text-3xl font-black text-white tracking-tight tabular-nums">
                     {kpis.hiredFreelancersCount}
                   </span>
-                  <span className="text-xs text-zinc-400 font-medium block mt-1">Profissionais</span>
+                  <span className="text-xs text-zinc-400 font-medium block mt-1">
+                    Profissionais
+                  </span>
                 </div>
               </div>
 
@@ -275,7 +273,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   <span className="text-3xl font-black text-amber-400 tracking-tight tabular-nums">
                     4.9 ★
                   </span>
-                  <span className="text-xs text-[#00E676] font-medium block mt-1">Excelente pagador</span>
+                  <span className="text-xs text-[#00E676] font-medium block mt-1">
+                    Excelente pagador
+                  </span>
                 </div>
               </div>
             </>
@@ -292,7 +292,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
                 <div>
                   <span className="text-3xl font-black text-white tracking-tight">84</span>
-                  <span className="text-xs text-[#00E676] font-semibold block mt-1">+6 nesta semana</span>
+                  <span className="text-xs text-[#00E676] font-semibold block mt-1">
+                    +6 nesta semana
+                  </span>
                 </div>
               </div>
 
@@ -306,8 +308,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   </div>
                 </div>
                 <div>
-                  <span className="text-3xl font-black text-[#00E676] tracking-tight">R$ 1.280</span>
-                  <span className="text-xs text-zinc-400 font-medium block mt-1">Meta: R$ 1.500</span>
+                  <span className="text-3xl font-black text-[#00E676] tracking-tight">
+                    R$ 1.280
+                  </span>
+                  <span className="text-xs text-zinc-400 font-medium block mt-1">
+                    Meta: R$ 1.500
+                  </span>
                 </div>
               </div>
 
@@ -322,7 +328,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
                 <div>
                   <span className="text-3xl font-black text-white tracking-tight">98%</span>
-                  <span className="text-xs text-zinc-400 font-medium block mt-1">Pontualidade exemplar</span>
+                  <span className="text-xs text-zinc-400 font-medium block mt-1">
+                    Pontualidade exemplar
+                  </span>
                 </div>
               </div>
 
@@ -337,7 +345,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
                 <div>
                   <span className="text-2xl font-black text-white tracking-tight">Hoje, 23:59</span>
-                  <span className="text-xs text-[#00E676] font-medium block mt-1">Transferência PIX</span>
+                  <span className="text-xs text-[#00E676] font-medium block mt-1">
+                    Transferência PIX
+                  </span>
                 </div>
               </div>
             </>
@@ -358,8 +368,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     <Briefcase className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-base font-bold text-white block">Painel de Vagas & Candidatos</span>
-                    <span className="text-xs text-zinc-400">Acompanhe inscrições, aprove e recuse freelancers</span>
+                    <span className="text-base font-bold text-white block">
+                      Painel de Vagas & Candidatos
+                    </span>
+                    <span className="text-xs text-zinc-400">
+                      Acompanhe inscrições, aprove e recuse freelancers
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -375,8 +389,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     <BarChart3 className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-base font-bold text-white block">Relatório Financeiro & Operacional</span>
-                    <span className="text-xs text-zinc-400">Recibos de PIX, histórico de turnos e custos</span>
+                    <span className="text-base font-bold text-white block">
+                      Relatório Financeiro & Operacional
+                    </span>
+                    <span className="text-xs text-zinc-400">
+                      Recibos de PIX, histórico de turnos e custos
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -392,8 +410,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-base font-bold text-white block">Mensagens com Freelancers</span>
-                    <span className="text-xs text-zinc-400">Chat direto para alinhamento de entrada e regras</span>
+                    <span className="text-base font-bold text-white block">
+                      Mensagens com Freelancers
+                    </span>
+                    <span className="text-xs text-zinc-400">
+                      Chat direto para alinhamento de entrada e regras
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -411,8 +433,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     <Settings className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-base font-bold text-white block">Configurações de Trabalho</span>
-                    <span className="text-xs text-zinc-400">Defina suas profissões ativas e raio de distância</span>
+                    <span className="text-base font-bold text-white block">
+                      Configurações de Trabalho
+                    </span>
+                    <span className="text-xs text-zinc-400">
+                      Defina suas profissões ativas e raio de distância
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -428,8 +454,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     <History className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-base font-bold text-white block">Histórico de Repasses e Ganhos</span>
-                    <span className="text-xs text-zinc-400">Comprovantes e extrato detalhado de turnos</span>
+                    <span className="text-base font-bold text-white block">
+                      Histórico de Repasses e Ganhos
+                    </span>
+                    <span className="text-xs text-zinc-400">
+                      Comprovantes e extrato detalhado de turnos
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-zinc-500 group-hover:text-white transition-colors" />
@@ -447,14 +477,115 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 <LogOut className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-base font-bold text-red-400 group-hover:text-red-300 block">Sair da Conta</span>
-                <span className="text-xs text-red-400/70">Desconectar deste dispositivo com segurança</span>
+                <span className="text-base font-bold text-red-400 group-hover:text-red-300 block">
+                  Sair da Conta
+                </span>
+                <span className="text-xs text-red-400/70">
+                  Desconectar deste dispositivo com segurança
+                </span>
               </div>
             </div>
             <ChevronRight className="w-5 h-5 text-red-400/50" />
           </button>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      {isEditing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-[#121418] border border-white/10 rounded-3xl w-full max-w-lg p-6 space-y-4 shadow-2xl animate-in fade-in">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <h3 className="text-lg font-bold text-white">Editar Perfil</h3>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="p-1.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5"
+              >
+                <CloseIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSave} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+                  Nome Completo
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+                  Profissão / Ocupação
+                </label>
+                <input
+                  type="text"
+                  value={roleDescription}
+                  onChange={(e) => setRoleDescription(e.target.value)}
+                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+                    Telefone
+                  </label>
+                  <input
+                    type="text"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5">Cidade</label>
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
+                  URL da Foto de Perfil
+                </label>
+                <input
+                  type="url"
+                  value={avatarUrl}
+                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-zinc-400 hover:text-white"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#00E676] text-black hover:bg-[#00c853] transition-colors"
+                >
+                  <SaveIcon className="w-4 h-4" />
+                  <span>Salvar Alterações</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
