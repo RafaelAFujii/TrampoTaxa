@@ -208,7 +208,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
 
         {/* Desktop Split Grid: Details Left, Map & Actions Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column (5 cols): Gig Info & Speckit Rules */}
+          {/* Left Column (5 cols): Gig Info & Presentation Rules */}
           <div className="lg:col-span-5 space-y-5">
             {/* Restaurant Card */}
             <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 shadow-md space-y-4">
@@ -247,16 +247,13 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               </div>
             </div>
 
-            {/* Microtraining Guidelines Card */}
+            {/* Regras de Apresentação Card */}
             <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 space-y-2">
               <div className="flex items-center gap-2 text-xs font-black uppercase text-[#00E676]">
                 <ShieldCheck className="w-4 h-4" />
-                <span>{gig.microtraining.title}</span>
+                <span>Regras de Apresentação</span>
               </div>
-              <h4 className="text-xs sm:text-sm font-bold text-white">
-                {gig.microtraining.rulesTitle}
-              </h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 {gig.microtraining.description}
               </p>
             </div>

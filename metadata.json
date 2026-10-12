@@ -1,6 +1,6 @@
 {
-  "name": "Trampo CWB - Mobile UI",
-  "description": "Interface mobile componentizada em React, TypeScript e Tailwind CSS para o app Trampo CWB.",
+  "name": "TrampoTaxa (Loctaxa)",
+  "description": "Plataforma para conectar estabelecimentos contratantes a freelancers para trabalhos temporários e taxas gastronômicas.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

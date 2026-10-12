@@ -10,7 +10,21 @@ export interface AuthUser {
   avatarUrl: string;
   phone?: string;
   primeiroAcesso: boolean;
-  profession?: 'Bartender' | 'Garçom';
+  profession?: string;
+  cnpj?: string;
+  businessSegment?: string;
+  corporateName?: string;
+}
+
+export interface CadastroPayload {
+  name: string;
+  email: string;
+  role: UserRole;
+  phone?: string;
+  profession?: string;
+  cnpj?: string;
+  businessSegment?: string;
+  corporateName?: string;
 }
 
 export interface AuthContextType {
@@ -18,13 +32,7 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, role?: UserRole) => Promise<boolean>;
-  cadastrar: (data: {
-    name: string;
-    email: string;
-    role: UserRole;
-    phone?: string;
-    profession?: 'Bartender' | 'Garçom';
-  }) => Promise<boolean>;
+  cadastrar: (data: CadastroPayload) => Promise<boolean>;
   logout: () => void;
   verificarPrimeiroAcesso: () => boolean;
   completarPrimeiroAcesso: () => void;
@@ -72,7 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const mockUser: AuthUser = {
       id: `usr-${Date.now()}`,
-      name: role === 'Freelancer' ? 'Gabriel Silva' : 'Restaurante Madalosso',
+      name: role === 'Freelancer' ? 'Gabriel Silva' : 'Restaurante Bistrô do Batel',
       email: email || (role === 'Freelancer' ? 'freelancer@curitiba.com' : 'gerente@restaurante.com'),
       role,
       avatarUrl:
@@ -82,6 +90,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       phone: '(41) 99999-0000',
       primeiroAcesso: false,
       profession: role === 'Freelancer' ? 'Bartender' : undefined,
+      cnpj: role === 'Contratante' ? '12.345.678/0001-90' : undefined,
+      businessSegment: role === 'Contratante' ? 'Restaurante & Bar' : undefined,
+      corporateName: role === 'Contratante' ? 'Bistrô do Batel Gastronomia LTDA' : undefined,
     };
 
     setUser(mockUser);
@@ -92,13 +103,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   /**
    * Realiza cadastro mockado marcando 'primeiroAcesso' como verdadeiro
    */
-  const cadastrar = async (data: {
-    name: string;
-    email: string;
-    role: UserRole;
-    phone?: string;
-    profession?: 'Bartender' | 'Garçom';
-  }): Promise<boolean> => {
+  const cadastrar = async (data: CadastroPayload): Promise<boolean> => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -113,7 +118,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           : 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=240&auto=format&fit=crop&q=80',
       phone: data.phone || '(41) 99999-0000',
       primeiroAcesso: true,
-      profession: data.profession || 'Bartender',
+      profession: data.profession || (data.role === 'Freelancer' ? 'Bartender' : undefined),
+      cnpj: data.cnpj,
+      businessSegment: data.businessSegment,
+      corporateName: data.corporateName || data.name,
     };
 
     setUser(newUser);
@@ -157,7 +165,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser({
         ...user,
         role: newRole,
-        name: newRole === 'Freelancer' ? 'Gabriel Silva' : 'Restaurante Madalosso',
+        name: newRole === 'Freelancer' ? 'Gabriel Silva' : 'Restaurante Bistrô do Batel',
+        avatarUrl:
+          newRole === 'Freelancer'
+            ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80'
+            : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=240&auto=format&fit=crop&q=80',
+        cnpj: newRole === 'Contratante' ? '12.345.678/0001-90' : undefined,
+        businessSegment: newRole === 'Contratante' ? 'Restaurante & Bar' : undefined,
+        corporateName: newRole === 'Contratante' ? 'Bistrô do Batel Gastronomia LTDA' : undefined,
       });
     }
   };

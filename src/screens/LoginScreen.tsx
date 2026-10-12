@@ -53,8 +53,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       if (onLoginSuccess) {
         onLoginSuccess();
       } else {
-        // Redireciona para o destino original ou para a rota do mapa
-        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/map';
+        // Redireciona para o destino original ou para a rota do papel específico
+        const defaultPath = role === 'Contratante' ? '/contractor/gigs' : '/map';
+        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || defaultPath;
         navigate(from, { replace: true });
       }
     } catch {
@@ -112,7 +113,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
                 <CheckCircle className="w-4 h-4 text-[#00E676]" />
-                <span>Microtreinamento Speckit com dress code e regras em tempo real</span>
+                <span>Regras de apresentação e dress code detalhado de cada local</span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
                 <CheckCircle className="w-4 h-4 text-[#00E676]" />

@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Star, 
   MapPin, 
   X, 
   Clock, 
-  Sparkles, 
   ShieldCheck, 
   Check, 
-  Zap, 
-  Shirt, 
-  Info,
   DollarSign
 } from 'lucide-react';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
@@ -29,8 +25,15 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
   onAccept,
   onDecline,
   onClose,
-}) => {
+  }) => {
   const [acknowledgedDressCode, setAcknowledgedDressCode] = useState(false);
+
+  // Redefine a confirmação sempre que uma nova vaga for aberta
+  useEffect(() => {
+    if (isOpen) {
+      setAcknowledgedDressCode(false);
+    }
+  }, [isOpen, gig?.id]);
 
   if (!isOpen || !gig) return null;
 
@@ -138,60 +141,59 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           </div>
         </div>
 
-        {/* 3. SPECKIT MICROTRAINING (Diferencial exclusivo em tempo real) */}
+        {/* 3. REGRAS DE APRESENTAÇÃO */}
         {/* Posicionado diretamente acima do botão principal de 'Aceitar Taxa' */}
-        <div className="bg-gradient-to-br from-[#121A16] to-[#151C26] border border-[#00E676]/30 rounded-2xl p-4 text-left flex flex-col gap-2.5 relative overflow-hidden shadow-lg">
-          {/* Subtle glow effect */}
-          <div className="absolute top-0 right-0 w-28 h-28 bg-[#00E676]/10 rounded-full blur-2xl pointer-events-none" />
-
+        <div className="bg-[#171A22] border border-white/10 rounded-2xl p-4 text-left flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-[#00E676]/20 border border-[#00E676]/50 flex items-center justify-center text-[#00E676]">
-                <Sparkles className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-[11px] font-black uppercase tracking-wider text-[#00E676] flex items-center gap-1">
-                SPECKIT MICROTRAINING
-                <span className="bg-[#00E676]/20 text-[#00E676] text-[9px] px-1.5 py-0.2 rounded font-mono font-bold">
-                  LIVE
-                </span>
-              </span>
-            </div>
-            <span className="text-[10px] text-zinc-400 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-amber-400" />
-              Dica em tempo real
-            </span>
+            <h3 className="text-xs font-black uppercase tracking-wider text-[#00E676]">
+              Regras de Apresentação
+            </h3>
           </div>
 
           <div className="bg-[#0D1015]/80 border border-white/5 rounded-xl p-3 flex flex-col gap-1.5">
-            <div className="flex items-center gap-1.5">
-              <Shirt className="w-3.5 h-3.5 text-[#00E676] shrink-0" />
-              <h4 className="text-xs font-bold text-white">
-                {gig.microtraining?.rulesTitle || 'Dress Code & Requisitos do Contratante'}
-              </h4>
-            </div>
-            <p className="text-xs text-zinc-300 leading-relaxed pl-5">
+            <p className="text-xs text-zinc-300 leading-relaxed">
               {gig.microtraining?.description ||
                 'Dress code exigido pelo contratante: Camisa preta lisa, calça escura e sapato fechado confortável. Chegue com 15 minutos de antecedência.'}
             </p>
           </div>
 
-          {/* Confirmação rápida de visualização do micro-treinamento */}
+          {/* Confirmação de ciência das regras de apresentação */}
           <div 
             onClick={() => setAcknowledgedDressCode(!acknowledgedDressCode)}
-            className="flex items-center gap-2.5 cursor-pointer pt-1 select-none"
+            className={`flex items-center gap-3 cursor-pointer p-2.5 rounded-xl border transition-all select-none ${
+              acknowledgedDressCode 
+                ? 'bg-[#00E676]/10 border-[#00E676]/40 text-white shadow-[0_0_12px_rgba(0,230,118,0.1)]' 
+                : 'bg-black/30 border-white/10 hover:border-white/20 text-zinc-300 hover:bg-white/[0.02]'
+            }`}
+            role="checkbox"
+            aria-checked={acknowledgedDressCode}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                setAcknowledgedDressCode(!acknowledgedDressCode);
+              }
+            }}
           >
             <div
-              className={`w-4 h-4 rounded flex items-center justify-center transition-all ${
+              className={`w-5 h-5 rounded-md flex items-center justify-center transition-all shrink-0 ${
                 acknowledgedDressCode
                   ? 'bg-[#00E676] text-black shadow-[0_0_8px_#00E676]'
-                  : 'border border-zinc-600 bg-black/40'
+                  : 'border-2 border-zinc-500 bg-black/50 hover:border-[#00E676]/60'
               }`}
             >
-              {acknowledgedDressCode && <Check className="w-3 h-3 stroke-[3]" />}
+              {acknowledgedDressCode && <Check className="w-3.5 h-3.5 stroke-[3]" />}
             </div>
-            <span className="text-[11px] text-zinc-300">
-              Estou ciente do dress code e requisitos deste contratante.
-            </span>
+            <div className="flex flex-col">
+              <span className={`text-xs font-semibold leading-tight ${acknowledgedDressCode ? 'text-white' : 'text-zinc-300'}`}>
+                Estou ciente das regras de apresentação deste contratante.
+              </span>
+              {!acknowledgedDressCode && (
+                <span className="text-[10px] text-zinc-500 mt-0.5">
+                  Clique para confirmar ciência e habilitar o botão de aceite
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -205,9 +207,15 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
             Recusar Proposta
           </button>
 
-          <div className="sm:order-2 order-1 flex-1">
+          <div className="sm:order-2 order-1 flex-1 flex flex-col">
             <PrimaryButton 
-              onClick={() => onAccept(gig)}
+              onClick={() => {
+                if (acknowledgedDressCode) {
+                  onAccept(gig);
+                }
+              }}
+              disabled={!acknowledgedDressCode}
+              title={!acknowledgedDressCode ? 'Confirme a ciência das regras de apresentação para aceitar' : undefined}
               icon={<ShieldCheck className="w-4 h-4 text-black" />}
             >
               ACEITAR TAXA ({gig.rateFormatted})

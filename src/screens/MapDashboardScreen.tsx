@@ -256,7 +256,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                         </div>
                       </div>
 
-                      {/* Dica rápida Speckit preview */}
+                      {/* Informações de turno e link da taxa */}
                       <div className="mt-2.5 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-zinc-400">
                         <span className="flex items-center gap-1 text-zinc-300">
                           <Clock className="w-3 h-3 text-zinc-500" />
@@ -407,7 +407,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
       </main>
 
       {/* ======================================================== */}
-      {/* 4. BOTTOM SHEET E INTEGRAÇÃO SPECKIT                     */}
+      {/* 4. BOTTOM SHEET E REGRAS DE APRESENTAÇÃO                 */}
       {/* ======================================================== */}
       <GigOfferBottomSheet
         gig={selectedGig}

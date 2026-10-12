@@ -13,7 +13,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '19:00 - 01:00',
     shiftDuration: '6 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Regras de Apresentação',
       description: 'Dress code: camisa preta lisa e calça escura sem detalhes. Traga seu abridor e avental preto se tiver.',
     },
@@ -39,7 +39,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '18:00 - 23:30',
     shiftDuration: '5.5 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Protocolo de Atendimento',
       description: 'Traje social com avental preto e sapatos confortáveis pretos. Foco em agilidade no salão e cortesia.',
     },
@@ -65,7 +65,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '19:30 - 01:30',
     shiftDuration: '6 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Agilidade de Chopp',
       description: 'Retirada rápida de copos vazios e abastecimento de chopeiras artesanais.',
     },
@@ -91,7 +91,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '20:00 - 03:00',
     shiftDuration: '7 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Coquetelaria Autoral',
       description: 'Experiência em coquetelaria clássica (Negroni, Old Fashioned, Gin Tônica) e velocidade.',
     },
@@ -117,7 +117,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '18:30 - 23:30',
     shiftDuration: '5 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Serviço Tradicional Italiano',
       description: 'Atendimento de rodízio de massas e frango com polenta. Foco em cordialidade e postura clássica.',
     },
@@ -143,7 +143,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '19:00 - 02:00',
     shiftDuration: '7 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Chopp Submarino & Coquetéis',
       description: 'Mestria na tiragem rápida de chopp e preparo de drinks clássicos. Uniforme preto fornecido.',
     },
