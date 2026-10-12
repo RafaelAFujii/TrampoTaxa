@@ -9,6 +9,9 @@ import {
   WifiOff,
   Filter,
   UserCheck,
+  List,
+  Map as MapIcon,
+  Search,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapPlaceholder } from '../components/map/MapPlaceholder';
@@ -50,6 +53,10 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   const [internalOnline, setInternalOnline] = useState(true);
   const isOnline = controlledOnline !== undefined ? controlledOnline : internalOnline;
 
+  // Alternador Mobile: Mapa x Lista
+  const [mobileViewMode, setMobileViewMode] = useState<'map' | 'list'>('map');
+  const [searchQuery, setSearchQuery] = useState('');
+
   // Filtros de profissão
   const [filterProfession, setFilterProfession] = useState<'All' | 'Bartender' | 'Garçom'>('All');
 
@@ -76,10 +83,18 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   const displayedGigs = useMemo(() => {
     if (!isOnline) return [];
     return allGigs.filter((g) => {
-      if (filterProfession === 'All') return true;
-      return g.profession === filterProfession;
+      if (filterProfession !== 'All' && g.profession !== filterProfession) return false;
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        return (
+          g.venueName.toLowerCase().includes(query) ||
+          g.neighborhood.toLowerCase().includes(query) ||
+          g.profession.toLowerCase().includes(query)
+        );
+      }
+      return true;
     });
-  }, [allGigs, isOnline, filterProfession]);
+  }, [allGigs, isOnline, filterProfession, searchQuery]);
 
   // Ação ao clicar em um marcador ou item da lista
   const handleMarkerClick = (gig: GigOffer) => {
@@ -315,7 +330,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
         {/* Camada de controle superior móvel: Status e Alternador */}
         <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
           {/* Badge Online/Offline */}
-          <div className="pointer-events-auto">
+          <div className="pointer-events-auto flex items-center gap-2">
             <button
               type="button"
               onClick={handleToggleOnline}
@@ -330,7 +345,26 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   isOnline ? 'bg-[#00E676] animate-pulse' : 'bg-zinc-600'
                 }`}
               />
-              <span>{isOnline ? 'ONLINE • RECEBENDO TAXAS' : 'OFFLINE'}</span>
+              <span>{isOnline ? 'ONLINE' : 'OFFLINE'}</span>
+            </button>
+
+            {/* Alternador de Modo Mobile: Mapa vs Lista de Taxas */}
+            <button
+              type="button"
+              onClick={() => setMobileViewMode(mobileViewMode === 'map' ? 'list' : 'map')}
+              className="lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-full backdrop-blur-md border border-white/10 bg-[#121620]/90 text-xs font-bold text-white shadow-xl hover:bg-[#1A1F2D] cursor-pointer"
+            >
+              {mobileViewMode === 'map' ? (
+                <>
+                  <List className="w-3.5 h-3.5 text-[#00E676]" />
+                  <span>Ver Lista ({displayedGigs.length})</span>
+                </>
+              ) : (
+                <>
+                  <MapIcon className="w-3.5 h-3.5 text-[#00E676]" />
+                  <span>Ver Mapa</span>
+                </>
+              )}
             </button>
           </div>
 
@@ -349,6 +383,110 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Visão de Lista Móvel (Consulta / Lista de Taxas no Smartphone) */}
+        {mobileViewMode === 'list' && (
+          <div className="lg:hidden absolute inset-0 z-15 bg-[#0B0D13]/98 backdrop-blur-md pt-16 px-4 pb-20 overflow-y-auto">
+            <div className="max-w-md mx-auto space-y-3.5 pt-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-black text-white">Consulta de Taxas Disponíveis</h3>
+                  <p className="text-xs text-zinc-400">
+                    {displayedGigs.length} oportunidades ativas em Curitiba
+                  </p>
+                </div>
+              </div>
+
+              {/* Busca e Filtros Móveis */}
+              <div className="space-y-2">
+                <div className="relative">
+                  <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Buscar por bar, bairro ou cargo..."
+                    className="w-full bg-[#161922] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00E676]"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  {(['All', 'Bartender', 'Garçom'] as const).map((prof) => (
+                    <button
+                      key={prof}
+                      type="button"
+                      onClick={() => setFilterProfession(prof)}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                        filterProfession === prof
+                          ? 'bg-[#00E676] text-black'
+                          : 'bg-white/5 text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      {prof === 'All' ? 'Todos' : prof}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cards de Taxas */}
+              <div className="space-y-2.5 pt-1">
+                {displayedGigs.length > 0 ? (
+                  displayedGigs.map((gig) => (
+                    <div
+                      key={gig.id}
+                      onClick={() => {
+                        handleMarkerClick(gig);
+                        setMobileViewMode('map');
+                      }}
+                      className="p-4 rounded-2xl bg-[#141722] border border-white/10 hover:border-[#00E676]/40 transition-all cursor-pointer shadow-lg"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="bg-[#00E676]/15 text-[#00E676] text-[10px] font-black uppercase px-2 py-0.5 rounded">
+                              {gig.profession}
+                            </span>
+                            <span className="text-[11px] text-zinc-400 font-medium">
+                              {gig.distance}
+                            </span>
+                          </div>
+                          <h4 className="font-bold text-white text-sm mt-1">{gig.venueName}</h4>
+                          <span className="text-xs text-zinc-400 flex items-center gap-1 mt-0.5">
+                            <MapPin className="w-3 h-3 text-zinc-500" />
+                            {gig.neighborhood}
+                          </span>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-base font-black text-[#00E676]">
+                            {gig.rateFormatted}
+                          </span>
+                          <span className="block text-[10px] text-zinc-400 mt-0.5">
+                            {gig.shiftDuration}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
+                        <span className="flex items-center gap-1 text-zinc-300">
+                          <Clock className="w-3 h-3 text-zinc-500" />
+                          {gig.shiftTime}
+                        </span>
+                        <span className="text-[#00E676] font-bold flex items-center gap-1">
+                          Ver Detalhes & Candidatar <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="py-12 text-center text-zinc-500 text-xs">
+                    Nenhuma vaga encontrada para os filtros atuais.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Card Flutuante Mobile para Vaga Selecionada */}
         {isOnline && selectedGig && !isMobileCardDismissed && !isBottomSheetOpen && (
