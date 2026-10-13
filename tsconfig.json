@@ -18,11 +18,15 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": [
-        "./*"
+        "./apps/web/*"
+      ],
+      "@trampotaxa/shared": [
+        "./packages/shared/src/index.ts"
       ]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["node_modules", "dist", "mobile-expo"]
+  "include": ["apps/web/src/**/*"],
+  "exclude": ["node_modules", "dist", "apps/mobile"]
 }

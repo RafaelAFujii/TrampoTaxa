@@ -1,48 +1,42 @@
 {
-  "name": "react-example",
+  "name": "trampotaxa-monorepo",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview",
-    "clean": "rm -rf dist server.js",
-    "lint": "eslint src/ && tsc --noEmit",
-    "test": "vitest run",
-    "format": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\""
-  },
-  "dependencies": {
-    "@google/genai": "^2.4.0",
-    "@tailwindcss/vite": "^4.3.3",
-    "@vis.gl/react-google-maps": "^1.10.1",
-    "@vitejs/plugin-react": "^6.1.1",
-    "dotenv": "^17.2.3",
-    "express": "^4.21.2",
-    "lucide-react": "^0.546.0",
-    "motion": "^12.23.24",
-    "react": "^19.0.1",
-    "react-dom": "^19.0.1",
-    "react-router-dom": "^7.18.4",
-    "vite": "^8.3.0"
+    "dev": "bun run --filter web dev || npm --prefix apps/web run dev",
+    "dev:web": "bun run --filter web dev",
+    "dev:mobile": "bun run --filter mobile start",
+    "build": "bun run --filter web build || npm --prefix apps/web run build",
+    "build:web": "bun run --filter web build",
+    "build:mobile": "bun run --filter mobile build",
+    "lint": "bun run --filter web lint || npm --prefix apps/web run lint",
+    "test": "bun test || (npm --prefix packages/shared test && npm --prefix apps/web test)",
+    "format": "bun run --filter web format || npm --prefix apps/web run format",
+    "format:fix": "bun run --filter web format:fix || npm --prefix apps/web run format:fix",
+    "api:generate": "bun run --filter web api:generate || npm --prefix apps/web run api:generate",
+    "typecheck:mobile": "npm --prefix apps/web exec tsc -- --project apps/mobile/tsconfig.json --noEmit",
+    "clean": "rm -rf apps/web/dist apps/web/server.js dist"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/google.maps": "^3.66.4",
-    "@types/node": "^22.14.0",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "autoprefixer": "^10.4.21",
-    "esbuild": "^0.28.2",
-    "eslint": "^10.12.0",
-    "install": "^0.13.0",
-    "prettier": "^3.9.10",
-    "tailwindcss": "^4.3.3",
-    "tsx": "^4.21.0",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.71.1",
-    "vite-plugin-pwa": "^2.0.0",
-    "vitest": "^5.0.3"
+    "@types/geojson": "^7946.0.16",
+    "@types/supercluster": "^7.1.3",
+    "orval": "^8.42.0",
+    "prettier": "^3.9.10"
+  },
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.20.0",
+    "@react-navigation/native": "^7.5.0",
+    "@tanstack/react-query": "^5.104.2",
+    "react-native-maps": "^1.29.11",
+    "react-native-safe-area-context": "^5.10.1",
+    "react-native-screens": "^4.30.0",
+    "supercluster": "^9.1.0",
+    "use-supercluster": "^1.2.0",
+    "workbox-window": "^7.4.1"
   }
 }
