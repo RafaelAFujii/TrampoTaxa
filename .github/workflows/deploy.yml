@@ -24,23 +24,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: 'npm'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
+
+      - name: Execute Mandatory Automated Tests (TDD Gate)
+        run: bun test
 
       - name: Code Quality & Lint Check
-        run: npm run lint
-
-      - name: Execute Automated Tests (Vitest)
-        run: npm test
+        run: bun run lint
 
       - name: Build Production Assets
-        run: npm run build
+        run: bun run build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -48,7 +47,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './apps/web/dist'
 
   deploy:
     name: Deploy to GitHub Pages

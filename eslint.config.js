@@ -3,7 +3,7 @@ import tsPlugin from 'typescript-eslint';
 export default [
   ...tsPlugin.configs.recommended,
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['apps/web/src/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -13,6 +13,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**', '*.config.js', '*.config.ts'],
+    ignores: ['**/dist/**', '**/node_modules/**', 'coverage/**', '*.config.js', '*.config.ts', 'apps/mobile/**'],
   },
 ];
