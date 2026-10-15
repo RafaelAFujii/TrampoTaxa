@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { LoginScreen } from '../screens/LoginScreen';
 import { CadastroScreen } from '../screens/CadastroScreen';
 import { MapDashboardScreen } from '../screens/MapDashboardScreen';
@@ -31,7 +31,7 @@ function IndexRedirect() {
  * Rotas do Freelancer: /map, /active-gig, /earnings, /profile, /settings
  * Rotas do Contratante: /contractor/gigs, /contractor/create, /contractor/reports, /contractor/chat
  */
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   // Rota de Login
   {
     path: '/login',
