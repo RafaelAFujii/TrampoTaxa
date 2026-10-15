@@ -1,6 +1,0 @@
-{
-  "summary": "Plano detalhado para conexão e estruturação nativa do app mobile (apps/mobile Expo/React Native) ao pacote compartilhado @trampotaxa/shared, integrando TanStack React Query v5, navegação por abas nativas (React Navigation Bottom Tabs), tela de mapa nativo interativo (react-native-maps) com fallback gracioso, extrato financeiro (FlatList + formatCurrency) e tela de perfil dinâmico com alternância de visão (Freelancer / Contratante) no tema escuro do TrampoTaxa (#0A0B0E / #00E676).",
-  "updatedAt": "2026-10-13T20:31:12.057251446Z",
-  "requestFeedback": true,
-  "userFacing": true
-}
