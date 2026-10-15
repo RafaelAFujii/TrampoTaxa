@@ -13,9 +13,10 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '19:00 - 01:00',
     shiftDuration: '6 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Regras de Apresentação',
-      description: 'Dress code: camisa preta lisa e calça escura sem detalhes. Traga seu abridor e avental preto se tiver.',
+      description:
+        'Dress code: camisa preta lisa e calça escura sem detalhes. Traga seu abridor e avental preto se tiver.',
     },
     coords: {
       x: 48,
@@ -39,9 +40,10 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '18:00 - 23:30',
     shiftDuration: '5.5 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Protocolo de Atendimento',
-      description: 'Traje social com avental preto e sapatos confortáveis pretos. Foco em agilidade no salão e cortesia.',
+      description:
+        'Traje social com avental preto e sapatos confortáveis pretos. Foco em agilidade no salão e cortesia.',
     },
     coords: {
       x: 72,
@@ -65,7 +67,7 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '19:30 - 01:30',
     shiftDuration: '6 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Agilidade de Chopp',
       description: 'Retirada rápida de copos vazios e abastecimento de chopeiras artesanais.',
     },
@@ -91,9 +93,10 @@ export const mockGigs: GigOffer[] = [
     shiftTime: '20:00 - 03:00',
     shiftDuration: '7 horas de turno',
     microtraining: {
-      title: 'SPECKIT MICROTRAINING',
+      title: 'Regras de Apresentação',
       rulesTitle: 'Coquetelaria Autoral',
-      description: 'Experiência em coquetelaria clássica (Negroni, Old Fashioned, Gin Tônica) e velocidade.',
+      description:
+        'Experiência em coquetelaria clássica (Negroni, Old Fashioned, Gin Tônica) e velocidade.',
     },
     coords: {
       x: 60,
@@ -105,4 +108,66 @@ export const mockGigs: GigOffer[] = [
     },
     active: true,
   },
+  {
+    id: 'gig-5',
+    profession: 'Garçom',
+    venueName: 'Madalosso Tradizionale',
+    rating: 4.9,
+    neighborhood: 'Santa Felicidade',
+    distance: '5.6 km de você',
+    rate: 210,
+    rateFormatted: 'R$ 210,00',
+    shiftTime: '18:30 - 23:30',
+    shiftDuration: '5 horas de turno',
+    microtraining: {
+      title: 'Regras de Apresentação',
+      rulesTitle: 'Serviço Tradicional Italiano',
+      description:
+        'Atendimento de rodízio de massas e frango com polenta. Foco em cordialidade e postura clássica.',
+    },
+    coords: {
+      x: 22,
+      y: 25,
+    },
+    latLng: {
+      lat: -25.405,
+      lng: -49.332, // Santa Felicidade
+    },
+    active: true,
+  },
+  {
+    id: 'gig-6',
+    profession: 'Bartender',
+    venueName: 'Bar do Alemão',
+    rating: 4.8,
+    neighborhood: 'Largo da Ordem',
+    distance: '1.2 km de você',
+    rate: 230,
+    rateFormatted: 'R$ 230,00',
+    shiftTime: '19:00 - 02:00',
+    shiftDuration: '7 horas de turno',
+    microtraining: {
+      title: 'Regras de Apresentação',
+      rulesTitle: 'Chopp Submarino & Coquetéis',
+      description:
+        'Mestria na tiragem rápida de chopp e preparo de drinks clássicos. Uniforme preto fornecido.',
+    },
+    coords: {
+      x: 52,
+      y: 22,
+    },
+    latLng: {
+      lat: -25.4278,
+      lng: -49.273, // Centro Histórico / Largo da Ordem
+    },
+    active: true,
+  },
 ];
+
+/**
+ * Filtra oportunidades por profissão
+ */
+export const filterGigsByProfession = (gigs: GigOffer[], profession?: string): GigOffer[] => {
+  if (!profession || profession === 'Todos') return gigs;
+  return gigs.filter((gig) => gig.profession.toLowerCase() === profession.toLowerCase());
+};

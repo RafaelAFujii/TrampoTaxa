@@ -1,4 +1,6 @@
-export type Profession = 'Bartender' | 'Garçom';
+export type Profession = 'Bartender' | 'Garçom' | 'Recepcionista' | 'Hostess' | 'Copeiro';
+
+export * from './contractor';
 
 export interface GigOffer {
   id: string;
@@ -27,14 +29,25 @@ export interface GigOffer {
   active: boolean;
 }
 
-export type ScreenType = 
-  | 'login-screen' 
-  | 'cadastro-screen' 
-  | 'map-dashboard' 
+export type ScreenType =
+  | 'login-screen'
+  | 'cadastro-screen'
+  | 'map-dashboard'
   | 'gig-offer-bottom-sheet'
   | 'earnings-screen'
   | 'profile-screen'
   | 'settings-screen'
-  | 'active-gig-screen';
+  | 'active-gig-screen'
+  | 'contractor-gigs'
+  | 'contractor-create'
+  | 'contractor-reports'
+  | 'contractor-chat';
 
-export type NavTab = 'map' | 'earnings' | 'profile';
+export type NavTab =
+  | 'map'
+  | 'earnings'
+  | 'profile'
+  | 'contractor-gigs'
+  | 'contractor-create'
+  | 'contractor-reports'
+  | 'contractor-chat';

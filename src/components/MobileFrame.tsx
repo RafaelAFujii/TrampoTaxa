@@ -6,11 +6,7 @@ interface MobileFrameProps {
   className?: string;
 }
 
-export const MobileFrame: React.FC<MobileFrameProps> = ({
-  title,
-  children,
-  className = '',
-}) => {
+export const MobileFrame: React.FC<MobileFrameProps> = ({ title, children, className = '' }) => {
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {title && (

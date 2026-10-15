@@ -7,16 +7,13 @@ interface ProfessionToggleProps {
   onChange: (profession: Profession) => void;
 }
 
-export const ProfessionToggle: React.FC<ProfessionToggleProps> = ({
-  selected,
-  onChange,
-}) => {
+export const ProfessionToggle: React.FC<ProfessionToggleProps> = ({ selected, onChange }) => {
   return (
     <div className="w-full flex flex-col gap-2 text-left">
       <label className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
         ESCOLHA SUA PROFISSÃO PRINCIPAL
       </label>
-      
+
       <div className="grid grid-cols-2 gap-3">
         {/* Bartender Button */}
         <button
@@ -31,7 +28,9 @@ export const ProfessionToggle: React.FC<ProfessionToggleProps> = ({
             }
           `}
         >
-          <Wine className={`w-4 h-4 ${selected === 'Bartender' ? 'text-[#00E676]' : 'text-zinc-400'}`} />
+          <Wine
+            className={`w-4 h-4 ${selected === 'Bartender' ? 'text-[#00E676]' : 'text-zinc-400'}`}
+          />
           <span className="text-sm font-semibold tracking-tight">Bartender</span>
         </button>
 
@@ -48,7 +47,9 @@ export const ProfessionToggle: React.FC<ProfessionToggleProps> = ({
             }
           `}
         >
-          <Utensils className={`w-4 h-4 ${selected === 'Garçom' ? 'text-[#00E676]' : 'text-zinc-400'}`} />
+          <Utensils
+            className={`w-4 h-4 ${selected === 'Garçom' ? 'text-[#00E676]' : 'text-zinc-400'}`}
+          />
           <span className="text-sm font-semibold tracking-tight">Garçom</span>
         </button>
       </div>

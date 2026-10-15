@@ -1,27 +1,49 @@
 import React from 'react';
-import { Map, Wallet, User } from 'lucide-react';
+import {
+  Map,
+  Wallet,
+  User,
+  Briefcase,
+  PlusCircle,
+  BarChart3,
+  MessageSquare,
+  Building2,
+} from 'lucide-react';
 import { NavTab } from '../../types';
+import { UserRole } from '../../context/AuthContext';
 
 interface BottomNavigationProps {
+  role?: UserRole;
   activeTab: NavTab;
   onTabChange: (tab: NavTab) => void;
   className?: string;
 }
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({
+  role = 'Freelancer',
   activeTab,
   onTabChange,
   className = '',
 }) => {
-  const tabs = [
+  const freelancerTabs = [
     { id: 'map' as NavTab, label: 'Mapa', icon: Map },
     { id: 'earnings' as NavTab, label: 'Ganhos', icon: Wallet },
     { id: 'profile' as NavTab, label: 'Perfil', icon: User },
   ];
 
+  const contractorTabs = [
+    { id: 'contractor-gigs' as NavTab, label: 'Vagas', icon: Briefcase },
+    { id: 'contractor-create' as NavTab, label: 'Criar', icon: PlusCircle },
+    { id: 'contractor-reports' as NavTab, label: 'Relatórios', icon: BarChart3 },
+    { id: 'contractor-chat' as NavTab, label: 'Chat', icon: MessageSquare },
+    { id: 'profile' as NavTab, label: 'Perfil', icon: Building2 },
+  ];
+
+  const tabs = role === 'Contratante' ? contractorTabs : freelancerTabs;
+
   return (
     <nav
-      className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141519]/95 backdrop-blur-xl border-t border-white/10 px-6 py-2 pb-5 flex items-center justify-around shadow-[0_-8px_25px_rgba(0,0,0,0.7)] ${className}`}
+      className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141519]/95 backdrop-blur-xl border-t border-white/10 px-3 py-1.5 pb-4 flex items-center justify-around shadow-[0_-8px_25px_rgba(0,0,0,0.7)] ${className}`}
     >
       {tabs.map((tab) => {
         const Icon = tab.icon;
@@ -32,7 +54,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
-            className="flex flex-col items-center justify-center gap-1 py-1 px-4 transition-all duration-200 cursor-pointer select-none group"
+            className="flex flex-col items-center justify-center gap-1 py-1 px-2.5 transition-all duration-200 cursor-pointer select-none group"
           >
             <div className="relative">
               <Icon

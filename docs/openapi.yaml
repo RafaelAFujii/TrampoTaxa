@@ -1,0 +1,713 @@
+openapi: 3.0.3
+info:
+  title: TrampoTaxa (Loctaxa CWB) - API de Integração Web & Mobile
+  description: >
+    Especificação formal dos endpoints RESTful do ecossistema TrampoTaxa para comunicação
+    sincronizada entre o front-end Web (ReactJS / TypeScript) e a aplicação móvel (React Native).
+    Cobre autenticação, gerenciamento de perfis, consulta de taxas em tempo real, candidaturas,
+    chat operacional e fechamento financeiro.
+  version: 1.2.0
+  contact:
+    name: Equipe de Engenharia TrampoTaxa
+    email: dev@trampotaxa.com.br
+
+servers:
+  - url: https://api.trampotaxa.com.br/v1
+    description: Servidor de Produção em Nuvem
+  - url: http://localhost:3000/api
+    description: Ambiente de Desenvolvimento Local
+
+tags:
+  - name: Autenticação & Usuários
+    description: Endpoints de login, cadastro com primeiro acesso e perfil
+  - name: Taxas & Vagas (Gigs)
+    description: Consulta dinâmica, geolocalização e gerenciamento de turnos
+  - name: Candidaturas & Seleção
+    description: Submissão, aprovação e recusa de profissionais
+  - name: Chat & Operação
+    description: Comunicação direta entre gerência e profissionais escalados
+  - name: Avaliações & Desempenho
+    description: Avaliações pós-evento e pontualidade
+  - name: Relatórios & Financeiro
+    description: KPIs, demonstrativos de pagamentos e repasses via PIX
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Autenticação & Usuários
+      summary: Autenticar usuário (Freelancer ou Contratante)
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - role
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: freelancer@curitiba.com
+                password:
+                  type: string
+                  format: password
+                  example: senhaForte@123
+                role:
+                  type: string
+                  enum: [Freelancer, Contratante]
+                  example: Freelancer
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/register:
+    post:
+      tags:
+        - Autenticação & Usuários
+      summary: Cadastrar novo Freelancer ou Estabelecimento Contratante
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterPayload'
+      responses:
+        '201':
+          description: Usuário cadastrado com sucesso (marca primeiroAcesso como true)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Dados inválidos (CNPJ incorreto ou campos faltantes)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/me:
+    get:
+      tags:
+        - Autenticação & Usuários
+      summary: Obter dados do usuário autenticado atual
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Perfil do usuário
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /gigs:
+    get:
+      tags:
+        - Taxas & Vagas (Gigs)
+      summary: Consultar lista de taxas com filtros dinâmicos e geolocalização
+      operationId: listGigs
+      parameters:
+        - name: profession
+          in: query
+          description: Filtrar por cargo/profissão
+          schema:
+            type: string
+            enum: [All, Bartender, Garçom, Cozinheiro, Cumim, Recepcionista, Hostess, Copeiro]
+            default: All
+        - name: lat
+          in: query
+          description: Latitude do usuário (ex. Curitiba)
+          schema:
+            type: number
+            example: -25.4398
+        - name: lng
+          in: query
+          description: Longitude do usuário
+          schema:
+            type: number
+            example: -49.2885
+        - name: maxDistanceKm
+          in: query
+          description: Raio de distância máximo em quilômetros
+          schema:
+            type: integer
+            default: 10
+            example: 10
+        - name: status
+          in: query
+          description: Filtrar por status do turno
+          schema:
+            type: string
+            enum: [All, Aberta, Aguardando Confirmação, Preenchida, Finalizada, Cancelada]
+            default: All
+        - name: search
+          in: query
+          description: Busca textual por nome do bar, bairro ou detalhes
+          schema:
+            type: string
+            example: Batel
+      responses:
+        '200':
+          description: Lista de taxas disponíveis
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gig'
+
+    post:
+      tags:
+        - Taxas & Vagas (Gigs)
+      summary: Criar nova taxa / vaga de turno (Acesso Contratante)
+      operationId: createGig
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGigInput'
+      responses:
+        '201':
+          description: Taxa criada e publicada no radar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gig'
+
+  /gigs/{id}:
+    get:
+      tags:
+        - Taxas & Vagas (Gigs)
+      summary: Obter detalhes completos de uma taxa específica (inclui regras e microtraining)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: gig-1
+      responses:
+        '200':
+          description: Detalhes da taxa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gig'
+        '404':
+          description: Taxa não encontrada
+
+  /gigs/{id}/apply:
+    post:
+      tags:
+        - Candidaturas & Seleção
+      summary: Candidatar-se a uma taxa (Acesso Freelancer)
+      operationId: applyToGig
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Candidatura registrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    example: Candidatura enviada ao estabelecimento.
+
+  /gigs/{id}/applicants:
+    get:
+      tags:
+        - Candidaturas & Seleção
+      summary: Listar freelancers inscritos na taxa (Acesso Contratante)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de candidatos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FreelancerApplicant'
+
+  /gigs/{id}/applicants/{applicantId}/approve:
+    post:
+      tags:
+        - Candidaturas & Seleção
+      summary: Aprovar freelancer para o turno
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: applicantId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Freelancer aprovado, turno alterado para 'Preenchida'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gig'
+
+  /gigs/{id}/applicants/{applicantId}/reject:
+    post:
+      tags:
+        - Candidaturas & Seleção
+      summary: Rejeitar candidatura
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: applicantId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Candidatura recusada
+
+  /gigs/{id}/evaluation:
+    post:
+      tags:
+        - Avaliações & Desempenho
+      summary: Registrar avaliação de desempenho pós-evento
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - rating
+                - feedback
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 5
+                feedback:
+                  type: string
+                  example: Profissional exemplar, pontual e muito ágil na coquetelaria.
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: [Pontual, Excelente apresentação, Seguiu o dress code]
+                isFavorite:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: Avaliação registrada com sucesso
+
+  /chat/{gigId}/messages:
+    get:
+      tags:
+        - Chat & Operação
+      summary: Listar histórico de mensagens diretas da taxa
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: gigId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mensagens da taxa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessage'
+
+    post:
+      tags:
+        - Chat & Operação
+      summary: Enviar mensagem para o profissional ou estabelecimento
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: gigId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  type: string
+                  example: Olá! Entrada pela porta de serviço na Av. do Batel às 18:45.
+      responses:
+        '201':
+          description: Mensagem enviada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatMessage'
+
+  /contractor/reports:
+    get:
+      tags:
+        - Relatórios & Financeiro
+      summary: Consultar KPIs e balanço financeiro de taxas do estabelecimento
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [7dias, esteMes, 3meses, todos]
+            default: esteMes
+      responses:
+        '200':
+          description: Relatório financeiro e operacional
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractorKPIs'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: usr-10293
+        name:
+          type: string
+          example: Gabriel Silva
+        email:
+          type: string
+          format: email
+          example: freelancer@curitiba.com
+        role:
+          type: string
+          enum: [Freelancer, Contratante]
+        phone:
+          type: string
+          example: (41) 99999-0000
+        avatarUrl:
+          type: string
+          format: uri
+        primeiroAcesso:
+          type: boolean
+          example: false
+        profession:
+          type: string
+          example: Bartender
+        cnpj:
+          type: string
+          example: 12.345.678/0001-90
+        businessSegment:
+          type: string
+          example: Restaurante & Bar
+
+    RegisterPayload:
+      type: object
+      required:
+        - name
+        - email
+        - role
+        - phone
+      properties:
+        name:
+          type: string
+          example: Bistrô do Batel
+        email:
+          type: string
+          format: email
+          example: contato@bistrodobatel.com.br
+        role:
+          type: string
+          enum: [Freelancer, Contratante]
+        phone:
+          type: string
+          example: (41) 99887-1234
+        cnpj:
+          type: string
+          example: 12.345.678/0001-90
+        corporateName:
+          type: string
+          example: Bistrô do Batel Gastronomia LTDA
+        businessSegment:
+          type: string
+          example: Restaurante
+        profession:
+          type: string
+          example: Bartender
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+          $ref: '#/components/schemas/User'
+
+    Gig:
+      type: object
+      properties:
+        id:
+          type: string
+          example: gig-1
+        profession:
+          type: string
+          example: Bartender
+        venueName:
+          type: string
+          example: Boteco São Jorge
+        rating:
+          type: number
+          example: 4.9
+        neighborhood:
+          type: string
+          example: Batel Soho
+        distance:
+          type: string
+          example: 1.8 km de você
+        rate:
+          type: number
+          example: 220
+        rateFormatted:
+          type: string
+          example: R$ 220,00
+        shiftTime:
+          type: string
+          example: 19:00 - 01:00
+        shiftDuration:
+          type: string
+          example: 6 horas de turno
+        microtraining:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+        latLng:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        active:
+          type: boolean
+
+    CreateGigInput:
+      type: object
+      required:
+        - title
+        - role
+        - category
+        - date
+        - startTime
+        - endTime
+        - rate
+        - dressCode
+        - neighborhood
+        - vacancies
+      properties:
+        title:
+          type: string
+          example: Bartender de Alta Coquetelaria
+        role:
+          type: string
+          example: Bartender
+        category:
+          type: string
+          enum: [Turno Normal, Cobertura de Emergência, Evento Especial]
+        date:
+          type: string
+          format: date
+          example: '2026-10-24'
+        startTime:
+          type: string
+          example: '19:00'
+        endTime:
+          type: string
+          example: '02:00'
+        rate:
+          type: number
+          example: 260
+        dressCode:
+          type: string
+          example: Camisa social preta, calça escura, sapato antiderrapante.
+        rulesAndNotes:
+          type: string
+          example: Chegar com 20 minutos de antecedência na entrada lateral.
+        neighborhood:
+          type: string
+          example: Batel Soho
+        address:
+          type: string
+          example: Av. do Batel, 1540
+        vacancies:
+          type: integer
+          example: 2
+
+    FreelancerApplicant:
+      type: object
+      properties:
+        id:
+          type: string
+          example: free-1
+        name:
+          type: string
+          example: Gabriel Silva
+        avatarUrl:
+          type: string
+          format: uri
+        profession:
+          type: string
+          example: Bartender Pro
+        rating:
+          type: number
+          example: 4.9
+        totalGigsCompleted:
+          type: integer
+          example: 48
+        punctualityRate:
+          type: string
+          example: 99%
+        specialties:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [Pendente, Aprovado, Rejeitado]
+        phone:
+          type: string
+        bio:
+          type: string
+        isFavorite:
+          type: boolean
+
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        gigId:
+          type: string
+        senderId:
+          type: string
+        senderName:
+          type: string
+        senderRole:
+          type: string
+          enum: [Contratante, Freelancer]
+        text:
+          type: string
+        timestamp:
+          type: string
+        read:
+          type: boolean
+
+    ContractorKPIs:
+      type: object
+      properties:
+        totalInvested:
+          type: number
+          example: 1840
+        totalInvestedFormatted:
+          type: string
+          example: R$ 1.840,00
+        completedGigsCount:
+          type: integer
+          example: 8
+        activeGigsCount:
+          type: integer
+          example: 3
+        averageHourlyRate:
+          type: number
+          example: 38.5
+        favoriteFreelancersCount:
+          type: integer
+          example: 4
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Dados de requisição inválidos
+        details:
+          type: string

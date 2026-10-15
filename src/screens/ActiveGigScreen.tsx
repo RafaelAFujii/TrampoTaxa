@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { Map, useMapsLibrary, useMap } from '@vis.gl/react-google-maps';
 import {
-  Map,
-  useMapsLibrary,
-  useMap,
-  ColorScheme
-} from '@vis.gl/react-google-maps';
-import { 
-  Navigation, 
-  MapPin, 
-  Clock, 
-  CheckCircle, 
+  Navigation,
+  MapPin,
+  Clock,
+  CheckCircle,
   ExternalLink,
   ShieldCheck,
   Phone,
-  ChevronLeft
+  ChevronLeft,
 } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GigOffer } from '../types';
 import { GOOGLE_MAPS_API_KEY } from '../constants/maps';
+import { mockGigs } from '../data/mockGigs';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 interface ActiveGigScreenProps {
-  gig: GigOffer;
+  gig?: GigOffer;
   onFinishShift?: (gig: GigOffer) => void;
   onOpenNavigation?: () => void;
   onCancelGig?: () => void;
@@ -34,8 +32,11 @@ const USER_ORIGIN = { lat: -25.4297, lng: -49.2719 };
 function RealRouteRenderer({ destination }: { destination: { lat: number; lng: number } }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary('routes');
-  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(null);
-  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer | null>(null);
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(
+    null
+  );
+  const [directionsRenderer, setDirectionsRenderer] =
+    useState<google.maps.DirectionsRenderer | null>(null);
   const [routeInfo, setRouteInfo] = useState<{ distance: string; duration: string } | null>(null);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function RealRouteRenderer({ destination }: { destination: { lat: number; lng: n
         strokeColor: '#00E676',
         strokeWeight: 6,
         strokeOpacity: 0.95,
-      }
+      },
     });
 
     setDirectionsService(new routesLibrary.DirectionsService());
@@ -62,24 +63,27 @@ function RealRouteRenderer({ destination }: { destination: { lat: number; lng: n
   useEffect(() => {
     if (!directionsService || !directionsRenderer) return;
 
-    directionsService.route({
-      origin: USER_ORIGIN,
-      destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
-    }).then((res: google.maps.DirectionsResult | null) => {
-      if (res) {
-        directionsRenderer.setDirections(res);
-        const leg = res.routes[0]?.legs[0];
-        if (leg) {
-          setRouteInfo({
-            distance: leg.distance?.text || '3.8 km',
-            duration: leg.duration?.text || '11 mins',
-          });
+    directionsService
+      .route({
+        origin: USER_ORIGIN,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+      })
+      .then((res: google.maps.DirectionsResult | null) => {
+        if (res) {
+          directionsRenderer.setDirections(res);
+          const leg = res.routes[0]?.legs[0];
+          if (leg) {
+            setRouteInfo({
+              distance: leg.distance?.text || '3.8 km',
+              duration: leg.duration?.text || '11 mins',
+            });
+          }
         }
-      }
-    }).catch((err: unknown) => {
-      console.warn('Google Directions route error:', err);
-    });
+      })
+      .catch((err: unknown) => {
+        console.warn('Google Directions route error:', err);
+      });
   }, [directionsService, directionsRenderer, destination]);
 
   return (
@@ -113,13 +117,19 @@ const darkMapStyles: google.maps.MapTypeStyle[] = [
 ];
 
 export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
-  gig,
+  gig: propGig,
   onFinishShift,
-  onOpenNavigation,
+  onOpenNavigation: _onOpenNavigation,
   onCancelGig,
   onBackToDashboard,
 }) => {
-  const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>('heading_to_venue');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const gig = propGig || (location.state as { gig?: GigOffer })?.gig || mockGigs[0];
+
+  const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
+    'heading_to_venue'
+  );
   const apiKey = GOOGLE_MAPS_API_KEY;
 
   const gigLocation = gig.latLng || { lat: -25.4398, lng: -49.2885 };
@@ -130,20 +140,47 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
     } else {
       if (onFinishShift) {
         onFinishShift(gig);
+      } else {
+        navigate('/earnings');
       }
     }
   };
 
-  const handleLaunchExternalMap = () => {
-    if (onOpenNavigation) {
-      onOpenNavigation();
+  const handleBack = () => {
+    if (onBackToDashboard) {
+      onBackToDashboard();
     } else {
-      window.open(
-        `https://www.google.com/maps/dir/?api=1&origin=${USER_ORIGIN.lat},${USER_ORIGIN.lng}&destination=${gigLocation.lat},${gigLocation.lng}&travelmode=driving`,
-        '_blank'
-      );
+      navigate('/map');
     }
   };
+
+  const handleCancel = () => {
+    if (onCancelGig) {
+      onCancelGig();
+    } else {
+      navigate('/map');
+    }
+  };
+
+  const externalNavigationUrl = `https://www.google.com/maps/dir/?api=1&origin=${USER_ORIGIN.lat},${USER_ORIGIN.lng}&destination=${gigLocation.lat},${gigLocation.lng}&travelmode=driving`;
+
+  const fallbackRouteVisual = (
+    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0d1017]">
+      <div className="w-12 h-12 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/20 flex items-center justify-center text-[#00E676] mb-3">
+        <Navigation className="w-6 h-6 animate-pulse" />
+      </div>
+      <h4 className="text-sm font-bold text-white mb-1">
+        Rota Curitiba: Centro → {gig.neighborhood}
+      </h4>
+      <p className="text-xs text-zinc-400 max-w-xs mb-3">
+        Distância estimada: {gig.distance} • Tempo aproximado: ~12 minutos
+      </p>
+      <div className="flex items-center gap-2 text-[11px] font-bold text-[#00E676] bg-[#00E676]/10 px-3 py-1 rounded-full border border-[#00E676]/30">
+        <MapPin className="w-3.5 h-3.5" />
+        <span>Destino: {gig.venueName}</span>
+      </div>
+    </div>
+  );
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-10 bg-[#0A0B0E]">
@@ -151,15 +188,13 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
         {/* Top Header & Breadcrumb */}
         <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div className="flex items-center gap-3">
-            {onBackToDashboard && (
-              <button
-                type="button"
-                onClick={onBackToDashboard}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4 text-[#00E676]" />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleBack}
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4 text-[#00E676]" />
+            </button>
             <div className="flex items-center gap-2">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
@@ -178,7 +213,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
 
         {/* Desktop Split Grid: Details Left, Map & Actions Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column (5 cols): Gig Info & Speckit Rules */}
+          {/* Left Column (5 cols): Gig Info & Presentation Rules */}
           <div className="lg:col-span-5 space-y-5">
             {/* Restaurant Card */}
             <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 shadow-md space-y-4">
@@ -217,16 +252,13 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               </div>
             </div>
 
-            {/* Microtraining Guidelines Card */}
+            {/* Regras de Apresentação Card */}
             <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 space-y-2">
               <div className="flex items-center gap-2 text-xs font-black uppercase text-[#00E676]">
                 <ShieldCheck className="w-4 h-4" />
-                <span>{gig.microtraining.title}</span>
+                <span>Regras de Apresentação</span>
               </div>
-              <h4 className="text-xs sm:text-sm font-bold text-white">
-                {gig.microtraining.rulesTitle}
-              </h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 {gig.microtraining.description}
               </p>
             </div>
@@ -243,13 +275,12 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => alert(`Ligando para a gerência de ${gig.venueName}...`)}
+              <a
+                href="tel:41987654321"
                 className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white cursor-pointer transition-colors"
               >
                 Chamar
-              </button>
+              </a>
             </div>
           </div>
 
@@ -268,37 +299,37 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
 
               <div className="relative rounded-2xl overflow-hidden border border-white/10 h-72 w-full bg-[#0c0f14]">
                 {apiKey ? (
-                  <Map
-                    id="active-gig-map"
-                    mapId="DEMO_MAP_ID"
-                    colorScheme={ColorScheme.DARK}
-                    defaultCenter={gigLocation}
-                    defaultZoom={14}
-                    gestureHandling="greedy"
-                    disableDefaultUI={true}
-                    className="w-full h-full"
-                    style={{ width: '100%', height: '100%' }}
-                  >
-                    <RealRouteRenderer destination={gigLocation} />
-                  </Map>
+                  <ErrorBoundary fallback={fallbackRouteVisual}>
+                    <Map
+                      id="active-gig-map"
+                      mapId="DEMO_MAP_ID"
+                      styles={darkMapStyles}
+                      defaultCenter={gigLocation}
+                      defaultZoom={14}
+                      gestureHandling="greedy"
+                      disableDefaultUI={true}
+                      className="w-full h-full"
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                      <RealRouteRenderer destination={gigLocation} />
+                    </Map>
+                  </ErrorBoundary>
                 ) : (
-                  /* Fallback SVG */
-                  <svg className="w-full h-full opacity-60" viewBox="0 0 400 240">
-                    <path d="M 30 190 C 140 220 220 120 370 40" stroke="#00E676" strokeWidth="6" fill="none" />
-                  </svg>
+                  fallbackRouteVisual
                 )}
               </div>
 
-              {/* Navigation launch button */}
-              <button
-                type="button"
-                onClick={handleLaunchExternalMap}
+              {/* Navigation launch link */}
+              <a
+                href={externalNavigationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-[#181a20] hover:bg-[#20222a] text-white border border-white/10 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm group"
               >
                 <Navigation className="w-4 h-4 text-[#00E676] transition-transform group-hover:scale-110" />
                 <span>Abrir Rota Externa (Waze / Google Maps)</span>
                 <ExternalLink className="w-3.5 h-3.5 text-zinc-400 ml-1" />
-              </button>
+              </a>
             </div>
 
             {/* Primary Action Button */}
@@ -318,17 +349,15 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                   : 'FINALIZAR TURNO E RECEBER TAXA'}
               </PrimaryButton>
 
-              {onCancelGig && (
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={onCancelGig}
-                    className="text-xs text-red-400/80 hover:text-red-300 transition-colors cursor-pointer py-1"
-                  >
-                    Precisa cancelar este turno?
-                  </button>
-                </div>
-              )}
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="text-xs text-red-400/80 hover:text-red-300 transition-colors cursor-pointer py-1"
+                >
+                  Precisa cancelar este turno?
+                </button>
+              </div>
             </div>
           </div>
         </div>

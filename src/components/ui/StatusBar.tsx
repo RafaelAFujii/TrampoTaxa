@@ -8,7 +8,9 @@ interface StatusBarProps {
 
 export const StatusBar: React.FC<StatusBarProps> = ({ time = '9:41', className = '' }) => {
   return (
-    <div className={`md:hidden w-full flex items-center justify-between px-6 pt-3 pb-1 select-none text-white text-xs font-semibold tracking-tight z-30 ${className}`}>
+    <div
+      className={`md:hidden w-full flex items-center justify-between px-6 pt-3 pb-1 select-none text-white text-xs font-semibold tracking-tight z-30 ${className}`}
+    >
       <span>{time}</span>
       <div className="flex items-center space-x-1.5">
         <svg className="w-3.5 h-3 fill-current text-white" viewBox="0 0 16 12">

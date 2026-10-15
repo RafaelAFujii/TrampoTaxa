@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Sliders, Wine, Utensils, MapPin, Bell, Shield, Check } from 'lucide-react';
+import { ChevronLeft, Sliders, Wine, Utensils, MapPin, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 
 interface SettingsScreenProps {
-  onBack: () => void;
+  onBack?: () => void;
   onSave?: (settings: {
     bartenderActive: boolean;
     garcomActive: boolean;
     maxDistanceKm: number;
+    pushNotifications: boolean;
   }) => void;
 }
 
-export const SettingsScreen: React.FC<SettingsScreenProps> = ({
-  onBack,
-  onSave,
-}) => {
+export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }) => {
+  const navigate = useNavigate();
   const [bartenderActive, setBartenderActive] = useState(true);
   const [garcomActive, setGarcomActive] = useState(true);
   const [maxDistanceKm, setMaxDistanceKm] = useState(10);
@@ -26,9 +26,13 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
 
   const handleBack = () => {
     if (onSave) {
-      onSave({ bartenderActive, garcomActive, maxDistanceKm });
+      onSave({ bartenderActive, garcomActive, maxDistanceKm, pushNotifications });
     }
-    onBack();
+    if (onBack) {
+      onBack();
+    } else {
+      navigate('/profile');
+    }
   };
 
   return (
@@ -62,7 +66,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-zinc-400">
-              Selecione quais tipos de vagas deseja receber no mapa de Curitiba. Ambas as profissões podem ficar ativas simultaneamente.
+              Selecione quais tipos de vagas deseja receber no mapa de Curitiba. Ambas as profissões
+              podem ficar ativas simultaneamente.
             </p>
           </div>
 
@@ -79,7 +84,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               <div className="flex items-center gap-3.5">
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    bartenderActive ? 'bg-[#00E676] text-black font-bold' : 'bg-white/5 text-zinc-400'
+                    bartenderActive
+                      ? 'bg-[#00E676] text-black font-bold'
+                      : 'bg-white/5 text-zinc-400'
                   }`}
                 >
                   <Wine className="w-6 h-6" />
@@ -153,7 +160,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-zinc-400">
-              Defina a distância limite para vagas prioritárias ao redor da sua localização em Curitiba.
+              Defina a distância limite para vagas prioritárias ao redor da sua localização em
+              Curitiba.
             </p>
           </div>
 
@@ -184,11 +192,39 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           </div>
         </div>
 
+        {/* Section 3: Notificações em Tempo Real */}
+        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[#00E676]">
+                <Bell className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">Notificações Instantâneas</h3>
+                <p className="text-xs text-zinc-400">
+                  Avisar imediatamente quando uma nova taxa abrir na sua região
+                </p>
+              </div>
+            </div>
+
+            <div
+              onClick={() => setPushNotifications(!pushNotifications)}
+              className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out cursor-pointer ${
+                pushNotifications ? 'bg-[#00E676]' : 'bg-zinc-700'
+              }`}
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition duration-200 ease-in-out ${
+                  pushNotifications ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Save button */}
         <div className="pt-2">
-          <PrimaryButton onClick={handleBack}>
-            SALVAR PREFERÊNCIAS
-          </PrimaryButton>
+          <PrimaryButton onClick={handleBack}>SALVAR PREFERÊNCIAS</PrimaryButton>
         </div>
       </div>
     </div>
