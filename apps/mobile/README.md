@@ -1,111 +1,125 @@
-# 📱 TrampoTaxa Mobile — Versão Expo Go & React Native
+# 📱 TrampoTaxa Mobile — Aplicativo Nativo Expo & React Native
 
-Este diretório contém a estrutura da aplicação móvel do **TrampoTaxa (Loctaxa)**, configurada com o ecossistema **Expo (React Native)** para permitir execução e testes instantâneos no celular através do **Expo Go** (Android e iOS), além de possibilitar a geração de instaladores nativos (**`.apk`** e **`.ipa`**).
-
----
-
-## 🎯 Objetivo da Camada Mobile
-
-1. **Execução Imediata no Expo Go:** Testar a experiência completa da aplicação em smartphones reais sem necessidade de compilação demorada de Android Studio ou Xcode.
-2. **Sensação Nativa (App Experience):**
-   * Remoção total de barras de endereços ou controles de navegador.
-   * Integração com a barra de status do sistema operacional (`StatusBar` escura `#0A0B0E`).
-   * Suporte ao botão físico de "Voltar" do Android (`BackHandler`).
-   * Geolocalização via GPS nativo e gestos táteis.
-3. **Reaproveitamento de Código:** Compartilhamento direto de toda a lógica em TypeScript desenvolvida para a Web (`tipagens`, `validadores fiscais`, `formatadores de moeda` e `regras de negócio`).
+Aplicativo móvel nativo do **TrampoTaxa (Loctaxa)**, construído com **Expo (React Native)** e conectado diretamente ao pacote compartilhado `@trampotaxa/shared` dentro do monorepo Bun.
 
 ---
 
-## 🚀 Como Executar no Celular com o Expo Go
+## 🛠️ Stack Tecnológica Mobile
 
-### 1. Pré-requisitos
-* **Node.js** (versão 18 ou superior).
-* Smartphone com o app **Expo Go** instalado:
-  * [Baixar na Google Play Store (Android)](https://play.google.com/store/apps/details?id=host.exp.exponent)
-  * [Baixar na Apple App Store (iPhone / iPad)](https://apps.apple.com/app/expo-go/id982107779)
-
----
-
-### 2. Passo a Passo de Execução
-
-1. **Acesse a pasta mobile:**
-   ```bash
-   cd mobile-expo
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   npm install
-   ```
-
-3. **Inicie o servidor de desenvolvimento do Expo:**
-   ```bash
-   npx expo start
-   ```
-   *(Um QR Code grande aparecerá no terminal do seu computador).*
-
-4. **Abra o app no celular:**
-   * **No Android:** Abra o aplicativo **Expo Go**, toque em **"Scan QR code"** e aponte a câmera para o QR Code do terminal.
-   * **No iPhone (iOS):** Abra a **Câmera padrão do iPhone**, aponte para o QR Code e toque no banner amarelo para abrir com o **Expo Go**.
-
-> 💡 **Dica de Conexão:** Caso o seu celular e computador estejam em redes Wi-Fi diferentes ou o celular não encontre o servidor local, use o modo túnel:
-> ```bash
-> npx expo start --tunnel
-> ```
+* **Framework:** [React Native 0.74](https://reactnative.dev/) & [Expo SDK 51](https://docs.expo.dev/)
+* **Navegação Nativa:** [React Navigation v6/v7](https://reactnavigation.org/) (`@react-navigation/native` & `@react-navigation/bottom-tabs`)
+* **Gerenciamento de Estado Assíncrono:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`, `retry: 1`)
+* **Mapas Nativos:** `react-native-maps` com suporte a geolocalização e marcadores personalizados
+* **Lógica Compartilhada:** `@trampotaxa/shared` (tipagens unificadas, formatadores fiscais e datasets)
+* **Resolução Monorepo:** Metro Bundler configurado com `watchFolders` e `extraNodeModules`
 
 ---
 
-## 📦 Como Gerar o Arquivo Instalador APK (Android)
+## 🎯 Telas e Funcionalidades Nativas
 
-Se você desejar gerar o arquivo instalador **`.apk`** para enviar via WhatsApp ou instalar diretamente no celular sem depender do Expo Go:
+### 1. Radar de Vagas (`MapScreen.tsx`)
+- **Visualização Nativa de Mapa:** Renderiza `MapView` centrado em Curitiba (Batel/Centro) com chips de valor (`R$ 220,00`) e marcadores interativos com a cor tema `#00E676`.
+- **Filtros Ágeis:** Filtro horizontal de funções (*Todos*, *Bartender*, *Garçom*) atualizando a renderização em tempo real.
+- **Card Flutuante & Candidatura:** Toque no marcador para exibir o resumo da vaga e botão de candidatura imediata.
+- **Resiliência e Fallback:** Se executado em ambiente sem chaves de API externas ou emuladores simplificados, oferece alternador para visualização em Lista de Oportunidades nativa.
+- **Feedback de Rede:** Estados elegantes com `ActivityIndicator` nativo e banner de erro com tentativa de reconexão.
 
-### Opção 1: Via EAS Build (Serviço Oficial do Expo na Nuvem)
-1. Instale o CLI do EAS:
-   ```bash
-   npm install -g eas-cli
-   ```
-2. Faça login na sua conta gratuita do Expo:
-   ```bash
-   eas login
-   ```
-3. Configure e gere a build do APK para testes locais:
-   ```bash
-   eas build -p android --profile preview
-   ```
-   *O Expo compilará o `.apk` na nuvem e fornecerá o link direto para download no final.*
+### 2. Relatórios & Fechamentos (`EarningsScreen.tsx`)
+- **KPIs Financeiros:** Cards de faturamento no topo (*Hoje*, *Esta Semana*, *Este Mês*).
+- **Lista Nativa com Performance:** Renderização via `FlatList` com `RefreshControl` nativo (pull-to-refresh) conectado ao `refetch()` do React Query.
+- **Formatação de Moeda:** Utilização da função `formatCurrency(amount)` de `@trampotaxa/shared` para exibição consistente de valores em Real (BRL).
+- **Banner de Status PIX:** Identificação da chave PIX ativa para repasse imediato pós-turno.
+
+### 3. Perfil do Usuário (`ProfileScreen.tsx`)
+- **Visão do Freelancer:** Exibe avaliação geral por estrelas (`4.9 ★`), total de turnos (`48`), pontualidade (`99%`), especialidades de balcão e status de disponibilidade no radar (*Disponível* / *Pausado*).
+- **Alternador de Perfil Dinâmico:** Botão de troca ágil para o **Modo Contratante**, permitindo gerenciar dados cadastrais da empresa com validação de CNPJ (`formatCNPJ`) e telefone (`formatPhone`).
 
 ---
 
-## 📂 Estrutura de Arquivos
+## 🏗️ Integração com o Monorepo (Bun + Metro)
+
+O aplicativo resolve `@trampotaxa/shared` diretamente dos fontes TypeScript sem necessidade de etapas manuais de build:
 
 ```
-mobile-expo/
-├── assets/                  # Ícones e splash screens móveis
-├── App.tsx                  # Ponto de entrada React Native com container nativo e WebView
-├── app.json                 # Configurações do Expo (nome, pacote android, orientação)
-├── package.json             # Dependências (expo, react-native, react-native-webview)
-└── README.md                # Este guia de documentação da versão mobile
+┌──────────────────────────────────────────────┐
+│             apps/mobile/App.tsx              │
+│       ┌──────────────────────────────┐       │
+│       │     QueryClientProvider      │       │
+│       │   (TanStack React Query)     │       │
+│       └──────────────┬───────────────┘       │
+│                      │                       │
+│       ┌──────────────▼──────────────┐        │
+│       │      BottomTabNavigator     │        │
+│       │  [Radar] [Ganhos] [Perfil]   │        │
+│       └──────────────┬───────────────┘       │
+└──────────────────────┼───────────────────────┘
+                       │
+                       │ import from "@trampotaxa/shared"
+                       ▼
+       ┌─────────────────────────────────┐
+       │        packages/shared/         │
+       │  • Types (GigOffer, User)       │
+       │  • Formatters (formatCurrency)  │
+       │  • Mocks (mockGigs)             │
+       │  • API Hooks (Orval)            │
+       └─────────────────────────────────┘
+```
+
+A configuração em `apps/mobile/metro.config.js` garante que o empacotador monitore todo o monorepo:
+```javascript
+config.watchFolders = [monorepoRoot];
+config.resolver.extraNodeModules = {
+  '@trampotaxa/shared': path.resolve(monorepoRoot, 'packages/shared/src'),
+};
 ```
 
 ---
 
-## 🔄 Estratégia de Compartilhamento de Código com a Web
+## 🚀 Como Executar no Smartphone com Expo Go
 
-O ecossistema foi projetado para que a equipe de engenharia não precise reescrever o código duas vezes:
+### Pré-requisitos
+1. Smartphone com o app **Expo Go** instalado ([Android](https://play.google.com/store/apps/details?id=host.exp.exponent) ou [iOS](https://apps.apple.com/app/expo-go/id982107779)).
+2. Computador e smartphone conectados à mesma rede Wi-Fi (ou usar `--tunnel`).
 
-| Módulo | Localização | Compatibilidade com React Native |
-| :--- | :--- | :---: |
-| **Interfaces & Modelos** | `../src/types/` | 100% Compartilhável |
-| **Validador de CNPJ (Módulo 11)** | `../src/utils/formatters.ts` | 100% Compartilhável |
-| **Formatação de Moeda & Telefone** | `../src/utils/formatters.ts` | 100% Compartilhável |
-| **Modelos de Vagas e Mock Data** | `../src/data/` | 100% Compartilhável |
-| **Controle de Estado (Auth / Vagas)** | `../src/context/` | 100% Compartilhável |
+### Comandos de Inicialização
+
+A partir da raiz do monorepo:
+
+```bash
+# Iniciar o servidor Metro do Expo
+bun run dev:mobile
+# ou
+npm --prefix apps/mobile run start
+
+# Iniciar com conexão em modo túnel (caso redes Wi-Fi sejam diferentes)
+cd apps/mobile && npx expo start --tunnel
+```
+
+Aponte a câmera do celular (iOS) ou o leitor de QR Code do app Expo Go (Android) para o terminal.
 
 ---
 
-## 🛠️ Scripts Disponíveis
+## 📦 Como Gerar o Instalador APK (Android)
 
-* `npm run start`: Inicia o servidor Expo Metro Bundler.
-* `npm run android`: Inicia o servidor e abre no emulador Android conectado.
-* `npm run ios`: Inicia o servidor e abre no simulador iOS (macOS).
-* `npm run web`: Executa a versão de testes no navegador.
+Para compilar o instalador nativo `.apk`:
+
+```bash
+cd apps/mobile
+
+# Login no serviço oficial Expo Application Services (EAS)
+bunx eas login
+
+# Gerar compilação para testes em dispositivo físico
+bunx eas build -p android --profile preview
+```
+
+---
+
+## 🧪 Verificação de Tipos e Qualidade
+
+```bash
+# Executar verificação de tipagem TypeScript no mobile
+bun run typecheck:mobile
+# ou
+npm --prefix apps/mobile run typecheck
+```
