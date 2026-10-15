@@ -1,0 +1,71 @@
+name: Mobile CI & EAS Build Validation
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'apps/mobile/**'
+      - 'packages/shared/**'
+      - '.github/workflows/mobile-build.yml'
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - 'apps/mobile/**'
+      - 'packages/shared/**'
+      - '.github/workflows/mobile-build.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mobile-validation-and-build:
+    name: Mobile Verification & EAS Build Dry-Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24 (Expo runtime requirement)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Expo & EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: bun
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install Monorepo Dependencies
+        run: bun install
+
+      - name: Run Shared Domain Tests
+        run: bun test
+
+      - name: Validate Mobile App Configuration
+        working-directory: apps/mobile
+        run: |
+          echo "Validando estrutura do aplicativo Expo..."
+          test -f app.json || (echo "app.json ausente!" && exit 1)
+          test -f package.json || (echo "package.json ausente!" && exit 1)
+          test -f App.tsx || (echo "App.tsx ausente!" && exit 1)
+          echo "Configuração validada com sucesso."
+
+      - name: EAS Build Dry-Run Check (Mobile Simulation)
+        working-directory: apps/mobile
+        run: |
+          echo "Simulando verificação preliminar de build do Android..."
+          bunx expo config --type public
+          echo "Pronto para EAS Build (perfil preview)."
