@@ -13,6 +13,14 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**', '*.config.js', '*.config.ts'],
+    ignores: [
+      'build/**',
+      'coverage/**',
+      'dist/**',
+      'node_modules/**',
+      '**/*.min.js',
+      '*.config.js',
+      '*.config.ts',
+    ],
   },
 ];

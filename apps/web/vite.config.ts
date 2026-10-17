@@ -104,6 +104,10 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname || '.', '.'),
+        '@trampotaxa/shared/mocks': path.resolve(
+          import.meta.dirname || '.',
+          '../../packages/shared/src/mocks.ts'
+        ),
         '@trampotaxa/shared': path.resolve(
           import.meta.dirname || '.',
           '../../packages/shared/src/index.ts'

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { mockGigs, GigOffer } from '@trampotaxa/shared';
+import type { GigOffer } from '@trampotaxa/shared';
 
 // Chaves de cache centralizadas
 export const QUERY_KEYS = {
@@ -12,7 +12,11 @@ export const QUERY_KEYS = {
 export async function fetchGigs(): Promise<GigOffer[]> {
   // Simula latência de rede assíncrona realista (300ms)
   await new Promise((resolve) => setTimeout(resolve, 300));
-  return [...mockGigs];
+  if (import.meta.env.DEV) {
+    const { mockGigs } = await import('@trampotaxa/shared/mocks');
+    return [...mockGigs];
+  }
+  return [];
 }
 
 // Hook React Query para listagem e radar de taxas
@@ -31,11 +35,14 @@ export function useActiveGigQuery(gigId?: string) {
     queryKey: QUERY_KEYS.activeGig(gigId),
     queryFn: async (): Promise<GigOffer> => {
       await new Promise((resolve) => setTimeout(resolve, 250));
-      if (gigId) {
-        const found = mockGigs.find((g) => g.id === gigId);
+      if (import.meta.env.DEV) {
+        const { mockGigs } = await import('@trampotaxa/shared/mocks');
+        const found = gigId ? mockGigs.find((g) => g.id === gigId) : undefined;
         if (found) return found;
+        const fallback = mockGigs[0];
+        if (fallback) return fallback;
       }
-      return mockGigs[0];
+      throw new Error(`No gig data available${gigId ? ` for id "${gigId}"` : ''}`);
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,

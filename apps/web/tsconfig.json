@@ -22,6 +22,9 @@
       ],
       "@trampotaxa/shared": [
         "../../packages/shared/src/index.ts"
+      ],
+      "@trampotaxa/shared/mocks": [
+        "../../packages/shared/src/mocks.ts"
       ]
     },
     "allowImportingTsExtensions": true,

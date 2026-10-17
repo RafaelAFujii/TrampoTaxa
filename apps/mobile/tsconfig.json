@@ -12,7 +12,8 @@
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "paths": {
-      "@trampotaxa/shared": ["../../packages/shared/src/index.ts"]
+      "@trampotaxa/shared": ["../../packages/shared/src/index.ts"],
+      "@trampotaxa/shared/mocks": ["../../packages/shared/src/mocks.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

@@ -1,0 +1,31 @@
+{
+  "risks": [
+    {
+      "id": "WEB-AUTH-001",
+      "severity": "high",
+      "affectedArea": "Web authentication",
+      "ownerRole": "Web maintainer (GitHub identity pending)",
+      "status": "open",
+      "disposition": "Web login remains simulated and does not establish production JWT issuance or credential verification.",
+      "evidence": []
+    },
+    {
+      "id": "MOBILE-AUTH-001",
+      "severity": "high",
+      "affectedArea": "Mobile end-to-end login and token issuance",
+      "ownerRole": "Mobile maintainer (GitHub identity pending)",
+      "status": "open",
+      "disposition": "The SecureStore-backed session context and protected navigation exist; production login and end-to-end token issuance are not verified.",
+      "evidence": []
+    },
+    {
+      "id": "SERVER-AUTHZ-001",
+      "severity": "critical",
+      "affectedArea": "Server-side authorization and RBAC",
+      "ownerRole": "Security maintainer (GitHub identity pending)",
+      "status": "open",
+      "disposition": "Server-side enforcement of authentication, RBAC, and first-access rules has not been verified.",
+      "evidence": []
+    }
+  ]
+}

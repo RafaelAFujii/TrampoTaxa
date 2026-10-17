@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { INITIAL_CONTRACTOR_GIGS, INITIAL_CHAT_MESSAGES } from '@trampotaxa/shared';
+import { INITIAL_CONTRACTOR_GIGS, INITIAL_CHAT_MESSAGES } from '@trampotaxa/shared/mocks';
 
 describe('Contractor Domain Models - TDD Suite', () => {
   it('should have initial contractor gigs populated with correct states', () => {

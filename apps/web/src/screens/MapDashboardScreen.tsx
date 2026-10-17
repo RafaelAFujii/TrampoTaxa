@@ -16,7 +16,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { MapPlaceholder } from '../components/map/MapPlaceholder';
 import { GigOfferBottomSheet } from './GigOfferBottomSheet';
-import { GigOffer, mockGigs } from '@trampotaxa/shared';
+import type { GigOffer } from '@trampotaxa/shared';
 import { useAuth } from '../context/AuthContext';
 import { useGigsQuery } from '../hooks/useGigsQuery';
 
@@ -48,7 +48,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
 
   // Consumo reativo via TanStack React Query (com cache de 5min e retry: 1)
   const { data: queryGigs, isLoading, isError, refetch } = useGigsQuery();
-  const allGigs = propGigs || queryGigs || mockGigs;
+  const allGigs = propGigs || queryGigs || [];
 
   // Estado de radar online/offline
   const [internalOnline, setInternalOnline] = useState(true);

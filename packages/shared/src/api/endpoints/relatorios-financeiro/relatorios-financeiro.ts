@@ -16,6 +16,10 @@ import type {
 
 import type { ContractorKPIs, GetContractorReportsParams } from '../../model';
 
+type AwaitedInput<T> = PromiseLike<T> | T;
+
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
 export type getContractorReportsResponse200 = {
   data: ContractorKPIs;
   status: 200;

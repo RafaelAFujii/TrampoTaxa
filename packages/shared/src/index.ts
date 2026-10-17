@@ -4,10 +4,7 @@ export * from './types/contractor';
 
 // Utilitários de formatação e validação fiscal
 export * from './utils/formatters';
-
-// Datasets mockados e funções de domínio
-export * from './data/mockGigs';
-export * from './data/mockContractorData';
+export * from './utils/gigs';
 
 // API gerada a partir da especificação OpenAPI (React Query + Fetch)
 export * as api from './api';

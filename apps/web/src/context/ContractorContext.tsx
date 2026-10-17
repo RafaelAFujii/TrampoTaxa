@@ -6,8 +6,6 @@ import {
   ChatMessage,
   ContractorKPIs,
   ContractorGigStatus,
-  INITIAL_CONTRACTOR_GIGS,
-  INITIAL_CHAT_MESSAGES,
   formatCurrency,
 } from '@trampotaxa/shared';
 
@@ -62,7 +60,7 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } catch {
       // Fallback
     }
-    return INITIAL_CONTRACTOR_GIGS;
+    return [];
   });
 
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -74,10 +72,29 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } catch {
       // Fallback
     }
-    return INITIAL_CHAT_MESSAGES;
+    return [];
   });
 
   const [activeGigId, setActiveGigId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    let active = true;
+    void import('@trampotaxa/shared/mocks')
+      .then(({ INITIAL_CONTRACTOR_GIGS, INITIAL_CHAT_MESSAGES }) => {
+        if (!active) return;
+        setGigs((current) => (current.length ? current : INITIAL_CONTRACTOR_GIGS));
+        setMessages((current) => (current.length ? current : INITIAL_CHAT_MESSAGES));
+      })
+      .catch((error: unknown) => {
+        console.error('Failed to load development contractor fixtures', error);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Sincroniza persistência local
   useEffect(() => {

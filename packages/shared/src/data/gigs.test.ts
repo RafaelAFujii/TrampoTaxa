@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { mockGigs, filterGigsByProfession } from './mockGigs';
+import { mockGigs } from './mockGigs';
+import { filterGigsByProfession } from '../utils/gigs';
 
 describe('Gigs and Domain Logic - TDD Suite', () => {
   it('should have mock gigs available with valid attributes', () => {

@@ -13,6 +13,15 @@ export default [
     },
   },
   {
-    ignores: ['**/dist/**', '**/node_modules/**', 'coverage/**', '*.config.js', '*.config.ts', 'apps/mobile/**'],
+    ignores: [
+      '**/build/**',
+      '**/coverage/**',
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/*.min.js',
+      '*.config.js',
+      '*.config.ts',
+      'apps/mobile/**',
+    ],
   },
 ];

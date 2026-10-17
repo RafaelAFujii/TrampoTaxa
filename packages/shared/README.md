@@ -11,13 +11,15 @@ O `@trampotaxa/shared` atua como a **única fonte da verdade** (Single Source of
 1. **Tipagens Canônicas (TypeScript):** Entidades do domínio gastronômico (`GigOffer`, `ContractorGig`, `FreelancerApplicant`, `User`, `ChatMessage`).
 2. **Automação de API (Orval + React Query):** Geração automática de clientes HTTP e hooks assíncronos (`useQuery` / `useMutation`) a partir do `openapi.yaml`.
 3. **Formatadores e Validadores Fiscais:** Algoritmo oficial de validação de CNPJ (Módulo 11 da Receita Federal), máscaras de telefone brasileiro e formatação monetária em Real (`R$ 0,00`).
-4. **Mock Datasets e Domínio:** Dados iniciais geolocalizados de Curitiba/PR (`mockGigs` e `INITIAL_CONTRACTOR_GIGS`) para testes locais e desenvolvimento desacoplado.
+4. **Fixtures isoladas:** Dados de demonstração disponíveis somente pela entrada explícita `@trampotaxa/shared/mocks`, sem inclusão no ponto de entrada de produção.
+
+Use `@trampotaxa/shared` para tipos, utilitários e clientes de API. Importe `@trampotaxa/shared/mocks` somente em testes ou em fallbacks de desenvolvimento.
 
 ---
 
 ## 📡 Especificação da API RESTful (OpenAPI 3.0)
 
-A especificação formal completa está documentada em [`apps/web/docs/openapi.yaml`](../../apps/web/docs/openapi.yaml).
+A especificação formal completa está documentada em [`openapi.yaml`](./openapi.yaml).
 
 ### Principais Grupos de Endpoints
 
@@ -39,7 +41,7 @@ Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nat
 
 ```
                   ┌────────────────────────┐
-                  │ apps/web/docs/         │
+                  │ packages/shared/       │
                   │     openapi.yaml       │
                   └───────────┬────────────┘
                               │
@@ -58,6 +60,10 @@ Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nat
 A partir da raiz do monorepo:
 ```bash
 bun run api:generate
+```
+Ou execute diretamente o script do pacote:
+```bash
+npm --prefix packages/shared run api:generate
 ```
 
 ---

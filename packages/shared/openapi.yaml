@@ -18,24 +18,24 @@ servers:
     description: Ambiente de Desenvolvimento Local
 
 tags:
-  - name: Autenticação & Usuários
+  - name: autenticacao-usuarios
     description: Endpoints de login, cadastro com primeiro acesso e perfil
-  - name: Taxas & Vagas (Gigs)
+  - name: taxas-vagas-gigs
     description: Consulta dinâmica, geolocalização e gerenciamento de turnos
-  - name: Candidaturas & Seleção
+  - name: candidaturas-selecao
     description: Submissão, aprovação e recusa de profissionais
-  - name: Chat & Operação
+  - name: chat-operacao
     description: Comunicação direta entre gerência e profissionais escalados
-  - name: Avaliações & Desempenho
+  - name: avaliacoes-desempenho
     description: Avaliações pós-evento e pontualidade
-  - name: Relatórios & Financeiro
+  - name: relatorios-financeiro
     description: KPIs, demonstrativos de pagamentos e repasses via PIX
 
 paths:
   /auth/login:
     post:
       tags:
-        - Autenticação & Usuários
+        - autenticacao-usuarios
       summary: Autenticar usuário (Freelancer ou Contratante)
       operationId: loginUser
       requestBody:
@@ -78,7 +78,7 @@ paths:
   /auth/register:
     post:
       tags:
-        - Autenticação & Usuários
+        - autenticacao-usuarios
       summary: Cadastrar novo Freelancer ou Estabelecimento Contratante
       operationId: registerUser
       requestBody:
@@ -104,7 +104,7 @@ paths:
   /auth/me:
     get:
       tags:
-        - Autenticação & Usuários
+        - autenticacao-usuarios
       summary: Obter dados do usuário autenticado atual
       security:
         - BearerAuth: []
@@ -119,7 +119,7 @@ paths:
   /gigs:
     get:
       tags:
-        - Taxas & Vagas (Gigs)
+        - taxas-vagas-gigs
       summary: Consultar lista de taxas com filtros dinâmicos e geolocalização
       operationId: listGigs
       parameters:
@@ -174,7 +174,7 @@ paths:
 
     post:
       tags:
-        - Taxas & Vagas (Gigs)
+        - taxas-vagas-gigs
       summary: Criar nova taxa / vaga de turno (Acesso Contratante)
       operationId: createGig
       security:
@@ -196,7 +196,7 @@ paths:
   /gigs/{id}:
     get:
       tags:
-        - Taxas & Vagas (Gigs)
+        - taxas-vagas-gigs
       summary: Obter detalhes completos de uma taxa específica (inclui regras e microtraining)
       parameters:
         - name: id
@@ -218,7 +218,7 @@ paths:
   /gigs/{id}/apply:
     post:
       tags:
-        - Candidaturas & Seleção
+        - candidaturas-selecao
       summary: Candidatar-se a uma taxa (Acesso Freelancer)
       operationId: applyToGig
       security:
@@ -246,7 +246,7 @@ paths:
   /gigs/{id}/applicants:
     get:
       tags:
-        - Candidaturas & Seleção
+        - candidaturas-selecao
       summary: Listar freelancers inscritos na taxa (Acesso Contratante)
       security:
         - BearerAuth: []
@@ -269,7 +269,7 @@ paths:
   /gigs/{id}/applicants/{applicantId}/approve:
     post:
       tags:
-        - Candidaturas & Seleção
+        - candidaturas-selecao
       summary: Aprovar freelancer para o turno
       security:
         - BearerAuth: []
@@ -295,7 +295,7 @@ paths:
   /gigs/{id}/applicants/{applicantId}/reject:
     post:
       tags:
-        - Candidaturas & Seleção
+        - candidaturas-selecao
       summary: Rejeitar candidatura
       security:
         - BearerAuth: []
@@ -317,7 +317,7 @@ paths:
   /gigs/{id}/evaluation:
     post:
       tags:
-        - Avaliações & Desempenho
+        - avaliacoes-desempenho
       summary: Registrar avaliação de desempenho pós-evento
       security:
         - BearerAuth: []
@@ -360,7 +360,7 @@ paths:
   /chat/{gigId}/messages:
     get:
       tags:
-        - Chat & Operação
+        - chat-operacao
       summary: Listar histórico de mensagens diretas da taxa
       security:
         - BearerAuth: []
@@ -382,7 +382,7 @@ paths:
 
     post:
       tags:
-        - Chat & Operação
+        - chat-operacao
       summary: Enviar mensagem para o profissional ou estabelecimento
       security:
         - BearerAuth: []
@@ -415,7 +415,7 @@ paths:
   /contractor/reports:
     get:
       tags:
-        - Relatórios & Financeiro
+        - relatorios-financeiro
       summary: Consultar KPIs e balanço financeiro de taxas do estabelecimento
       security:
         - BearerAuth: []

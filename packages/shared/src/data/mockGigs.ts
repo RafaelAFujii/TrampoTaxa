@@ -215,11 +215,3 @@ export const mockGigs: GigOffer[] = [
     active: true,
   },
 ];
-
-/**
- * Filtra oportunidades por profissão
- */
-export const filterGigsByProfession = (gigs: GigOffer[], profession?: string): GigOffer[] => {
-  if (!profession || profession === 'Todos') return gigs;
-  return gigs.filter((gig) => gig.profession.toLowerCase() === profession.toLowerCase());
-};

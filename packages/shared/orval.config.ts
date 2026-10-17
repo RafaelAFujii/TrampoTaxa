@@ -3,16 +3,17 @@ import { defineConfig } from 'orval';
 export default defineConfig({
   trampotaxaApi: {
     input: {
-      target: './docs/openapi.yaml',
+      target: './openapi.yaml',
     },
     output: {
       mode: 'tags-split',
-      target: '../../packages/shared/src/api/endpoints',
-      schemas: '../../packages/shared/src/api/model',
+      target: './src/api/endpoints',
+      schemas: './src/api/model',
       client: 'react-query',
       httpClient: 'fetch',
       override: {
         query: {
+          version: 5,
           useQuery: true,
           useMutation: true,
         },

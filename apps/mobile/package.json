@@ -1,15 +1,21 @@
 {
   "name": "mobile",
   "version": "1.0.0",
+  "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@babel/runtime": "^7.24.0",
+    "@react-native/assets-registry": "0.74.83",
     "expo": "~51.0.0",
+    "expo-asset": "~10.0.10",
+    "expo-secure-store": "~13.0.2",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.1",
@@ -24,6 +30,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "vitest": "^5.0.3",
     "typescript": "^5.8.2"
   },
   "private": true

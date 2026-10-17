@@ -8,11 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "eslint src/ && tsc --noEmit",
+    "lint": "eslint src/ scripts/ && tsc --noEmit",
     "test": "vitest run",
     "format": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "api:generate": "orval --config orval.config.ts"
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -45,7 +44,6 @@
     "esbuild": "^0.28.2",
     "eslint": "^10.12.0",
     "install": "^0.13.0",
-    "orval": "^8.42.0",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",

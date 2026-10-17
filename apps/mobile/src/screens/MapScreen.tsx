@@ -10,7 +10,8 @@ import {
   Platform,
 } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { mockGigs, GigOffer, filterGigsByProfession } from '@trampotaxa/shared';
+import { filterGigsByProfession } from '@trampotaxa/shared';
+import type { GigOffer } from '@trampotaxa/shared';
 
 // Import resiliente de react-native-maps para suportar Expo Go, Web e simuladores
 let MapView: any = null;
@@ -38,13 +39,13 @@ const CURITIBA_REGION = {
 
 export const MapScreen: React.FC = () => {
   const [selectedProfession, setSelectedProfession] = useState<string>('Todos');
-  const [selectedGig, setSelectedGig] = useState<GigOffer | null>(mockGigs[0]);
+  const [selectedGig, setSelectedGig] = useState<GigOffer | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [appliedGigs, setAppliedGigs] = useState<string[]>([]);
 
   // Consumo reativo via TanStack React Query com cache de 5 minutos
   const {
-    data: gigs = mockGigs,
+    data: gigs = [],
     isLoading,
     isError,
     refetch,
@@ -52,7 +53,11 @@ export const MapScreen: React.FC = () => {
     queryKey: ['mobile-gigs'],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 300));
-      return mockGigs;
+      if (__DEV__) {
+        const { mockGigs } = await import('@trampotaxa/shared/mocks');
+        return mockGigs;
+      }
+      return [];
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,

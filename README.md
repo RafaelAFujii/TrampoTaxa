@@ -21,6 +21,15 @@ O **TrampoTaxa (Loctaxa CWB)** é um ecossistema digital em monorepo projetado p
 
 ---
 
+## Contribuição e segurança
+
+Consulte o [guia de contribuição](./CONTRIBUTING.md) e a [política de segurança](./SECURITY.md)
+antes de abrir um pull request. Todo PR executa a validação completa de Web, Mobile,
+shared e contrato OpenAPI; o deploy no GitHub Pages depende dos mesmos gates de CI e
+do gate de riscos de segurança.
+
+---
+
 ## 🏛️ Arquitetura do Monorepo (Bun Workspaces)
 
 O repositório é gerenciado através do **Bun Workspaces**, dividindo responsabilidades de forma modular:
@@ -44,7 +53,7 @@ O repositório é gerenciado através do **Bun Workspaces**, dividindo responsab
       │  • api/    (Hooks React Query gerados via Orval) │
       │  • types/  (GigOffer, User, ContractorGig...)    │
       │  • utils/  (formatCurrency, formatCNPJ...)       │
-      │  • data/   (mockGigs, mockContractorData...)     │
+      │  • mocks disponíveis em @trampotaxa/shared/mocks │
       └──────────────────────────────────────────────────┘
 ```
 
@@ -52,14 +61,14 @@ O repositório é gerenciado através do **Bun Workspaces**, dividindo responsab
 
 * 🌐 **[Documentação do Front-End Web (`apps/web/README.md`)](./apps/web/README.md):** PWA, Workbox offline caching, Map Clustering (`use-supercluster`), React 19 e Tailwind CSS v4.
 * 📱 **[Documentação do Aplicativo Móvel (`apps/mobile/README.md`)](./apps/mobile/README.md):** React Native nativo, Expo SDK 51, React Navigation Bottom Tabs, `react-native-maps`, Metro Bundler e geração de APK.
-* ⚙️ **[Documentação do Backend & API Core (`packages/shared/README.md`)](./packages/shared/README.md):** Contratos OpenAPI 3.0 (`docs/openapi.yaml`), pipeline de geração de código com Orval, modelagem de banco de dados MER e validadores fiscais.
+* ⚙️ **[Documentação do Backend & API Core (`packages/shared/README.md`)](./packages/shared/README.md):** Contrato OpenAPI canônico em `packages/shared/openapi.yaml`, geração com Orval, modelagem de banco de dados MER e validadores fiscais.
 
 ---
 
 ## ✨ Inovações e Recursos de Destaque
 
 1. **Automação da API (OpenAPI 3.0 + Orval + React Query):**
-   - O contrato formal em `apps/web/docs/openapi.yaml` gera automaticamente os clientes HTTP e custom hooks do React Query v5 em `packages/shared/src/api/`.
+   - O contrato canônico em `packages/shared/openapi.yaml`, configurado por `packages/shared/orval.config.ts`, gera clientes HTTP e hooks React Query v5 em `packages/shared/src/api/`.
    - Executado via `bun run api:generate`.
 
 2. **Capacidades Offline Avançadas (PWA):**

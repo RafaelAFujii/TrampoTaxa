@@ -10,7 +10,7 @@ Aplicativo móvel nativo do **TrampoTaxa (Loctaxa)**, construído com **Expo (Re
 * **Navegação Nativa:** [React Navigation v6/v7](https://reactnavigation.org/) (`@react-navigation/native` & `@react-navigation/bottom-tabs`)
 * **Gerenciamento de Estado Assíncrono:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`, `retry: 1`)
 * **Mapas Nativos:** `react-native-maps` com suporte a geolocalização e marcadores personalizados
-* **Lógica Compartilhada:** `@trampotaxa/shared` (tipagens unificadas, formatadores fiscais e datasets)
+* **Lógica Compartilhada:** `@trampotaxa/shared` (tipagens unificadas e formatadores fiscais); fixtures somente via `@trampotaxa/shared/mocks` em desenvolvimento/testes
 * **Resolução Monorepo:** Metro Bundler configurado com `watchFolders` e `extraNodeModules`
 
 ---
@@ -39,6 +39,14 @@ Aplicativo móvel nativo do **TrampoTaxa (Loctaxa)**, construído com **Expo (Re
 ## 🏗️ Integração com o Monorepo (Bun + Metro)
 
 O aplicativo resolve `@trampotaxa/shared` diretamente dos fontes TypeScript sem necessidade de etapas manuais de build:
+`@trampotaxa/shared/mocks` fica reservado a testes e fallbacks de desenvolvimento.
+
+### Sessão e navegação protegidas
+
+- `AuthProvider` restaura e persiste o JWT usando `expo-secure-store`; falhas de armazenamento são reportadas e mantêm a sessão não autenticada.
+- `navigation/RootNavigator.tsx` só monta as abas Mapa, Ganhos e Perfil após a restauração confirmar uma sessão autenticada.
+- Use `useAuthenticatedFetch` para as chamadas Mobile: ele identifica as operações privadas definidas no contrato OpenAPI, envia o bearer token apenas nessas operações e encerra a sessão após uma resposta `401`.
+- O fluxo de login do servidor continua fora deste escopo; `signIn(token)` fornece a entrada para a futura tela de autenticação.
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -60,7 +68,6 @@ O aplicativo resolve `@trampotaxa/shared` diretamente dos fontes TypeScript sem 
        │        packages/shared/         │
        │  • Types (GigOffer, User)       │
        │  • Formatters (formatCurrency)  │
-       │  • Mocks (mockGigs)             │
        │  • API Hooks (Orval)            │
        └─────────────────────────────────┘
 ```

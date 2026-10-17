@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { mockGigs, filterGigsByProfession } from './mockGigs';
+import { mockGigs } from './mockGigs';
+import { filterGigsByProfession } from '../utils/gigs';
 import { GigOffer } from '../types';
 
 describe('Consulta e Lista de Taxas - TDD Suite', () => {

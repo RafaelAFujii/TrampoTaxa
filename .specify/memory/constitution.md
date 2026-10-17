@@ -1,50 +1,84 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: unversioned scaffold to 1.0.0
+Modified principles: scaffold placeholders → five project-specific principles
+Added sections: Architecture and Security Constraints; Development and Release Workflow
+Removed sections: none
+Follow-up TODOs: record the original ratification date when confirmed
+-->
+
+# TrampoTaxa Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. TypeScript for All Application Logic
+All handwritten application logic across Web, Mobile, and shared packages MUST be
+implemented in TypeScript. This includes business rules, validation, state transitions,
+and integration behavior. Declarative configuration and generated artifacts are not
+application logic. This rule keeps behavior consistently type-checked across the
+monorepo.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Platform Architecture
+The Web application MUST follow the ReactJS and Vite architecture. The Mobile
+application MUST use React Native. Code shared between platforms MUST live in shared
+packages and remain platform-independent; platform-specific behavior MUST stay within
+its respective application. This preserves native platform boundaries while enabling
+reuse.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Authenticated and Authorized Access
+Authenticated application access MUST use JWT-based authentication managed through
+`AuthContext`. Protected capabilities MUST enforce role-based access control (RBAC),
+and account flows MUST explicitly handle first access. Authentication and authorization
+MUST be enforced at each relevant application boundary; hiding a user interface element
+alone does not constitute access control.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Test-First Development
+Changes to application behavior MUST follow the TDD red-green-refactor cycle, with
+Vitest tests written or updated before implementation. The relevant tests MUST fail
+for the intended reason before the behavior is implemented, then pass after the change.
+This makes expected behavior reproducible and guards against regressions.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Measurable Quality and Safe Delivery
+ESLint and SonarLint MUST both be used to monitor code quality, and the technical-debt
+measure reported for each tool MUST remain strictly below 10%. A change that causes
+either measure to reach or exceed 10% MUST be corrected before release. Every deployment
+to GitHub Pages MUST be preceded by a passing GitHub Actions pipeline, including the
+applicable Vitest suite. No deployment may proceed when that pipeline fails.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Architecture and Security Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Web user experiences MUST use ReactJS with Vite; mobile user experiences MUST use
+  React Native.
+- Application logic MUST be TypeScript throughout Web, Mobile, and shared packages.
+- JWT authentication MUST be integrated through `AuthContext`; protected actions and
+  routes MUST apply RBAC, including the first-access flow.
+- Security-sensitive authorization decisions MUST not rely solely on client-side
+  presentation or navigation restrictions.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development and Release Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Contributors MUST write or update Vitest tests before changing application behavior
+  and verify the red-green-refactor sequence.
+- Changes MUST pass the applicable test suite and GitHub Actions checks before release.
+- Each GitHub Pages deployment MUST be triggered only after the relevant GitHub Actions
+  pipeline has completed successfully.
+- ESLint and SonarLint findings MUST be reviewed as part of quality checks, and each
+  tool's reported technical-debt measure MUST be strictly less than 10%.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution defines mandatory project-wide engineering constraints. Amendments
+MUST be proposed through a reviewed change that explains the rationale and impact on
+existing principles, architecture, security, tests, and delivery practices. The project
+maintainers MUST review compliance in code review and before releases. Exceptions MUST
+be documented with their scope, rationale, approving maintainer, and expiration or
+removal condition.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+The constitution uses semantic versioning: MAJOR for incompatible governance changes or
+removal/redefinition of a principle; MINOR for new principles or materially expanded
+requirements; PATCH for clarifications and non-semantic wording changes. Every amendment
+MUST update the version, last-amended date, and impact report. Reviewers MUST verify that
+changes and releases comply with this constitution; non-compliance blocks approval or
+deployment until corrected or covered by an approved, time-bounded exception.
+
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): original ratification date is not documented | **Last Amended**: 2026-10-15

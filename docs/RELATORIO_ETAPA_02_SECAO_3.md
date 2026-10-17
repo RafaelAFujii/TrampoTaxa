@@ -89,5 +89,5 @@ Para atender à entrega da aplicação online, foi configurado o pipeline de aut
 
 ### 3.5 Arquivos de Suporte da Etapa 03 Disponibilizados no Repositório
 
-1. **Especificação de APIs (OpenAPI / Swagger):** Disponível em `/docs/openapi.yaml`.
+1. **Especificação de APIs (OpenAPI / Swagger):** Contrato canônico em `packages/shared/openapi.yaml`; a geração Orval está configurada em `packages/shared/orval.config.ts`.
 2. **Modelagem de Dados Relacional (MER / DER):** Disponível em `/docs/DATABASE_MER.md` com código DBML para importação direta no *dbdiagram.io*.

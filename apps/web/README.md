@@ -12,8 +12,10 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, projetad
 * **Design System & Estilos:** [Tailwind CSS v4](https://tailwindcss.com/) no tema escuro moderno (`#0A0B0E` e `#00E676`)
 * **PWA & Offline Caching:** `vite-plugin-pwa` com estratégias de Workbox
 * **Mapas & Performance Geoespacial:** `@vis.gl/react-google-maps`, `use-supercluster` e `supercluster`
-* **Geração Automática de API:** [Orval 8](https://orval.dev/) consumindo OpenAPI 3.0 (`docs/openapi.yaml`)
+* **Geração Automática de API:** [Orval 8](https://orval.dev/) consumindo o contrato OpenAPI 3.0 mantido por `packages/shared`
 * **Roteamento:** [React Router v7](https://reactrouter.com/) com RBAC (Controle de Acesso Baseado em Papéis)
+
+Fixtures de demonstração são importadas por `@trampotaxa/shared/mocks` somente em fallbacks de desenvolvimento ou testes. O ponto de entrada padrão `@trampotaxa/shared` não exporta datasets mockados e a compilação de produção não os inclui.
 
 ---
 
@@ -33,7 +35,7 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, projetad
 - **Instalação Nativa:** Botão `PWAInstallButton` integrado, com guia interativo para iOS Safari e prompt direto para Chrome/Android.
 
 ### 3. Automação da API com OpenAPI + React Query
-- Configurado via `orval.config.ts`, lendo o arquivo `docs/openapi.yaml`.
+- O contrato e a configuração Orval pertencem a `packages/shared/openapi.yaml` e `packages/shared/orval.config.ts`.
 - Gera automaticamente clientes HTTP nativos (Fetch) e hooks do React Query (`useQuery` e `useMutation`).
 - A saída é compartilhada em `packages/shared/src/api/` para que Web e Mobile consumam os mesmos contratos de dados.
 
@@ -47,10 +49,9 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, projetad
 
 ```
 apps/web/
-├── docs/                     # Documentação de banco de dados, relatórios e OpenAPI
+├── docs/                     # Documentação de banco de dados e relatórios
 │   ├── DATABASE_MER.md       # Diagrama de Entidade-Relacionamento e DBML
 │   ├── EXPO_GO_GUIDE.md      # Guia de testes mobile
-│   └── openapi.yaml          # Especificação OpenAPI 3.0 formal da API
 ├── public/
 │   ├── icon.svg              # Ícone vetorial da marca
 │   └── manifest.json         # Manifesto PWA com display standalone
@@ -66,7 +67,6 @@ apps/web/
 │   ├── screens/              # Telas do Freelancer e Contratante
 │   ├── main.tsx              # Ponto de entrada com registro do Service Worker
 │   └── index.css             # Estilos globais Tailwind CSS v4
-├── orval.config.ts           # Configuração de geração de hooks da API
 ├── vite.config.ts            # Configuração do Vite com VitePWA e Workbox
 └── tsconfig.json             # Compilador TypeScript com suporte a PWA e GeoJSON
 ```
@@ -86,7 +86,7 @@ npm --prefix apps/web run dev
 # Gerar código tipado da API a partir do openapi.yaml
 bun run api:generate
 # ou
-npm --prefix apps/web run api:generate
+npm --prefix packages/shared run api:generate
 
 # Validar lint e tipagem TypeScript
 bun run lint

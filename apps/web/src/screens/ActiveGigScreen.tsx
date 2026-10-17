@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GOOGLE_MAPS_API_KEY } from '../constants/maps';
 import { ErrorBoundary } from '../components/ErrorBoundary';
-import { GigOffer, mockGigs } from '@trampotaxa/shared';
+import type { GigOffer } from '@trampotaxa/shared';
 
 interface ActiveGigScreenProps {
   gig?: GigOffer;
@@ -130,12 +130,25 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const stateGig = (location.state as { gig?: GigOffer })?.gig;
   const targetGigId = propGig?.id || stateGig?.id;
   const { data: queryGig, isLoading, isError, refetch } = useActiveGigQuery(targetGigId);
-  const gig = propGig || stateGig || queryGig || mockGigs[0];
+  const gig = propGig || stateGig || queryGig;
 
   const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
     'heading_to_venue'
   );
   const apiKey = GOOGLE_MAPS_API_KEY;
+
+  if (!gig) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#0d1017] text-white">
+        <p>{isLoading ? 'Carregando a vaga...' : 'Não foi possível carregar a vaga.'}</p>
+        {isError && (
+          <button className="underline" onClick={() => void refetch()}>
+            Tentar novamente
+          </button>
+        )}
+      </div>
+    );
+  }
 
   const gigLocation = gig.latLng || { lat: -25.4398, lng: -49.2885 };
 
