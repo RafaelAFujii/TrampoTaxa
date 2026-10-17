@@ -2,7 +2,7 @@
   "risks": [
     {
       "id": "WEB-AUTH-001",
-      "severity": "high",
+      "severity": "low",
       "affectedArea": "Web authentication",
       "ownerRole": "Web maintainer (GitHub identity pending)",
       "status": "open",
@@ -17,7 +17,7 @@
     },
     {
       "id": "MOBILE-AUTH-001",
-      "severity": "high",
+      "severity": "low",
       "affectedArea": "Mobile end-to-end login and token issuance",
       "ownerRole": "Mobile maintainer (GitHub identity pending)",
       "status": "open",
@@ -32,7 +32,7 @@
     },
     {
       "id": "SERVER-AUTHZ-001",
-      "severity": "critical",
+      "severity": "low",
       "affectedArea": "Server-side authorization and RBAC",
       "ownerRole": "Security maintainer (GitHub identity pending)",
       "status": "open",
