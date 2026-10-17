@@ -21,9 +21,7 @@ jobs:
     name: Validate deployment revision
     uses: ./.github/workflows/quality.yml
     secrets: inherit
-    continue-on-error: true
 
-  # Novo job dedicado a fazer o build injetando a chave do Google Maps
   build-web:
     name: Build Web with Maps API Key
     runs-on: ubuntu-latest
