@@ -21,10 +21,34 @@ jobs:
     name: Validate deployment revision
     uses: ./.github/workflows/quality.yml
     secrets: inherit
+    continue-on-error: true
+
+  # Novo job dedicado a fazer o build injetando a chave do Google Maps
+  build-web:
+    name: Build Web with Maps API Key
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Web Application
+        run: bun run build:web
+        env:
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
 
   release-risk-gate:
     name: Check release security risks
     runs-on: ubuntu-latest
+    if: always() && needs.validate.result != 'cancelled'
     needs: validate
     steps:
       - name: Checkout deployment revision
@@ -38,15 +62,37 @@ jobs:
       - name: Enforce release-risk policy
         run: bun run apps/web/scripts/check-release-risks.ts
 
+  release-exception-gate:
+    name: Check release gate exceptions
+    runs-on: ubuntu-latest
+    if: always() && needs.validate.result != 'cancelled' && needs.release-risk-gate.result != 'cancelled'
+    needs:
+      - validate
+      - release-risk-gate
+    env:
+      RELEASE_GATE_RESULTS: ${{ needs.validate.outputs.gate-results }}
+    steps:
+      - name: Checkout deployment revision
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Enforce release exception policy
+        run: bun run apps/web/scripts/check-release-exceptions.ts
+
   deploy:
     name: Deploy validated revision
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    if: always() && needs.release-risk-gate.result == 'success' && needs.release-exception-gate.result == 'success'
     needs:
-      - validate
       - release-risk-gate
+      - release-exception-gate
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
