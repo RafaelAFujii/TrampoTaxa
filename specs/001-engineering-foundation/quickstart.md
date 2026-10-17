@@ -69,10 +69,15 @@ repository root unless noted.
    bun run apps/web/scripts/check-release-risks.ts
    ```
 
-   Expected for the current risk register: a non-zero exit that identifies the open
-   Web authentication, Mobile end-to-end token, and server authorization risks.
-   This is intentional; production release remains blocked until those risks are
-   verified as resolved or have constitution-compliant exceptions.
+   Expected for the current risk register: a non-zero exit identifying
+   `WEB-AUTH-001`, `MOBILE-AUTH-001`, and `SERVER-AUTHZ-001`. Each unresolved risk
+   must be HIGH or CRITICAL. No exception is accepted until its approver matches a
+   verified owner recorded in `docs/ownership.md`.
+
+7. Verify exception behavior with the release-risk tests. A valid exception uses
+   `approvedBy`, `rationale`, `scope`, and future UTC `expiresAt`. A designated
+   maintainer may approve only if no verified security owner is available. Expired,
+   malformed, incomplete, unauthorized, or unverified exceptions fail closed.
 
 ## Pull-Request Acceptance
 

@@ -8,67 +8,74 @@ documentation.
 
 Represents a proposed repository modification.
 
-| Field | Meaning | Validation |
-|---|---|---|
-| Identifier | Pull request reference | Unique in repository review history |
-| Author | Contributor proposing the change | Must be a repository contributor |
-| Affected areas | Web, Mobile, shared/API, workflow, documentation, or security | At least one area must be selected in the PR template |
-| Security/data impact | Summary of sensitive behavior affected | Required for identity, authorization, sensitive data, or privileged operations |
-| Verification evidence | Required CI checks, generation state, and human review | All required checks pass before approval or deployment |
-| Review state | Draft, ready, blocked, approved, merged | Missing/failed required checks means blocked |
+| Field                 | Meaning                                                       | Validation                                                                     |
+| --------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Identifier            | Pull request reference                                        | Unique in repository review history                                            |
+| Author                | Contributor proposing the change                              | Must be a repository contributor                                               |
+| Affected areas        | Web, Mobile, shared/API, workflow, documentation, or security | At least one area must be selected in the PR template                          |
+| Security/data impact  | Summary of sensitive behavior affected                        | Required for identity, authorization, sensitive data, or privileged operations |
+| Verification evidence | Required CI checks, generation state, and human review        | All required checks pass before approval or deployment                         |
+| Review state          | Draft, ready, blocked, approved, merged                       | Missing/failed required checks means blocked                                   |
 
 ## Quality Indicator
 
 Represents a repeatable engineering measurement.
 
-| Field | Meaning | Validation |
-|---|---|---|
-| Name | Sonar debt ratio, ESLint error count, workspace tests, build/type checks | Must have a defined result source |
-| Source | Required PR workflow or approved review record | Must be discoverable in GitHub Actions |
-| Threshold | Acceptance boundary | Sonar debt ratio `< 10%`; ESLint errors `0`; other required checks pass |
-| Measurement point | When evaluated | Every pull request and production release candidate |
-| Owner | Accountable maintainer role | Must map to a verified GitHub identity |
-| Result | Value and pass/fail state | Missing or failed mandatory result blocks progression |
+| Field             | Meaning                                                                  | Validation                                                              |
+| ----------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| Name              | Sonar debt ratio, ESLint error count, workspace tests, build/type checks | Must have a defined result source                                       |
+| Source            | Required PR workflow or approved review record                           | Must be discoverable in GitHub Actions                                  |
+| Threshold         | Acceptance boundary                                                      | Sonar debt ratio `< 10%`; ESLint errors `0`; other required checks pass |
+| Measurement point | When evaluated                                                           | Every pull request and production release candidate                     |
+| Owner             | Accountable maintainer role                                              | Must map to a verified GitHub identity                                  |
+| Result            | Value and pass/fail state                                                | Missing or failed mandatory result blocks progression                   |
 
 ## Security Risk
 
 Represents an unresolved security weakness or missing product control.
 
-| Field | Meaning | Validation |
-|---|---|---|
-| Identifier | Stable risk reference | Unique and traceable to a review or issue |
-| Severity | Critical, high, medium, or low | Assigned using the documented triage policy |
-| Affected area | Web authentication, Mobile login/token issuance, server authorization, or another capability | Required |
-| Owner role | Maintainer responsible for disposition | Required for critical/high risks |
-| Status | Open, mitigated, excepted, or closed | Closure requires verification evidence |
-| Exception | Approver, reason, scope, and expiry/removal condition | Required for any accepted risk; must satisfy constitution governance |
-| Evidence | Implementation/test/review records supporting disposition | Local session/navigation alone cannot prove token issuer or server authorization |
+| Field         | Meaning                                                                                      | Validation                                                                                                                                                                                                                                       |
+| ------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Identifier    | Stable risk reference                                                                        | Unique and traceable to a review or issue                                                                                                                                                                                                        |
+| Category      | Web authentication, Mobile authentication, server authorization, or other                    | Required; unresolved records in the three named categories have a HIGH minimum                                                                                                                                                                   |
+| Severity      | Critical, high, medium, or low                                                               | Assigned using the documented triage policy                                                                                                                                                                                                      |
+| Affected area | Web authentication, Mobile login/token issuance, server authorization, or another capability | Required                                                                                                                                                                                                                                         |
+| Owner role    | Maintainer responsible for disposition                                                       | Required for critical/high risks                                                                                                                                                                                                                 |
+| Status        | Open, mitigated, excepted, or closed                                                         | Closure requires verification evidence                                                                                                                                                                                                           |
+| Exception     | Approver identity, rationale, scope, and expiry                                              | Required when a risk is excepted; stored as `approvedBy`, `rationale`, `scope`, and future UTC `expiresAt`. Approver must match a verified security owner; a designated maintainer may approve only when no verified security owner is available |
+| Evidence      | Implementation/test/review records supporting disposition                                    | Local session/navigation alone cannot prove token issuer or server authorization                                                                                                                                                                 |
 
 The Mobile session context and protected navigation are existing controls and must not
 be listed as missing. The Web simulated login, end-to-end Mobile token acquisition, and
 server-side authorization remain open unless separately verified.
 
+The gate rejects an unresolved authentication/authorization record below HIGH, and
+requires one record for each of the three named risk categories. Missing, malformed,
+expired, or unauthorized exception approval remains blocking. A formally designated
+maintainer must be explicitly verified in `docs/ownership.md` and may approve only
+when no verified security owner is listed.
+
 ## Release
 
 Represents a production deployment candidate.
 
-| Field | Meaning | Validation |
-|---|---|---|
-| Revision | Commit intended for deployment | Must match the revision whose checks passed |
-| Required checks | Full Web, Mobile, shared/API, Sonar, and risk-gate results | All must pass |
-| Security disposition | Status of critical/high risks | Must be closed or have a permitted documented exception |
-| Approval | Required maintainer and code-owner review | Must exist before deployment |
-| Outcome | Blocked, approved, deployed, or failed | Deployment cannot precede approval |
+| Field                | Meaning                                                    | Validation                                              |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------------------------- |
+| Revision             | Commit intended for deployment                             | Must match the revision whose checks passed             |
+| Required checks      | Full Web, Mobile, shared/API, Sonar, and risk-gate results | All must pass                                           |
+| Security disposition | Status of critical/high risks                              | Must be closed or have a permitted documented exception |
+| Approval             | Required maintainer and code-owner review                  | Must exist before deployment                            |
+| Outcome              | Blocked, approved, deployed, or failed                     | Deployment cannot precede approval                      |
 
 ## Project Area
 
 Represents a maintained workspace or operational concern.
 
-| Field | Meaning | Validation |
-|---|---|---|
-| Path/responsibility | `apps/web`, `apps/mobile`, `packages/shared`, security, or release workflow | Must match current repository structure |
-| Owner role | Accountable maintainer | Must be explicitly assigned |
-| GitHub identity | Team/user handle used by CODEOWNERS | Must be verified and valid before enforcement |
+| Field               | Meaning                                                                     | Validation                                    |
+| ------------------- | --------------------------------------------------------------------------- | --------------------------------------------- |
+| Path/responsibility | `apps/web`, `apps/mobile`, `packages/shared`, security, or release workflow | Must match current repository structure       |
+| Owner role          | Accountable maintainer                                                      | Must be explicitly assigned                   |
+| GitHub identity     | Team/user handle used by CODEOWNERS                                         | Must be verified and valid before enforcement |
 
 ## Lifecycle
 

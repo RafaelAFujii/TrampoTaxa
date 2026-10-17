@@ -18,7 +18,7 @@ contracts, and generated clients in `packages/shared`.
 
 ## Required verification
 
-Every pull request to `main` or `master` runs the complete monorepo quality workflow,
+Every pull request to `main` runs the complete monorepo quality workflow,
 without path filters. Required checks cover:
 
 - Root, Web, Mobile, and shared-package Vitest suites.
@@ -34,12 +34,9 @@ Repository administrators must configure the protected `SONAR_TOKEN` secret befo
 the quality workflow can pass.
 
 The expected branch-protection check is
-`Monorepo Quality Gate / Complete Monorepo Validation`. Repository administrators
-must configure that check as required on `main` and `master`, together with applicable
-CODEOWNERS review. Verified owner handles are still pending in `docs/ownership.md`, so
-`.github/CODEOWNERS` and enforceable code-owner review are not yet available. This
-repository change cannot itself apply or verify organization branch-protection
-settings.
+`Monorepo Quality Gate / Complete Monorepo Validation`. Branch `main` is protected, 
+requiring pull request reviews from Code Owners defined in `.github/CODEOWNERS` and 
+passing the required status check before merging.
 
 If a required tool, secret, or service is unavailable, the change is not considered
 validated. Do not bypass a failing check or report missing evidence as a pass. Pages

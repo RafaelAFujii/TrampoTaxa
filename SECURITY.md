@@ -14,10 +14,19 @@ payloads in public discussions.
 ## Triage and response
 
 The security maintainer records each finding in `docs/security-risks.json` and
-assigns severity, affected area, accountable owner role, status, disposition, and
-verification evidence. Critical and high findings block production while open.
-Mitigated or closed findings require evidence. Exceptions require a named approver,
-reason, scope, and future expiry, and must comply with the project constitution.
+assigns category, severity, affected area, accountable owner role, status, disposition,
+and verification evidence. Unresolved Web sign-in, Mobile end-to-end authentication,
+and server-side access-control risks are HIGH at minimum and block production;
+triage may raise them to CRITICAL. The register must retain all three categories;
+missing or misclassified required records also block release. Mitigated or closed
+findings require evidence.
+
+Exceptions require `approvedBy`, `rationale`, `scope`, and a future UTC `expiresAt`,
+and must comply with the project constitution. The approver must match a verified
+security owner recorded in [`docs/ownership.md`](docs/ownership.md). A formally
+designated maintainer may approve only when no verified security owner is available.
+If neither authority is verified, the release gate rejects every exception and the
+risk remains blocking. The gate fails closed for missing or malformed risk data.
 
 Identity, authorization/RBAC, first-access flows, sensitive data, credentials, and
 privileged operations require security review. Client-side route or UI guards alone

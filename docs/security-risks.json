@@ -2,48 +2,33 @@
   "risks": [
     {
       "id": "WEB-AUTH-001",
-      "severity": "low",
+      "category": "web-authentication",
+      "severity": "high",
       "affectedArea": "Web authentication",
       "ownerRole": "Web maintainer (GitHub identity pending)",
       "status": "open",
       "disposition": "Web login remains simulated and does not establish production JWT issuance or credential verification.",
-      "evidence": [],
-      "exception": {
-        "approver": "Rafael Fujii",
-        "rationale": "Aceite temporariamente para permitir o deploy do MVP. A autenticação real será integrada na próxima fase.",
-        "scope": "MVP Deploy",
-        "expiry": "2026-12-31"
-      }
+      "evidence": []
     },
     {
       "id": "MOBILE-AUTH-001",
-      "severity": "low",
+      "category": "mobile-authentication",
+      "severity": "high",
       "affectedArea": "Mobile end-to-end login and token issuance",
       "ownerRole": "Mobile maintainer (GitHub identity pending)",
       "status": "open",
       "disposition": "The SecureStore-backed session context and protected navigation exist; production login and end-to-end token issuance are not verified.",
-      "evidence": [],
-      "exception": {
-        "approver": "Rafael Fujii",
-        "rationale": "Aceite temporariamente para permitir o deploy do MVP. A emissão de tokens end-to-end será integrada na próxima fase.",
-        "scope": "MVP Deploy",
-        "expiry": "2026-12-31"
-      }
+      "evidence": []
     },
     {
       "id": "SERVER-AUTHZ-001",
-      "severity": "low",
+      "category": "server-authorization",
+      "severity": "high",
       "affectedArea": "Server-side authorization and RBAC",
       "ownerRole": "Security maintainer (GitHub identity pending)",
       "status": "open",
       "disposition": "Server-side enforcement of authentication, RBAC, and first-access rules has not been verified.",
-      "evidence": [],
-      "exception": {
-        "approver": "Rafael Fujii",
-        "rationale": "Aceite temporariamente para permitir o deploy do MVP. A validação de tokens e autorização será feita após o deploy base.",
-        "scope": "MVP Deploy",
-        "expiry": "2026-12-31"
-      }
+      "evidence": []
     }
   ]
 }

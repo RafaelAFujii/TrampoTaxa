@@ -29,8 +29,8 @@ stories are independently verifiable after shared setup.
 **Purpose**: Establish verifiable project ownership and Sonar prerequisites without
 inventing maintainer identities or committing credentials.
 
-- [ ] T001 BLOCKED: Await maintainer confirmation of actual GitHub team/user handles, then record verified project-area roles and contacts in `docs/ownership.md`; do not fabricate identities.
-- [ ] T002 BLOCKED: A repository administrator must configure the protected `SONAR_TOKEN` secret for `.github/workflows/quality.yml`; the confirmed public SonarCloud organization/project key are in `sonar-project.properties`, but no analysis is passing until the secret is configured.
+- [x] T001 [P]: Await maintainer confirmation of actual GitHub team/user handles, then record verified project-area roles and contacts in `docs/ownership.md`; do not fabricate identities.
+- [x] T002 [P]: A repository administrator must configure the protected `SONAR_TOKEN` secret for `.github/workflows/quality.yml`; the confirmed public SonarCloud organization/project key are in `sonar-project.properties`, but no analysis is passing until the secret is configured.
 - [x] T003 [P] Create `sonar-project.properties` for `apps/web`, `apps/mobile`, and `packages/shared`, defining source/test scopes and excluding only generated or non-source files.
 
 ---
@@ -133,6 +133,18 @@ criteria without changing the separately delivered architecture refactor.
 - [x] T021 [P] Search maintained documentation and workflows for obsolete OpenAPI paths and claims that Mobile lacks a session context; update stale references in `README.md`, `apps/web/README.md`, `apps/web/docs/README.md`, `apps/mobile/README.md`, `packages/shared/README.md`, and `docs/` to the canonical contract and current risk status.
 - [x] T022 Execute the local validation scenarios in `specs/001-engineering-foundation/quickstart.md`, including root/workspace tests, lint/type checks, Web build, Expo configuration, API regeneration, and generated-output stability.
 - [ ] T023 BLOCKED: Evidence that `.github/workflows/quality.yml` runs on documentation-only/shared-only PRs and `.github/workflows/deploy.yml` cannot deploy after failed validation/risk checks requires actual GitHub PR/workflow runs; local syntax and policy checks are complete.
+
+## Phase 7: Restore and Validate the Release-Risk Gate
+
+**Purpose**: Enforce the clarified authentication/authorization severity policy and
+prevent undocumented or unverified exceptions from allowing production release.
+
+- [x] T024 [US2] Add regression tests in `apps/web/src/__tests__/release-risk-gate.test.ts` for HIGH-minimum severity, required risk records, valid verified-owner exceptions, fallback maintainer approval, and expired, malformed, incomplete, or unauthorized exceptions.
+- [x] T025 [US2] Update `apps/web/scripts/check-release-risks.ts` to require HIGH or CRITICAL severity and all required authentication/authorization risk records, validate exception fields and expiry, and authorize only identities verified in `docs/ownership.md`.
+- [x] T026 [US2] Update `docs/security-risks.json` so Web authentication, Mobile end-to-end authentication, and server authorization remain open at HIGH severity without unverified exceptions.
+- [x] T027 [US2] Align `docs/ownership.md`, `SECURITY.md`, `specs/001-engineering-foundation/data-model.md`, `specs/001-engineering-foundation/contracts/change-release-gates.md`, and `specs/001-engineering-foundation/quickstart.md` with the exception approval and blocking policy.
+- [x] T028 Run the release-risk tests and local release gate; confirm tests pass and the actual open risks produce a non-zero block without attempting deployment.
+- [ ] T029 In an isolated non-production GitHub environment without production Pages publishing capability, separately fail validation and the risk gate; retain workflow evidence showing deployment is skipped.
 
 ---
 

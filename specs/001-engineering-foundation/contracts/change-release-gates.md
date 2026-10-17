@@ -45,6 +45,12 @@ GitHub Actions, the shared API generator, risk records, and Pages deployment.
    verified end to end. They must not be marked mitigated based only on client-side
    navigation or request-header behavior.
 6. CI service outage or missing Sonar secret is not a pass; release remains blocked.
+7. Before enabling production release, the risk register must retain a HIGH-or-CRITICAL
+   record for Web authentication, Mobile end-to-end authentication, and server
+   authorization. Exceptions must use `approvedBy`, `rationale`, `scope`, and future
+   UTC `expiresAt`. The approver must be a verified security owner; a verified
+   designated maintainer may approve only if no verified security owner is available.
+   Missing identities, records, or valid approval evidence block deployment.
 
 ## Evidence
 
