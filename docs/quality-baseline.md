@@ -3,6 +3,17 @@
 The quality workflow evaluates all supported workspaces on every pull request and
 before GitHub Pages deployment. Missing results are unverified, not passing.
 
+## Release-gate exceptions
+
+An exception may cover only an available failed gate for the exact candidate
+revision. It must identify the gate, revision, verified approver, approval timestamp,
+rationale, scope, and expiry. Expiry is limited to 30 calendar days after approval;
+an extension requires a new approval before the existing expiry. Missing or
+unavailable checks, CI prerequisites, and Sonar credentials or service results are
+not waivable. The deployment workflow validates `docs/release-exceptions.json` and
+security-risk exceptions against the status output from the reusable quality
+workflow; pull-request checks remain failing if any required gate fails.
+
 | Indicator                      | Source                                                                               | Threshold                    | Cadence                        | Owner role                         | Failure response                                                |
 | ------------------------------ | ------------------------------------------------------------------------------------ | ---------------------------- | ------------------------------ | ---------------------------------- | --------------------------------------------------------------- |
 | Sonar technical-debt ratio     | Sonar analysis in `.github/workflows/quality.yml` (`sqale_debt_ratio`)               | Strictly below 10%           | Every PR and release candidate | Release/CI maintainer              | Block merge/release; record remediation before retry            |
@@ -16,11 +27,13 @@ before GitHub Pages deployment. Missing results are unverified, not passing.
 
 - Sonar: **Not measured**. The SonarCloud project is configured in
   `sonar-project.properties`; a protected `SONAR_TOKEN` must be configured, then a
-  successful analysis must record the measured ratio.
+  successful analysis must record the measured ratio and workflow run. Until then,
+  the Sonar gate is unavailable and production release remains blocked.
 - ESLint: **0 errors and 0 warnings** in the local run on 2026-10-17 using
   `bun run --filter web lint`; this is a local baseline, not a GitHub Actions result.
-- Ownership: GitHub handles for each owner role are pending confirmation in
-  `docs/ownership.md`.
+- Ownership: verified GitHub handles for the project-area owner roles are recorded
+  in `docs/ownership.md`; required CODEOWNERS and branch-protection behavior still
+  requires repository-level confirmation.
 
 Record each measured baseline with its date, workflow run, result, and unresolved
 findings. Update this document when a check or its threshold changes.

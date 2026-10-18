@@ -75,9 +75,25 @@ repository root unless noted.
    verified owner recorded in `docs/ownership.md`.
 
 7. Verify exception behavior with the release-risk tests. A valid exception uses
-   `approvedBy`, `rationale`, `scope`, and future UTC `expiresAt`. A designated
-   maintainer may approve only if no verified security owner is available. Expired,
-   malformed, incomplete, unauthorized, or unverified exceptions fail closed.
+   an identified gate and candidate revision, verified `approvedBy`, `approvedAt`,
+   `rationale`, `scope`, and UTC `expiresAt` no more than 30 calendar days after
+   approval. A designated maintainer may approve only if no verified security owner
+   is available. Expired, overlong, malformed, incomplete, unauthorized, or
+   unverified exceptions fail closed. Missing or unavailable required check results
+   remain blocking even when an exception is present.
+
+8. Validate exceptions to non-security release gates with the dedicated release
+   exception validator and its tests:
+
+   ```powershell
+   bun run --filter web test -- src/__tests__/release-risk-gate.test.ts src/__tests__/release-exception-gate.test.ts
+   ```
+
+   The deployment workflow supplies `GITHUB_SHA` and the JSON status output from
+   `.github/workflows/quality.yml` to `bun run apps/web/scripts/check-release-exceptions.ts`.
+   Confirm a Sonar threshold exception applies only to the named candidate revision
+   and does not suppress other failing gates. Run the validator directly only when
+   both environment variables are set to an actual candidate and workflow result.
 
 ## Pull-Request Acceptance
 
@@ -87,6 +103,9 @@ For every test PR (including documentation-only changes), confirm:
 - Full Web, Mobile, shared, and API-generation checks run regardless of changed paths.
 - Missing or failed checks block merge eligibility.
 - Sonar debt ratio is strictly below 10%, and ESLint reports zero errors.
+- Any approved exception to a mandatory production-release gate is limited to 30
+  calendar days, scoped to the named candidate revision and failed gate, and does not
+  waive missing or unavailable required checks.
 - API generation uses `packages/shared/openapi.yaml` and
   `packages/shared/orval.config.ts`; a stale generated diff fails validation.
 - Updated documentation points to the canonical shared contract; no divergent
@@ -101,8 +120,9 @@ For every test PR (including documentation-only changes), confirm:
 - Web mock login and unresolved server-side authorization are present in the risk
   register with owners and documented dispositions.
 - Pages deployment runs only after the same revision passes all required checks and
-  the risk gate. Unresolved critical/high risks require verified remediation or a
-  constitution-compliant exception.
+  the risk gate, or an approved, valid exception covers each failed gate. Unresolved
+  critical/high risks require verified remediation or a documented exception that
+  complies with the 30-calendar-day limit.
 
 Detailed gate behavior is defined in
 [contracts/change-release-gates.md](./contracts/change-release-gates.md); process

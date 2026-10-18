@@ -4,8 +4,11 @@ on:
   pull_request:
     branches:
       - main
-      - master
   workflow_call:
+    outputs:
+      gate-results:
+        description: JSON results for each required release gate
+        value: ${{ jobs.validate.outputs.gate-results }}
 
 permissions:
   contents: read
@@ -14,52 +17,94 @@ jobs:
   validate:
     name: Complete Monorepo Validation
     runs-on: ubuntu-latest
+    outputs:
+      gate-results: ${{ steps.summarize.outputs.gate-results }}
     steps:
       - name: Checkout candidate revision
+        id: checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js for Expo
+        id: setup-node
+        if: steps.checkout.outcome == 'success'
+        continue-on-error: true
         uses: actions/setup-node@v4
         with:
           node-version: '24'
 
       - name: Setup Bun
+        id: setup-bun
+        if: steps.setup-node.outcome == 'success'
+        continue-on-error: true
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
       - name: Install workspace dependencies
+        id: install
+        if: steps.setup-bun.outcome == 'success'
+        continue-on-error: true
         run: bun install --frozen-lockfile
 
       - name: Run root Vitest suite
+        id: root-tests
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun test
 
       - name: Run Web Vitest suite
+        id: web-tests
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter web test
 
       - name: Run Web lint and TypeScript checks
+        id: eslint-errors
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter web lint
 
       - name: Build Web production bundle
+        id: web-build
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter web build
 
       - name: Run Mobile Vitest suite
+        id: mobile-tests
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter mobile test
 
       - name: Type-check Mobile
+        id: mobile-typecheck
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter mobile typecheck
 
       - name: Validate Expo public configuration
+        id: expo-public-config
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         working-directory: apps/mobile
         run: bunx expo config --type public
 
       - name: Run shared package Vitest suite
+        id: shared-tests
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run --filter @trampotaxa/shared test
 
       - name: Regenerate shared API clients
+        id: api-generation
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         run: bun run api:generate
 
       - name: Require generated API artifacts to be current
+        id: generated-api-clean
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         shell: bash
         run: |
           if [[ -n "$(git status --porcelain --untracked-files=all -- packages/shared/src/api)" ]]; then
@@ -69,6 +114,9 @@ jobs:
           fi
 
       - name: Validate Sonar configuration
+        id: sonar-prerequisites
+        if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: bash
@@ -87,19 +135,28 @@ jobs:
           fi
 
       - name: Analyze with Sonar
+        id: sonar-analysis
+        if: always() && steps.sonar-prerequisites.outcome == 'success'
+        continue-on-error: true
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
 
       - name: Wait for Sonar quality gate
-        uses: SonarSource/sonarqube-quality-gate-action@v1
+        id: sonar-quality-gate
+        if: always() && steps.sonar-analysis.outcome == 'success'
+        continue-on-error: true
         timeout-minutes: 10
+        uses: SonarSource/sonarqube-quality-gate-action@v1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
 
       - name: Enforce technical-debt ratio below 10%
+        id: sonar-debt-ratio
+        if: always() && steps.sonar-analysis.outcome == 'success'
+        continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
@@ -124,6 +181,68 @@ jobs:
           echo "Sonar technical-debt ratio: ${ratio}% (required: < 10%)."
 
       - name: Upload GitHub Pages artifact
+        id: pages-artifact
+        if: always() && steps.web-build.outcome == 'success'
+        continue-on-error: true
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./apps/web/dist
+
+      - name: Publish release gate results
+        id: summarize
+        if: always()
+        shell: bash
+        run: |
+          outcome_status() {
+            case "$1" in
+              success) printf 'success' ;;
+              failure) printf 'failed' ;;
+              *) printf 'unavailable' ;;
+            esac
+          }
+          prerequisite_status() {
+            if [[ "$1" == success ]]; then
+              printf 'success'
+            else
+              printf 'unavailable'
+            fi
+          }
+          gate_results="$(jq -cn \
+            --arg ci "$(prerequisite_status '${{ steps.install.outcome }}')" \
+            --arg root "$(outcome_status '${{ steps.root-tests.outcome }}')" \
+            --arg web "$(outcome_status '${{ steps.web-tests.outcome }}')" \
+            --arg lint "$(outcome_status '${{ steps.eslint-errors.outcome }}')" \
+            --arg build "$(outcome_status '${{ steps.web-build.outcome }}')" \
+            --arg mobile "$(outcome_status '${{ steps.mobile-tests.outcome }}')" \
+            --arg mobile_types "$(outcome_status '${{ steps.mobile-typecheck.outcome }}')" \
+            --arg expo "$(outcome_status '${{ steps.expo-public-config.outcome }}')" \
+            --arg shared "$(outcome_status '${{ steps.shared-tests.outcome }}')" \
+            --arg generate "$(outcome_status '${{ steps.api-generation.outcome }}')" \
+            --arg generated "$(outcome_status '${{ steps.generated-api-clean.outcome }}')" \
+            --arg sonar_prereq "$(prerequisite_status '${{ steps.sonar-prerequisites.outcome }}')" \
+            --arg sonar_quality "$(outcome_status '${{ steps.sonar-quality-gate.outcome }}')" \
+            --arg sonar_debt "$(outcome_status '${{ steps.sonar-debt-ratio.outcome }}')" \
+            '[
+              {gate:"ci-prerequisites", status:$ci},
+              {gate:"root-tests", status:$root},
+              {gate:"web-tests", status:$web},
+              {gate:"eslint-errors", status:$lint},
+              {gate:"web-build", status:$build},
+              {gate:"mobile-tests", status:$mobile},
+              {gate:"mobile-typecheck", status:$mobile_types},
+              {gate:"expo-public-config", status:$expo},
+              {gate:"shared-tests", status:$shared},
+              {gate:"api-generation", status:$generate},
+              {gate:"generated-api-clean", status:$generated},
+              {gate:"sonar-prerequisites", status:$sonar_prereq},
+              {gate:"sonar-quality-gate", status:$sonar_quality},
+              {gate:"sonar-debt-ratio", status:$sonar_debt}
+            ]')"
+          echo "gate-results=$gate_results" >> "$GITHUB_OUTPUT"
+          if jq -e 'all(.[]; .status == "success")' <<< "$gate_results" >/dev/null; then
+            echo "All required quality gates passed."
+          else
+            echo "One or more required gates failed or were unavailable:"
+            jq -r '.[] | select(.status != "success") | "\(.gate): \(.status)"' <<< "$gate_results"
+            exit 1
+          fi

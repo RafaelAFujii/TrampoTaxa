@@ -21,12 +21,22 @@ triage may raise them to CRITICAL. The register must retain all three categories
 missing or misclassified required records also block release. Mitigated or closed
 findings require evidence.
 
-Exceptions require `approvedBy`, `rationale`, `scope`, and a future UTC `expiresAt`,
-and must comply with the project constitution. The approver must match a verified
-security owner recorded in [`docs/ownership.md`](docs/ownership.md). A formally
-designated maintainer may approve only when no verified security owner is available.
-If neither authority is verified, the release gate rejects every exception and the
-risk remains blocking. The gate fails closed for missing or malformed risk data.
+An exception to any mandatory production-release gate must identify the gate and
+candidate revision, verified `approvedBy`, UTC `approvedAt`, `rationale`, `scope`,
+and UTC `expiresAt`. Expiry must be no more than 30 calendar days after approval;
+continuing an exception requires new approval before expiry. Security-risk exceptions
+are recorded with their risk in `docs/security-risks.json`; other gate exceptions use
+`docs/release-exceptions.json`. The approver must match a verified security owner
+recorded in [`docs/ownership.md`](docs/ownership.md). A formally designated maintainer
+may approve only when no verified security owner is available. If neither authority
+is verified, the release gate rejects every exception. Missing or unavailable
+verification, CI prerequisites, or Sonar analysis results cannot be waived.
+
+The deployment workflow accepts exceptions only for available failed checks and
+keeps the pull-request quality workflow failing for any failed required check.
+An exception recorded in either JSON file must be reviewed through the repository's
+required CODEOWNERS approval and branch protection; recording a GitHub identity alone
+does not constitute approval.
 
 Identity, authorization/RBAC, first-access flows, sensitive data, credentials, and
 privileged operations require security review. Client-side route or UI guards alone

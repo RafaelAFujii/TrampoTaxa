@@ -101,7 +101,10 @@ describe('evaluateSecurityRisks', () => {
           ...webRisk,
           status: 'excepted',
           exception: {
+            gate: 'security-risk:WEB-AUTH-001',
+            revision: 'a'.repeat(40),
             approvedBy: '@security-owner',
+            approvedAt: '2026-10-16T00:00:00.000Z',
             rationale: 'Temporary exception for a controlled release.',
             scope: 'Preview deployment only.',
             expiresAt: '2026-10-20T00:00:00.000Z',
@@ -109,7 +112,8 @@ describe('evaluateSecurityRisks', () => {
         },
       ]),
       new Date('2026-10-17T00:00:00.000Z'),
-      verifiedSecurityOwner
+      verifiedSecurityOwner,
+      'a'.repeat(40)
     );
 
     expect(result.errors).toEqual([]);
@@ -121,7 +125,10 @@ describe('evaluateSecurityRisks', () => {
       ...webRisk,
       status: 'excepted',
       exception: {
+        gate: 'security-risk:WEB-AUTH-001',
+        revision: 'a'.repeat(40),
         approvedBy: '@maintainer',
+        approvedAt: '2026-10-16T00:00:00.000Z',
         rationale: 'Security owner unavailable.',
         scope: 'Preview deployment only.',
         expiresAt: '2026-10-20T00:00:00.000Z',
@@ -130,12 +137,14 @@ describe('evaluateSecurityRisks', () => {
     const noSecurityOwner = evaluateSecurityRisks(
       riskRegister([exception]),
       new Date('2026-10-17T00:00:00.000Z'),
-      { securityOwners: new Set(), designatedMaintainers: new Set(['@maintainer']) }
+      { securityOwners: new Set(), designatedMaintainers: new Set(['@maintainer']) },
+      'a'.repeat(40)
     );
     const securityOwnerAvailable = evaluateSecurityRisks(
       riskRegister([exception]),
       new Date('2026-10-17T00:00:00.000Z'),
-      verifiedSecurityOwner
+      verifiedSecurityOwner,
+      'a'.repeat(40)
     );
 
     expect(noSecurityOwner.errors).toEqual([]);
@@ -151,7 +160,10 @@ describe('evaluateSecurityRisks', () => {
       ...webRisk,
       status: 'excepted',
       exception: {
+        gate: 'security-risk:WEB-AUTH-001',
+        revision: 'a'.repeat(40),
         approvedBy: '@unverified-user',
+        approvedAt: '2026-10-16T00:00:00.000Z',
         rationale: 'Temporary exception.',
         scope: 'Preview only.',
         expiresAt: '2026-10-20T00:00:00.000Z',
@@ -159,7 +171,9 @@ describe('evaluateSecurityRisks', () => {
     };
     const result = evaluateSecurityRisks(
       riskRegister([exceptionRisk]),
-      new Date('2026-10-17T00:00:00.000Z')
+      new Date('2026-10-17T00:00:00.000Z'),
+      undefined,
+      'a'.repeat(40)
     );
 
     expect(result.errors).toContain(
@@ -174,7 +188,10 @@ describe('evaluateSecurityRisks', () => {
       ...webRisk,
       status: 'excepted',
       exception: {
+        gate: 'security-risk:WEB-AUTH-001',
+        revision: 'a'.repeat(40),
         approvedBy: '@security-owner',
+        approvedAt: '2026-10-16T00:00:00.000Z',
         rationale: 'Temporary exception.',
         scope: 'Preview only.',
         expiresAt,
@@ -183,33 +200,109 @@ describe('evaluateSecurityRisks', () => {
     const expired = evaluateSecurityRisks(
       riskRegister([makeException('2026-10-16T00:00:00.000Z')]),
       now,
-      verifiedSecurityOwner
+      verifiedSecurityOwner,
+      'a'.repeat(40)
     );
     const malformed = evaluateSecurityRisks(
       riskRegister([makeException('2027-02-30T00:00:00.000Z')]),
       now,
-      verifiedSecurityOwner
+      verifiedSecurityOwner,
+      'a'.repeat(40)
     );
     const incomplete = evaluateSecurityRisks(
       riskRegister([
         {
           ...webRisk,
           status: 'excepted',
-          exception: { approvedBy: '@security-owner' },
+          exception: {
+            gate: 'security-risk:WEB-AUTH-001',
+            revision: 'a'.repeat(40),
+            approvedBy: '@security-owner',
+            approvedAt: '2026-10-16T00:00:00.000Z',
+          },
         },
       ]),
       now,
-      verifiedSecurityOwner
+      verifiedSecurityOwner,
+      'a'.repeat(40)
     );
 
-    expect(expired.errors).toContain('Risk WEB-AUTH-001 exception expiry must be a future date.');
+    expect(expired.errors).toContain(
+      'Risk WEB-AUTH-001 exception for security-risk:WEB-AUTH-001 must expire after now and no later than 30 calendar days after approval.'
+    );
     expect(expired.blockingRiskIds).toContain('WEB-AUTH-001');
-    expect(malformed.errors).toContain('Risk WEB-AUTH-001 exception expiry must be a future date.');
+    expect(malformed.errors).toContain(
+      'Risk WEB-AUTH-001 exception for security-risk:WEB-AUTH-001 must expire after now and no later than 30 calendar days after approval.'
+    );
     expect(malformed.blockingRiskIds).toContain('WEB-AUTH-001');
     expect(incomplete.errors).toContain(
-      'Risk WEB-AUTH-001 exception must include approver, rationale, scope, and expiry.'
+      'Risk WEB-AUTH-001 exception record is incomplete or malformed.'
     );
     expect(incomplete.blockingRiskIds).toContain('WEB-AUTH-001');
+  });
+
+  it('accepts expiry exactly 30 calendar days after approval and rejects a longer exception', () => {
+    const now = new Date('2026-10-17T00:00:00.000Z');
+    const makeException = (expiresAt: string) => ({
+      ...webRisk,
+      status: 'excepted',
+      exception: {
+        gate: 'security-risk:WEB-AUTH-001',
+        revision: 'a'.repeat(40),
+        approvedBy: '@security-owner',
+        approvedAt: '2026-10-01T00:00:00.000Z',
+        rationale: 'Time-bounded production exception.',
+        scope: 'One release candidate.',
+        expiresAt,
+      },
+    });
+    const atLimit = evaluateSecurityRisks(
+      riskRegister([makeException('2026-10-31T00:00:00.000Z')]),
+      now,
+      verifiedSecurityOwner,
+      'a'.repeat(40)
+    );
+    const overLimit = evaluateSecurityRisks(
+      riskRegister([makeException('2026-11-01T00:00:00.000Z')]),
+      now,
+      verifiedSecurityOwner,
+      'a'.repeat(40)
+    );
+
+    expect(atLimit.errors).toEqual([]);
+    expect(atLimit.blockingRiskIds).toEqual(['MOBILE-AUTH-001', 'SERVER-AUTHZ-001']);
+    expect(overLimit.errors).toContain(
+      'Risk WEB-AUTH-001 exception for security-risk:WEB-AUTH-001 must expire after now and no later than 30 calendar days after approval.'
+    );
+    expect(overLimit.blockingRiskIds).toContain('WEB-AUTH-001');
+  });
+
+  it('rejects an exception whose approval date is invalid or after its expiry', () => {
+    const result = evaluateSecurityRisks(
+      riskRegister([
+        {
+          ...webRisk,
+          status: 'excepted',
+          exception: {
+            gate: 'security-risk:WEB-AUTH-001',
+            revision: 'a'.repeat(40),
+            approvedBy: '@security-owner',
+            approvedAt: '2026-10-31T00:00:00.000Z',
+            rationale: 'Invalid approval window.',
+            scope: 'One release candidate.',
+            expiresAt: '2026-10-30T00:00:00.000Z',
+          },
+        },
+      ]),
+      new Date('2026-10-17T00:00:00.000Z'),
+      verifiedSecurityOwner,
+      'a'.repeat(40)
+    );
+
+    expect(result.errors).toContain(
+      'Risk WEB-AUTH-001 exception for security-risk:WEB-AUTH-001 must expire after now and no later than 30 calendar days after approval.'
+    );
+    expect(result.blockingRiskIds).toContain('WEB-AUTH-001');
   });
 
   it('accepts resolved risks only when verification evidence is recorded', () => {

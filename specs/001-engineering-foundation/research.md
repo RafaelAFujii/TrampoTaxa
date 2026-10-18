@@ -91,8 +91,8 @@ not verified.
 
 **Release implication**: Risk records must not describe the Mobile session provider
 or guarded navigation as missing. Do not release production while critical/high
-end-to-end authentication or server-authorization risks remain, unless a constitution-
-compliant exception is approved.
+end-to-end authentication or server-authorization risks remain, unless an approved
+exception satisfies the specification's approval and 30-calendar-day requirements.
 
 ## Decision: Use One Standard Pull-Request Template and Explicit Ownership
 
@@ -121,6 +121,31 @@ selected automated Sonar analysis and clarified the distinct threshold for each 
 making the analysis a required check. Missing credentials, analysis failures, or
 missing quality-gate results must fail rather than produce a success-shaped fallback.
 
+## Decision: Use Explicit, Time-Bounded Release-Gate Exceptions
+
+**Decision**: Represent an approved exception as a record tied to the specific gate
+and release revision, with approver, approval date, rationale, scope, verification
+evidence, and expiry. Require expiry no more than 30 calendar days after approval and
+a new approval before any extension. Apply this rule to all mandatory
+production-release gates, including the Sonar debt threshold. Keep missing or
+unavailable required verification non-waivable. Keep security-risk exceptions
+associated with their risk records and record other gate exceptions in a dedicated
+release-exceptions register validated by TypeScript before deployment.
+
+**Rationale**: The clarified spec applies the same maximum duration to any exception
+that permits a release despite a mandatory gate. Binding the record to a gate and
+revision prevents an approval from silently becoming a standing waiver. Existing
+release-risk validation only checks that `expiresAt` is in the future; it does not
+enforce a maximum duration or approval timestamp, so tests and validation must be
+extended to enforce the new rule.
+
+**Alternatives considered**: Leave the duration unspecified for non-security gates;
+rejected because it permits indefinite quality-gate waivers. Reuse the security-risk
+register for Sonar or other quality exceptions; rejected because those exceptions
+would not represent security risks and could be confused with risk disposition.
+Allow exceptions to cover missing or unavailable checks; rejected because the spec
+requires those cases to remain blocked.
+
 ## Decision: Keep Process Evidence in Review and Risk Records
 
 **Decision**: Record changes and check evidence in pull requests, project-area
@@ -138,3 +163,5 @@ GitHub review records provide traceable evidence without introducing a new servi
 - Repository branch-protection configuration and required check names.
 - Security owner and risk severity/exception approval for actual end-to-end Web/Mobile
   authentication and server authorization gaps.
+- Verified release-exception approver identities and the repository's protected
+  workflow settings that enforce the exception validation check.

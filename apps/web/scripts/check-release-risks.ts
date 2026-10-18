@@ -1,27 +1,19 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  parseReleaseGateException,
+  type VerifiedExceptionApprovers,
+} from './release-exception-policy';
 
 type Severity = 'critical' | 'high' | 'medium' | 'low';
 type RiskStatus = 'open' | 'mitigated' | 'excepted' | 'closed';
 type RiskCategory =
   'web-authentication' | 'mobile-authentication' | 'server-authorization' | 'other';
 
-interface RiskException {
-  approvedBy: string;
-  rationale: string;
-  scope: string;
-  expiresAt: string;
-}
-
 interface RiskEvaluation {
   errors: string[];
   blockingRiskIds: string[];
-}
-
-interface VerifiedExceptionApprovers {
-  securityOwners: ReadonlySet<string>;
-  designatedMaintainers: ReadonlySet<string>;
 }
 
 const severities: Severity[] = ['critical', 'high', 'medium', 'low'];
@@ -64,63 +56,28 @@ function isRiskCategory(value: unknown): value is RiskCategory {
   return typeof value === 'string' && categories.some((category) => category === value);
 }
 
-function isFutureIsoDate(value: unknown, now: Date): value is string {
-  if (
-    typeof value !== 'string' ||
-    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(value)
-  ) {
-    return false;
-  }
-
-  const expiry = Date.parse(value);
-  return (
-    Number.isFinite(expiry) &&
-    expiry > now.getTime() &&
-    new Date(expiry).toISOString().slice(0, 19) === value.slice(0, 19)
-  );
-}
-
 function parseException(
   value: unknown,
   riskId: string,
   now: Date,
   authorizedApprovers: VerifiedExceptionApprovers,
+  candidateRevision: string | undefined,
   errors: string[]
-): RiskException | undefined {
-  if (!isRecord(value)) {
-    errors.push(`Risk ${riskId} exception must include approver, rationale, scope, and expiry.`);
-    return undefined;
-  }
-
-  const { approvedBy, rationale, scope, expiresAt } = value;
-  if (
-    !nonEmptyString(approvedBy) ||
-    !nonEmptyString(rationale) ||
-    !nonEmptyString(scope) ||
-    typeof expiresAt !== 'string'
-  ) {
-    errors.push(`Risk ${riskId} exception must include approver, rationale, scope, and expiry.`);
-    return undefined;
-  }
-
-  if (!isFutureIsoDate(expiresAt, now)) {
-    errors.push(`Risk ${riskId} exception expiry must be a future date.`);
-    return undefined;
-  }
-
-  const normalizedApprover = approvedBy.trim().toLowerCase();
-  const isSecurityOwner = authorizedApprovers.securityOwners.has(normalizedApprover);
-  const isDesignatedFallback =
-    authorizedApprovers.securityOwners.size === 0 &&
-    authorizedApprovers.designatedMaintainers.has(normalizedApprover);
-  if (!isSecurityOwner && !isDesignatedFallback) {
-    errors.push(
-      `Risk ${riskId} exception approver is not a verified security owner or designated maintainer.`
-    );
-    return undefined;
-  }
-
-  return { approvedBy: approvedBy.trim(), rationale, scope, expiresAt };
+) {
+  const exception = isRecord(value) ? value : undefined;
+  const revision =
+    candidateRevision ?? (typeof exception?.revision === 'string' ? exception.revision : '');
+  return parseReleaseGateException(
+    value,
+    {
+      gate: `security-risk:${riskId}`,
+      revision,
+      now,
+      authorizedApprovers,
+    },
+    errors,
+    `Risk ${riskId} exception`
+  );
 }
 
 export function parseVerifiedExceptionApprovers(source: string): VerifiedExceptionApprovers {
@@ -171,7 +128,8 @@ export function evaluateSecurityRisks(
   authorizedApprovers: VerifiedExceptionApprovers = {
     securityOwners: new Set(),
     designatedMaintainers: new Set(),
-  }
+  },
+  candidateRevision?: string
 ): RiskEvaluation {
   const errors: string[] = [];
   const blockingRiskIds: string[] = [];
@@ -248,7 +206,7 @@ export function evaluateSecurityRisks(
     }
 
     if (status === 'excepted') {
-      parseException(candidate.exception, id, now, authorizedApprovers, errors);
+      parseException(candidate.exception, id, now, authorizedApprovers, candidateRevision, errors);
     }
 
     const isBlockingSeverity = severity === 'critical' || severity === 'high';
@@ -311,7 +269,8 @@ async function main(): Promise<void> {
   const result = evaluateSecurityRisks(
     riskData,
     new Date(),
-    parseVerifiedExceptionApprovers(ownership)
+    parseVerifiedExceptionApprovers(ownership),
+    process.env.GITHUB_SHA
   );
   if (result.errors.length > 0) {
     for (const error of result.errors) {

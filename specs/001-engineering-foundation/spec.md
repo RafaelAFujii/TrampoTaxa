@@ -19,11 +19,13 @@
 
 ### Session 2026-10-17
 
+- Q: Uma exceção ao limite de débito técnico do Sonar deve obedecer ao mesmo prazo máximo de 30 dias definido para exceções de riscos de segurança? → A: Aplicar o máximo de 30 dias, com nova aprovação antes do vencimento, a todas as exceções de release, inclusive ao limite do Sonar.
 - Q: Com a sessão Mobile e as rotas protegidas agora presentes, quais riscos de autenticação devem continuar bloqueando um release de produção? → A: Fechar apenas a ausência de contexto/roteamento no Mobile; manter os riscos Web e de autorização no servidor como abertos.
 - Q: Para que as mudanças em `packages/shared` — incluindo o contrato OpenAPI e a configuração do Orval — não escapem das verificações, a validação obrigatória deve rodar em todo pull request ou somente nas áreas alteradas? → A: Executar validação completa em todo pull request para Web, Mobile e shared, incluindo geração e verificação OpenAPI/Orval.
 - Q: Para o monorepo com `apps/web`, `apps/mobile` e `packages/shared`, devemos usar um único template padrão de pull request com seleção das áreas afetadas e evidências de testes/segurança? → A: Usar um único template padrão central, com seleção de áreas afetadas e campos comuns de validação e segurança.
 - Q: O contrato canônico deve existir apenas em `packages/shared/openapi.yaml`, atualizando referências antigas e removendo `docs/openapi.yaml`, que ainda está no repositório e difere do contrato compartilhado? → A: Manter uma única fonte canônica em `packages/shared/openapi.yaml`, corrigir referências antigas e remover a cópia divergente em `docs/openapi.yaml`.
 - Q: O Mobile já tem contexto de sessão, armazenamento seguro e navegação protegida, mas o código revisado não mostra uma tela/fluxo que obtenha o JWT nem um emissor/API de autenticação; devemos considerar resolvida apenas a infraestrutura local e manter autenticação ponta a ponta como risco aberto? → A: Marcar a infraestrutura local de sessão/rotas como entregue, mas manter a integração de login/token e a autorização no servidor como riscos abertos até teste ponta a ponta.
+- Q: Por quanto tempo, no máximo, uma exceção temporária para um risco de segurança pode permanecer aprovada antes de exigir nova aprovação? → A: Até 30 dias por aprovação.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -97,6 +99,9 @@ handled according to the release gate.
    protected navigation, **When** its implemented checks are reviewed, **Then** the
    former absence-of-session-context risk is marked resolved without asserting that
    token issuance or server-side authorization has been verified.
+6. **Given** a temporary exception allows a failed mandatory release gate,
+   **When** its approval is recorded, **Then** its expiry is no more than 30 calendar
+   days later, and a new approval is required before expiry to extend it.
 
 ---
 
@@ -132,6 +137,8 @@ action for any failing indicator.
 
 - Required verification tools or services are unavailable: the change remains blocked
   rather than being treated as passing.
+- An exception to a mandatory release gate has expired: it no longer permits release
+  until a new approval with a future expiry within the 30-day maximum is recorded.
 - A change is an urgent security fix: it may use an expedited review path, but
   authentication, authorization, and essential verification requirements remain in
   force and any skipped nonessential step is documented for follow-up.
@@ -161,7 +168,11 @@ action for any failing indicator.
   end-to-end login/token integration, and server-side authorization gaps as security
   risks until their controls are implemented and verified. The delivered Mobile
   session context and protected navigation MUST NOT be listed as missing or treated
-  as proof that token issuance or server-side authorization is complete.
+  as proof that token issuance or server-side authorization is complete. Any temporary
+  exception to a mandatory production-release gate MUST record its approver, rationale,
+  scope, approval date, and expiry date. The expiry MUST be no more than 30 calendar
+  days after approval; continuing an exception MUST require a new approval before
+  expiry. An expired exception MUST no longer permit release.
 - **FR-007**: The project MUST define how credentials and sensitive configuration are
   handled so they are not committed to source history or exposed in user-facing
   errors.
@@ -170,8 +181,9 @@ action for any failing indicator.
   continuous integration.
 - **FR-009**: The technical-debt ratio reported by automated Sonar analysis MUST
   remain strictly below 10%; a value at or above 10% MUST block release until
-  corrected or covered by a documented, approved exception. ESLint MUST report zero
-  errors for release approval.
+  corrected or covered by an approved exception that complies with FR-006. ESLint MUST
+  report zero errors for release approval unless an exception that complies with FR-006
+  is approved.
 - **FR-010**: Every production release MUST require successful automated checks,
   including the applicable automated tests, before deployment.
 - **FR-011**: The project MUST provide a documented process for recording, prioritizing,
@@ -224,7 +236,8 @@ action for any failing indicator.
 - **SC-004**: 100% of major application and shared project areas have a documented
   maintenance owner.
 - **SC-005**: The Sonar technical-debt ratio is below 10% and ESLint reports zero
-  errors at release review; every exception is documented and approved before release.
+  errors at release review; every exception to a mandatory release gate is documented,
+  approved, and expires within 30 calendar days.
 - **SC-006**: 100% of critical and high-severity security findings have an owner and
   documented disposition before a production release.
 - **SC-007**: 100% of pull requests run the complete required workspace validation,
