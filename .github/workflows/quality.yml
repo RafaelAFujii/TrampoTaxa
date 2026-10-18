@@ -138,7 +138,7 @@ jobs:
         id: sonar-analysis
         if: always() && steps.sonar-prerequisites.outcome == 'success'
         continue-on-error: true
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
