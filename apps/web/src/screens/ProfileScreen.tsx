@@ -52,7 +52,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onHelpCenter: _onHelpCenter,
 }) => {
   const navigate = useNavigate();
-  const { user, logout, switchRole } = useAuth();
+  const { user, logout } = useAuth();
   const { kpis, gigs } = useContractor();
 
   const isContractor = user?.role === 'Contratante';
@@ -183,20 +183,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   <span>{phone}</span>
                 </span>
               </div>
-            </div>
-
-            {/* Alternador de papel */}
-            <div className="self-center sm:self-start">
-              <button
-                type="button"
-                onClick={() => {
-                  switchRole(isContractor ? 'Freelancer' : 'Contratante');
-                  navigate(isContractor ? '/map' : '/contractor/gigs');
-                }}
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-[#1B1E26] hover:bg-[#252934] border border-white/10 text-[#00E676] transition-colors cursor-pointer"
-              >
-                Alternar para {isContractor ? 'Freelancer' : 'Contratante'}
-              </button>
             </div>
           </div>
         </div>

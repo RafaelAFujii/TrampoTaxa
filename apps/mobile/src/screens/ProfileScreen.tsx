@@ -32,26 +32,6 @@ export const ProfileScreen: React.FC = () => {
         <Text style={styles.userRole}>
           {role === 'Freelancer' ? 'Bartender Pro • Curitiba, PR' : 'Gastronomia & Coquetelaria LTDA'}
         </Text>
-
-        {/* Toggle de Perfil (Freelancer / Contratante) */}
-        <View style={styles.roleToggleContainer}>
-          <TouchableOpacity
-            style={[styles.roleToggleButton, role === 'Freelancer' && styles.roleToggleButtonActive]}
-            onPress={() => setRole('Freelancer')}
-          >
-            <Text style={[styles.roleToggleText, role === 'Freelancer' && styles.roleToggleTextActive]}>
-              Modo Freelancer
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.roleToggleButton, role === 'Contratante' && styles.roleToggleButtonActive]}
-            onPress={() => setRole('Contratante')}
-          >
-            <Text style={[styles.roleToggleText, role === 'Contratante' && styles.roleToggleTextActive]}>
-              Modo Contratante
-            </Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
       {/* Conteúdo específico para Freelancer */}
@@ -238,31 +218,6 @@ const styles = StyleSheet.create({
     color: '#8E95A5',
     fontSize: 12,
     marginTop: 4,
-  },
-  roleToggleContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#141722',
-    borderRadius: 14,
-    padding: 3,
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.08)',
-  },
-  roleToggleButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 11,
-  },
-  roleToggleButtonActive: {
-    backgroundColor: '#00E676',
-  },
-  roleToggleText: {
-    color: '#8E95A5',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  roleToggleTextActive: {
-    color: '#0A0B0E',
   },
   sectionContainer: {
     gap: 12,

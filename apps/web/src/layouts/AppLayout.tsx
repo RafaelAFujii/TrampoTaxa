@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Map,
   Wallet,
   User,
   Sliders,
-  Code,
   LogOut,
   Building2,
   Briefcase,
   PlusCircle,
   BarChart3,
   MessageSquare,
-  ArrowRightLeft,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
-import { CodeViewerModal } from '../components/CodeViewerModal';
 import { PWAInstallButton } from '../components/PWAInstallButton';
 import { NavTab } from '@trampotaxa/shared';
 
 export const AppLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout, switchRole } = useAuth();
-
-  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const isContractor = user?.role === 'Contratante';
 
@@ -69,16 +64,6 @@ export const AppLayout: React.FC = () => {
     }
   };
 
-  const handleRoleToggle = () => {
-    const nextRole = isContractor ? 'Freelancer' : 'Contratante';
-    switchRole(nextRole);
-    if (nextRole === 'Contratante') {
-      navigate('/contractor/gigs');
-    } else {
-      navigate('/map');
-    }
-  };
-
   const handleLogout = () => {
     logout();
     navigate('/login', { replace: true });
@@ -87,7 +72,7 @@ export const AppLayout: React.FC = () => {
   const currentPath = location.pathname;
 
   return (
-    <div className="min-h-screen bg-[#0A0B0E] text-white flex flex-col font-sans selection:bg-[#00E676] selection:text-black">
+    <div className="h-screen bg-[#0A0B0E] text-white flex flex-col font-sans selection:bg-[#00E676] selection:text-black overflow-hidden">
       {/* ======================================================== */}
       {/* DESKTOP & MOBILE RESPONSIVE HEADER BAR                  */}
       {/* ======================================================== */}
@@ -245,23 +230,10 @@ export const AppLayout: React.FC = () => {
           )}
         </nav>
 
-        {/* Right: Role Switcher, Online Status, Profile & Code Modal */}
+        {/* Right: Online Status, Profile & PWA */}
         <div className="flex items-center gap-2.5">
           {/* Botão de Instalação Mobile PWA */}
           <PWAInstallButton />
-
-          {/* Alternador Rápido de Perfil (Contratante <-> Freelancer) */}
-          <button
-            type="button"
-            onClick={handleRoleToggle}
-            title={`Alternar para modo ${isContractor ? 'Freelancer' : 'Contratante'}`}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#1B1E26] hover:bg-[#252934] border border-white/10 text-zinc-300 hover:text-white transition-all cursor-pointer"
-          >
-            <ArrowRightLeft className="w-3.5 h-3.5 text-[#00E676]" />
-            <span className="hidden sm:inline">
-              Modo: <strong className="text-white">{user?.role || 'Freelancer'}</strong>
-            </span>
-          </button>
 
           {/* User profile dropdown trigger */}
           <div
@@ -288,23 +260,13 @@ export const AppLayout: React.FC = () => {
           >
             <LogOut className="w-4 h-4" />
           </button>
-
-          {/* View Code Modal Button */}
-          <button
-            type="button"
-            onClick={() => setIsCodeModalOpen(true)}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1B1E26] hover:bg-[#252934] border border-white/10 text-xs font-semibold text-zinc-200 transition-colors cursor-pointer"
-          >
-            <Code className="w-3.5 h-3.5 text-[#00E676]" />
-            <span>Código</span>
-          </button>
         </div>
       </header>
 
       {/* ======================================================== */}
       {/* CONTEÚDO DA TELA ATUAL                                   */}
       {/* ======================================================== */}
-      <main className="flex-1 flex flex-col relative pb-16 lg:pb-0">
+      <main className="flex-1 flex flex-col relative pb-16 lg:pb-0 min-h-0 overflow-hidden">
         <Outlet />
       </main>
 
@@ -316,11 +278,6 @@ export const AppLayout: React.FC = () => {
         activeTab={getActiveTab()}
         onTabChange={handleNavTabChange}
       />
-
-      {/* ======================================================== */}
-      {/* MODAL DO VISUALIZADOR DE CÓDIGO FONTE                    */}
-      {/* ======================================================== */}
-      <CodeViewerModal isOpen={isCodeModalOpen} onClose={() => setIsCodeModalOpen(false)} />
     </div>
   );
 };

@@ -515,14 +515,7 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
   );
 
   return (
-    <div
-      className="relative w-full h-[calc(100vh-4rem)] min-h-[500px] overflow-hidden bg-[#0A0D14] select-none"
-      style={{
-        width: '100%',
-        height: 'calc(100vh - 4rem)',
-        minHeight: '500px',
-      }}
-    >
+    <div className="relative w-full h-full min-h-0 overflow-hidden bg-[#0A0D14] select-none">
       {hasKey ? (
         <ErrorBoundary fallback={fallbackView}>
           <div

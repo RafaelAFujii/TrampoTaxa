@@ -8,7 +8,6 @@ import {
   X,
   WifiOff,
   Filter,
-  UserCheck,
   List,
   Map as MapIcon,
   Search,
@@ -44,7 +43,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   onAcceptGigSuccess,
 }) => {
   const navigate = useNavigate();
-  const { user, switchRole } = useAuth();
+  const { user } = useAuth();
 
   // Consumo reativo via TanStack React Query (com cache de 5min e retry: 1)
   const { data: queryGigs, isLoading, isError, refetch } = useGigsQuery();
@@ -124,12 +123,12 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col lg:flex-row relative bg-[#0A0B0E] h-[calc(100vh-4rem)] min-h-[500px] overflow-hidden">
+    <div className="w-full flex-1 flex flex-col lg:flex-row relative bg-[#0A0B0E] h-full min-h-0 overflow-hidden">
       {/* ======================================================== */}
       {/* SIDEBAR DESKTOP: Painel de Vagas & Status do Radar       */}
       {/* ======================================================== */}
-      <aside className="hidden lg:flex w-96 flex-col justify-between border-r border-white/5 bg-[#0F1117] z-20 shrink-0 h-full">
-        <div className="p-5 flex flex-col h-full overflow-hidden">
+      <aside className="hidden lg:flex w-96 flex-col justify-between border-r border-white/5 bg-[#0F1117] z-20 shrink-0 h-full min-h-0 overflow-hidden">
+        <div className="p-5 flex flex-col h-full min-h-0 overflow-hidden">
           {/* Header do Perfil & Ganhos do Dia */}
           <div className="flex items-center justify-between pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
@@ -336,10 +335,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
       {/* ======================================================== */}
       {/* ÁREA PRINCIPAL: MAPA + INJEÇÃO DE MARCADORES (GigMarker) */}
       {/* ======================================================== */}
-      <main
-        className="flex-1 relative w-full h-[calc(100vh-4rem)] min-h-[500px] overflow-hidden bg-[#0A0D14]"
-        style={{ height: 'calc(100vh - 4rem)', minHeight: '500px' }}
-      >
+      <main className="flex-1 relative w-full h-full min-h-0 overflow-hidden bg-[#0A0D14]">
         {/* Componente MapPlaceholder com os dados injetados */}
         <MapPlaceholder
           gigs={displayedGigs}
@@ -386,21 +382,6 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   <span>Ver Mapa</span>
                 </>
               )}
-            </button>
-          </div>
-
-          {/* Botão de Troca Rápida de Perfil (Freelancer / Contratante) para testes */}
-          <div className="pointer-events-auto hidden sm:flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => switchRole(user?.role === 'Freelancer' ? 'Contratante' : 'Freelancer')}
-              className="bg-[#121620]/90 hover:bg-[#1A1F2D] border border-white/10 text-zinc-300 text-xs px-3 py-2 rounded-full backdrop-blur-md flex items-center gap-1.5 shadow-lg transition-colors cursor-pointer"
-              title="Alternar Perfil para Validação"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-[#00E676]" />
-              <span>
-                Perfil: <strong className="text-white">{user?.role || 'Freelancer'}</strong>
-              </span>
             </button>
           </div>
         </div>
