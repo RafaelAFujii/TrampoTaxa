@@ -6,7 +6,7 @@
       "severity": "high",
       "affectedArea": "Web authentication",
       "ownerRole": "Web maintainer (@RafaelAFujii)",
-      "status": "resolved",
+      "status": "mitigated",
       "disposition": "Web login is now implemented with production JWT issuance and credential verification.",
       "evidence": [
         "E2E login flow verified",
@@ -19,7 +19,7 @@
       "severity": "high",
       "affectedArea": "Mobile end-to-end login and token issuance",
       "ownerRole": "Mobile maintainer (@RafaelAFujii)",
-      "status": "resolved",
+      "status": "mitigated",
       "disposition": "Production login and end-to-end token issuance verified with SecureStore.",
       "evidence": [
         "Mobile authentication flow integrated",
@@ -32,7 +32,7 @@
       "severity": "high",
       "affectedArea": "Server-side authorization and RBAC",
       "ownerRole": "Security maintainer (@RafaelAFujii)",
-      "status": "resolved",
+      "status": "mitigated",
       "disposition": "Server-side enforcement of authentication and RBAC is actively verified.",
       "evidence": [
         "RBAC rules applied to endpoints",
