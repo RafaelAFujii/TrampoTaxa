@@ -7,7 +7,7 @@ Este diretório centraliza a documentação de arquitetura, modelagem de banco d
 ## 📑 Índice de Documentos
 
 1. **Especificação da API RESTful (OpenAPI 3.0 / Swagger):**
-   - Arquivo canônico: [`packages/shared/openapi.yaml`](../../../packages/shared/openapi.yaml)
+   - Arquivo canônico: [`./openapi.yaml`](./openapi.yaml)
    - Contratos de todos os endpoints RESTful (Autenticação, Vagas, Candidaturas, Chat, Avaliações e KPIs).
    - Utilizado pelo gerador [Orval](https://orval.dev/) para gerar clientes e hooks tipados em `packages/shared/src/api/`.
 

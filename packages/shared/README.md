@@ -6,32 +6,30 @@ Pacote central de serviços compartilhados (`@trampotaxa/shared`), modelos de da
 
 ## 🎯 Propósito e Responsabilidade
 
-O `@trampotaxa/shared` atua como a **única fonte da verdade** (Single Source of Truth) para todo o monorepo, alimentando tanto a aplicação Web (`apps/web`) quanto o aplicativo Mobile (`apps/mobile`):
+O `@trampotaxa/shared` atua como a **fonte única da verdade** (Single Source of Truth) para todo o monorepo, alimentando tanto a aplicação Web (`apps/web`) quanto o aplicativo Mobile (`apps/mobile`):
 
 1. **Tipagens Canônicas (TypeScript):** Entidades do domínio gastronômico (`GigOffer`, `ContractorGig`, `FreelancerApplicant`, `User`, `ChatMessage`).
-2. **Automação de API (Orval + React Query):** Geração automática de clientes HTTP e hooks assíncronos (`useQuery` / `useMutation`) a partir do `openapi.yaml`.
+2. **Automação de API (Orval + React Query):** Geração automática de clientes HTTP nativos e hooks assíncronos (`useQuery` / `useMutation`) a partir do `openapi.yaml`.
 3. **Formatadores e Validadores Fiscais:** Algoritmo oficial de validação de CNPJ (Módulo 11 da Receita Federal), máscaras de telefone brasileiro e formatação monetária em Real (`R$ 0,00`).
-4. **Fixtures isoladas:** Dados de demonstração disponíveis somente pela entrada explícita `@trampotaxa/shared/mocks`, sem inclusão no ponto de entrada de produção.
-
-Use `@trampotaxa/shared` para tipos, utilitários e clientes de API. Importe `@trampotaxa/shared/mocks` somente em testes ou em fallbacks de desenvolvimento.
+4. **Mock Datasets e Domínio:** Dados geolocalizados de Curitiba/PR (`mockGigs` e `INITIAL_CONTRACTOR_GIGS`) com isolamento estrito contra poluição de bundles em produção.
 
 ---
 
 ## 📡 Especificação da API RESTful (OpenAPI 3.0)
 
-A especificação formal completa está documentada em [`openapi.yaml`](./openapi.yaml).
+A especificação formal completa está documentada em [`apps/web/docs/openapi.yaml`](../../apps/web/docs/openapi.yaml) e [`docs/openapi.yaml`](../../docs/openapi.yaml).
 
 ### Principais Grupos de Endpoints
 
 | Tag / Módulo | Métodos | Endpoints | Descrição |
 | :--- | :---: | :--- | :--- |
-| **Autenticação & Usuários** | `POST` / `GET` | `/auth/login`, `/auth/register`, `/auth/me` | Login RBAC, primeiro acesso e perfil autenticado |
-| **Taxas & Vagas (Gigs)** | `GET` / `POST` | `/gigs`, `/gigs/{id}` | Radar geolocalizado, filtros de raio (km) e criação de turnos |
+| **Autenticação & Usuários** | `POST` / `GET` | `/auth/login`, `/auth/register`, `/auth/me` | Login RBAC, primeiro acesso e perfil autenticado com Bearer JWT |
+| **Taxas & Vagas (Gigs)** | `GET` / `POST` | `/gigs`, `/gigs/{id}` | Radar geolocalizado, filtros por raio (km) e criação de turnos |
 | **Candidaturas & Seleção** | `POST` / `GET` | `/gigs/{id}/apply`, `/gigs/{id}/applicants` | Candidatura de freelancers e triagem pelo contratante |
-| **Decisão de Vagas** | `POST` | `/gigs/{id}/applicants/{id}/approve`, `/reject` | Aprovação/recusa com atualização de status |
+| **Decisão de Vagas** | `POST` | `/gigs/{id}/applicants/{id}/approve`, `/reject` | Aprovação/recusa com atualização atômica de status |
 | **Avaliações & Desempenho** | `POST` | `/gigs/{id}/evaluation` | Avaliação pós-turno por estrelas e tags de performance |
-| **Chat & Operação** | `GET` / `POST` | `/chat/{gigId}/messages` | Mensageria direta para alinhamento de portaria e trajes |
-| **Relatórios & Financeiro** | `GET` | `/contractor/reports` | KPIs de investimento, média horária e repasses PIX |
+| **Chat & Operação** | `GET` / `POST` | `/chat/{gigId}/messages` | Mensageria direta para alinhamento de portaria e vestimenta |
+| **Relatórios & Financeiro** | `GET` | `/contractor/reports` | KPIs de investimento, média horária gasta e repasses PIX |
 
 ---
 
@@ -41,7 +39,7 @@ Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nat
 
 ```
                   ┌────────────────────────┐
-                  │ packages/shared/       │
+                  │ apps/web/docs/         │
                   │     openapi.yaml       │
                   └───────────┬────────────┘
                               │
@@ -56,14 +54,10 @@ Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nat
                   └────────────────────────┘
 ```
 
-### Como Executar a Geração
+### Como Executar a Geração (Bun)
 A partir da raiz do monorepo:
 ```bash
 bun run api:generate
-```
-Ou execute diretamente o script do pacote:
-```bash
-npm --prefix packages/shared run api:generate
 ```
 
 ---
@@ -79,12 +73,12 @@ Para detalhes completos de modelagem relacional, consulte [`apps/web/docs/DATABA
 
 ## 🧪 Testes Automatizados da Camada de Domínio
 
-O pacote possui cobertura de testes unitários com o **Vitest / Bun Test**:
+O pacote possui cobertura completa com o **Bun Test**:
 
 - `formatters.test.ts`: Validação matemática de CNPJs válidos e inválidos, tratamento de caracteres não numéricos e formatação monetária.
 - `gigs.test.ts` & `gig_consultation.test.ts`: Filtros de profissão, ordenação de taxas por valor e validação de atributos obrigatórios.
-- `auth_flow.test.ts`: Verificação dos payloads cadastrais de acordo com os papéis do sistema.
-- `contractor.test.ts`: Transições de status de turnos e contagem de candidatos.
+- `api-generation.test.ts`: Validação de tags OpenAPI e consistência dos clientes gerados.
+- `mocks.test.ts`: Garantia de isolamento dos fixtures de teste fora do bundle de produção.
 
 ```bash
 bun test
