@@ -127,3 +127,12 @@ For every test PR (including documentation-only changes), confirm:
 Detailed gate behavior is defined in
 [contracts/change-release-gates.md](./contracts/change-release-gates.md); process
 record fields and lifecycle are in [data-model.md](./data-model.md).
+
+## T031 Release-Gate and Exception Resilience Verification
+
+- **Verification Date:** 2026-10-17
+- **Workflow Evidence:** GitHub Actions Run [39082413311](https://github.com/RafaelAFujii/TrampoTaxa/actions/runs/39082413311)
+- **Validated Behavior:** 
+  1. The release risk gate (`check-release-risks.ts`) successfully blocked production release when authentication risks were open.
+  2. Following mitigation and status update to `mitigated`, the risk gate passed, allowing downstream execution.
+  3. Unit tests for release exception policies (`release-exception-gate.test.ts`) confirm that missing or unavailable checks cannot be waived by exceptions, and expired or unapproved exceptions fail closed.

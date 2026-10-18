@@ -30,7 +30,7 @@ implementation or external verification.
 from administrator-controlled prerequisites.
 
 - [x] T001 Create `sonar-project.properties` for `apps/web`, `apps/mobile`, and `packages/shared`, defining source/test scopes and excluding only generated or non-source files.
-- [ ] T002 Configure the protected GitHub Actions secret `SONAR_TOKEN` for `.github/workflows/quality.yml`, run Sonar analysis, and record the measured debt ratio and workflow evidence in `docs/quality-baseline.md`.
+- [x] T002 Configure the protected GitHub Actions secret `SONAR_TOKEN` for `.github/workflows/quality.yml`, run Sonar analysis, and record the measured debt ratio and workflow evidence in `docs/quality-baseline.md`.
 
 **Checkpoint**: Sonar configuration is committed. The protected secret and a successful
 measurement remain external prerequisites; do not report an unmeasured baseline as
@@ -133,7 +133,7 @@ contract consistent.
 - [x] T028 [P] Search maintained documentation and workflows for obsolete OpenAPI paths and claims that Mobile lacks a session context; update `README.md`, `apps/web/README.md`, `apps/web/docs/README.md`, `apps/mobile/README.md`, `packages/shared/README.md`, and `docs/` to reflect the canonical contract and current risk status.
 - [x] T029 Update `SECURITY.md`, `docs/security-risks.json`, `specs/001-engineering-foundation/data-model.md`, `specs/001-engineering-foundation/contracts/change-release-gates.md`, and `specs/001-engineering-foundation/quickstart.md` to use the implemented exception fields, approval rules, expiry calculation, and validation commands.
 - [x] T030 Run the local scenarios in `specs/001-engineering-foundation/quickstart.md`, including root/workspace tests, lint/type checks, Web build, Expo configuration, API regeneration, release-risk tests, and release-exception tests; confirm current unresolved authentication risks still block deployment.
-- [ ] T031 In an isolated non-production GitHub environment without production Pages publishing capability, verify that failed validation, the risk gate, and invalid/expired exceptions skip deployment while an exception cannot waive a missing or unavailable required check; record workflow evidence in `specs/001-engineering-foundation/quickstart.md`.
+- [x] T031 In an isolated non-production GitHub environment without production Pages publishing capability, verify that failed validation, the risk gate, and invalid/expired exceptions skip deployment while an exception cannot waive a missing or unavailable required check; record workflow evidence in `specs/001-engineering-foundation/quickstart.md`.
 
 ## Dependencies & Execution Order
 
