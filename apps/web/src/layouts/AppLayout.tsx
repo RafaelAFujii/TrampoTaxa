@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
-import { PWAInstallButton } from '../components/PWAInstallButton';
 import { NavTab } from '@trampotaxa/shared';
 
 export const AppLayout: React.FC = () => {
@@ -103,7 +102,7 @@ export const AppLayout: React.FC = () => {
         </div>
 
         {/* Center: Desktop Top Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#181a20] p-1 rounded-2xl border border-white/5">
+        <nav className="hidden lg:flex items-center gap-1 bg-[#181a20] p-1 rounded-2xl border border-white/5">
           {isContractor ? (
             /* Links do Contratante */
             <>
@@ -230,11 +229,8 @@ export const AppLayout: React.FC = () => {
           )}
         </nav>
 
-        {/* Right: Online Status, Profile & PWA */}
+        {/* Right: Online Status & Profile */}
         <div className="flex items-center gap-2.5">
-          {/* Botão de Instalação Mobile PWA */}
-          <PWAInstallButton />
-
           {/* User profile dropdown trigger */}
           <div
             onClick={() => navigate('/profile')}
@@ -266,7 +262,11 @@ export const AppLayout: React.FC = () => {
       {/* ======================================================== */}
       {/* CONTEÚDO DA TELA ATUAL                                   */}
       {/* ======================================================== */}
-      <main className="flex-1 flex flex-col relative pb-16 lg:pb-0 min-h-0 overflow-hidden">
+      <main
+        className={`flex-1 flex flex-col relative pb-16 lg:pb-0 min-h-0 ${
+          location.pathname === '/map' ? 'overflow-hidden' : 'overflow-y-auto'
+        }`}
+      >
         <Outlet />
       </main>
 
