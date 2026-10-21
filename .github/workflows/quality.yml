@@ -68,6 +68,8 @@ jobs:
         id: web-build
         if: always() && steps.install.outcome == 'success'
         continue-on-error: true
+        env:
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         run: bun run --filter web build
 
       - name: Run Mobile Vitest suite
