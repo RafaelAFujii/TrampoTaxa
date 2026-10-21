@@ -6,12 +6,23 @@ interface ProtectedRouteProps {
   children: React.ReactElement;
 }
 
-/**
- * Componente de rota protegida.
- * Redireciona usuários não autenticados para a tela de Login (/login).
- */
+const freelancerRoutes = ['/map', '/active-gig', '/earnings', '/profile', '/settings'];
+const contractorRoutes = ['/contractor/gigs', '/contractor/create', '/contractor/reports', '/contractor/chat'];
+
+export function getRoleRedirectPath(pathname: string, role?: 'Freelancer' | 'Contratante') {
+  if (role === 'Freelancer' && contractorRoutes.some((route) => pathname.startsWith(route))) {
+    return '/map';
+  }
+
+  if (role === 'Contratante' && freelancerRoutes.some((route) => pathname.startsWith(route))) {
+    return '/contractor/gigs';
+  }
+
+  return null;
+}
+
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -26,8 +37,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    // Redireciona para o login salvando o caminho de origem
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  const redirectPath = getRoleRedirectPath(location.pathname, user?.role);
+  if (redirectPath) {
+    return <Navigate to={redirectPath} replace />;
   }
 
   return children;

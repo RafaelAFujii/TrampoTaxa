@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "allowJs": true,
     "jsx": "react-jsx",
     "noEmit": true,
@@ -12,10 +16,20 @@
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "paths": {
-      "@trampotaxa/shared": ["../../packages/shared/src/index.ts"],
-      "@trampotaxa/shared/mocks": ["../../packages/shared/src/mocks.ts"]
+      "@trampotaxa/shared": [
+        "../../packages/shared/src/index.ts"
+      ],
+      "@trampotaxa/shared/mocks": [
+        "../../packages/shared/src/mocks.ts"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "extends": "expo/tsconfig.base"
 }

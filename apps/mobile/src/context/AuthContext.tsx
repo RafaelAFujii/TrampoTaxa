@@ -14,11 +14,12 @@ import {
   removeSessionToken,
   restoreSession,
   type AuthState,
+  type UserRole,
 } from './session';
 
 interface AuthContextValue {
   state: AuthState;
-  signIn: (token: string) => Promise<void>;
+  signIn: (token: string, role?: UserRole) => Promise<void>;
   signOut: () => Promise<void>;
   handleUnauthorized: () => Promise<void>;
 }
@@ -35,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({
           type: 'RESTORE_FINISHED',
           token: restored.status === 'authenticated' ? restored.token : null,
+          role: restored.status === 'authenticated' ? restored.role : undefined,
         });
       }
     });
@@ -44,11 +46,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const signIn = useCallback(async (token: string) => {
+  const signIn = useCallback(async (token: string, role: UserRole = 'Freelancer') => {
     dispatch({ type: 'SIGNED_OUT' });
     try {
-      await persistSessionToken(SecureStore, token);
-      dispatch({ type: 'SIGNED_IN', token });
+      await persistSessionToken(SecureStore, token, role);
+      dispatch({ type: 'SIGNED_IN', token, role });
     } catch (error) {
       console.error('Failed to persist Mobile auth session', error);
       dispatch({ type: 'SIGNED_OUT' });

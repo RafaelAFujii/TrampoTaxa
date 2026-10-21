@@ -5,11 +5,16 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { EarningsScreen } from '../src/screens/EarningsScreen';
 import { MapScreen } from '../src/screens/MapScreen';
 import { ProfileScreen } from '../src/screens/ProfileScreen';
+import { ContractorGigsScreen } from '../src/screens/ContractorGigsScreen';
+import { CreateGigScreen } from '../src/screens/CreateGigScreen';
+import { ContractorReportsScreen } from '../src/screens/ContractorReportsScreen';
+import { ContractorChatScreen } from '../src/screens/ContractorChatScreen';
 import type { AuthState } from '../src/context/session';
-import { getRootNavigationState } from './authNavigation';
-import type { MobileTabParamList } from './types';
+import { getMobileRole, getRootNavigationState } from './authNavigation';
+import type { ContractorTabParamList, FreelancerTabParamList } from './types';
 
-const Tab = createBottomTabNavigator<MobileTabParamList>();
+const FreelancerTab = createBottomTabNavigator<FreelancerTabParamList>();
+const ContractorTab = createBottomTabNavigator<ContractorTabParamList>();
 
 const DarkNavTheme = {
   ...DefaultTheme,
@@ -45,53 +50,117 @@ function SessionGate({ restoring }: { restoring: boolean }) {
   );
 }
 
+function FreelancerTabs() {
+  return (
+    <FreelancerTab.Navigator
+      initialRouteName="Mapa"
+      screenOptions={{
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: '#00E676',
+        tabBarInactiveTintColor: '#8E95A5',
+        tabBarLabelStyle: styles.tabLabel,
+        headerStyle: styles.header,
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: styles.headerTitle,
+        headerTitleAlign: 'center',
+      }}
+    >
+      <FreelancerTab.Screen
+        name="Mapa"
+        component={MapScreen}
+        options={{
+          title: 'Radar de Taxas',
+          tabBarLabel: 'Radar',
+          tabBarIcon: ({ focused }) => <TabIcon name="map" focused={focused} />,
+        }}
+      />
+      <FreelancerTab.Screen
+        name="Relatorios"
+        component={EarningsScreen}
+        options={{
+          title: 'Extrato de Ganhos',
+          tabBarLabel: 'Ganhos',
+          tabBarIcon: ({ focused }) => <TabIcon name="earnings" focused={focused} />,
+        }}
+      />
+      <FreelancerTab.Screen
+        name="Perfil"
+        component={ProfileScreen}
+        options={{
+          title: 'Meu Perfil',
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({ focused }) => <TabIcon name="profile" focused={focused} />,
+        }}
+      />
+    </FreelancerTab.Navigator>
+  );
+}
+
+function ContractorTabs() {
+  return (
+    <ContractorTab.Navigator
+      initialRouteName="Vagas"
+      screenOptions={{
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: '#00E676',
+        tabBarInactiveTintColor: '#8E95A5',
+        tabBarLabelStyle: styles.tabLabel,
+        headerStyle: styles.header,
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: styles.headerTitle,
+        headerTitleAlign: 'center',
+      }}
+    >
+      <ContractorTab.Screen
+        name="Vagas"
+        component={ContractorGigsScreen}
+        options={{
+          title: 'Vagas',
+          tabBarLabel: 'Vagas',
+          tabBarIcon: ({ focused }) => <TabIcon name="map" focused={focused} />,
+        }}
+      />
+      <ContractorTab.Screen
+        name="CriarVaga"
+        component={CreateGigScreen}
+        options={{
+          title: 'Nova vaga',
+          tabBarLabel: 'Criar',
+          tabBarIcon: ({ focused }) => <TabIcon name="profile" focused={focused} />,
+        }}
+      />
+      <ContractorTab.Screen
+        name="RelatorioContratante"
+        component={ContractorReportsScreen}
+        options={{
+          title: 'Relatórios',
+          tabBarLabel: 'Relatórios',
+          tabBarIcon: ({ focused }) => <TabIcon name="earnings" focused={focused} />,
+        }}
+      />
+      <ContractorTab.Screen
+        name="Chat"
+        component={ContractorChatScreen}
+        options={{
+          title: 'Chat',
+          tabBarLabel: 'Chat',
+          tabBarIcon: ({ focused }) => <TabIcon name="profile" focused={focused} />,
+        }}
+      />
+    </ContractorTab.Navigator>
+  );
+}
+
 export function RootNavigator({ authState }: { authState: AuthState }) {
   const navigationState = getRootNavigationState(authState);
+  const role = getMobileRole(authState) ?? 'Freelancer';
 
   return (
     <NavigationContainer theme={DarkNavTheme}>
-      {navigationState === 'authenticated' ? (
-        <Tab.Navigator
-          initialRouteName="Mapa"
-          screenOptions={{
-            tabBarStyle: styles.tabBar,
-            tabBarActiveTintColor: '#00E676',
-            tabBarInactiveTintColor: '#8E95A5',
-            tabBarLabelStyle: styles.tabLabel,
-            headerStyle: styles.header,
-            headerTintColor: '#FFFFFF',
-            headerTitleStyle: styles.headerTitle,
-            headerTitleAlign: 'center',
-          }}
-        >
-          <Tab.Screen
-            name="Mapa"
-            component={MapScreen}
-            options={{
-              title: 'Radar de Taxas',
-              tabBarLabel: 'Radar',
-              tabBarIcon: ({ focused }) => <TabIcon name="map" focused={focused} />,
-            }}
-          />
-          <Tab.Screen
-            name="Relatorios"
-            component={EarningsScreen}
-            options={{
-              title: 'Extrato de Ganhos',
-              tabBarLabel: 'Ganhos',
-              tabBarIcon: ({ focused }) => <TabIcon name="earnings" focused={focused} />,
-            }}
-          />
-          <Tab.Screen
-            name="Perfil"
-            component={ProfileScreen}
-            options={{
-              title: 'Meu Perfil',
-              tabBarLabel: 'Perfil',
-              tabBarIcon: ({ focused }) => <TabIcon name="profile" focused={focused} />,
-            }}
-          />
-        </Tab.Navigator>
+      {navigationState === 'authenticated' && role === 'Contratante' ? (
+        <ContractorTabs />
+      ) : navigationState === 'authenticated' && role === 'Freelancer' ? (
+        <FreelancerTabs />
       ) : (
         <SessionGate restoring={navigationState === 'restoring'} />
       )}

@@ -14,9 +14,14 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { AppLayout } from '../layouts/AppLayout';
 import { useAuth } from '../context/AuthContext';
 
-/**
- * Componente inteligente para redirecionar '/' para o painel correspondente ao papel
- */
+function LoginRouteGate() {
+  const { user } = useAuth();
+  if (user) {
+    return <Navigate to={user.role === 'Contratante' ? '/contractor/gigs' : '/map'} replace />;
+  }
+  return <LoginScreen />;
+}
+
 function IndexRedirect() {
   const { user } = useAuth();
   if (user?.role === 'Contratante') {
@@ -25,24 +30,23 @@ function IndexRedirect() {
   return <Navigate to="/map" replace />;
 }
 
-/**
- * Configuração central de roteamento da aplicação com React Router v6+
- * Rotas públicas: /login, /cadastro (Primeiro Acesso)
- * Rotas do Freelancer: /map, /active-gig, /earnings, /profile, /settings
- * Rotas do Contratante: /contractor/gigs, /contractor/create, /contractor/reports, /contractor/chat
- */
 export const router = createHashRouter([
-  // Rota de Login
   {
     path: '/login',
-    element: <LoginScreen />,
+    element: <LoginRouteGate />,
   },
-  // Rota de Cadastro / Primeiro Acesso
+  {
+    path: '/login/freelancer',
+    element: <LoginRouteGate />,
+  },
+  {
+    path: '/login/contractor',
+    element: <LoginRouteGate />,
+  },
   {
     path: '/cadastro',
     element: <CadastroScreen />,
   },
-  // Estrutura Protegida
   {
     path: '/',
     element: (
@@ -55,7 +59,6 @@ export const router = createHashRouter([
         index: true,
         element: <IndexRedirect />,
       },
-      // Rotas do Freelancer
       {
         path: 'map',
         element: <MapDashboardScreen />,
@@ -76,7 +79,6 @@ export const router = createHashRouter([
         path: 'settings',
         element: <SettingsScreen />,
       },
-      // Rotas do Contratante
       {
         path: 'contractor/gigs',
         element: <ContractorGigsScreen />,
@@ -95,7 +97,6 @@ export const router = createHashRouter([
       },
     ],
   },
-  // Fallback para qualquer rota não mapeada
   {
     path: '*',
     element: <Navigate to="/login" replace />,

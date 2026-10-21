@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getRootNavigationState } from './authNavigation';
+import { getMobileRole, getRootNavigationState } from './authNavigation';
 
 describe('RootNavigator access boundary', () => {
   it('does not expose tabs while the session is restoring', () => {
@@ -11,8 +11,20 @@ describe('RootNavigator access boundary', () => {
   });
 
   it('exposes tabs only after successful authentication', () => {
-    expect(getRootNavigationState({ status: 'authenticated', token: 'jwt' })).toBe(
+    expect(getRootNavigationState({ status: 'authenticated', token: 'jwt', role: 'Freelancer' })).toBe(
       'authenticated'
+    );
+    expect(getMobileRole({ status: 'authenticated', token: 'jwt', role: 'Freelancer' })).toBe(
+      'Freelancer'
+    );
+  });
+
+  it('keeps contractor sessions on the contractor flow', () => {
+    expect(getRootNavigationState({ status: 'authenticated', token: 'jwt', role: 'Contratante' })).toBe(
+      'authenticated'
+    );
+    expect(getMobileRole({ status: 'authenticated', token: 'jwt', role: 'Contratante' })).toBe(
+      'Contratante'
     );
   });
 });
