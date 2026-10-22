@@ -6,15 +6,15 @@ interface ProtectedRouteProps {
   children: React.ReactElement;
 }
 
-const freelancerRoutes = ['/map', '/active-gig', '/earnings', '/profile', '/settings'];
-const contractorRoutes = ['/contractor/gigs', '/contractor/create', '/contractor/reports', '/contractor/chat'];
+const freelancerOnlyRoutes = ['/map', '/active-gig', '/earnings'];
+const contractorOnlyRoutes = ['/contractor/gigs', '/contractor/create', '/contractor/reports', '/contractor/chat'];
 
 export function getRoleRedirectPath(pathname: string, role?: 'Freelancer' | 'Contratante') {
-  if (role === 'Freelancer' && contractorRoutes.some((route) => pathname.startsWith(route))) {
+  if (role === 'Freelancer' && contractorOnlyRoutes.some((route) => pathname.startsWith(route))) {
     return '/map';
   }
 
-  if (role === 'Contratante' && freelancerRoutes.some((route) => pathname.startsWith(route))) {
+  if (role === 'Contratante' && freelancerOnlyRoutes.some((route) => pathname.startsWith(route))) {
     return '/contractor/gigs';
   }
 
