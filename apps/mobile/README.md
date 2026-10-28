@@ -1,122 +1,76 @@
-# 📱 TrampoTaxa Mobile — Aplicativo Nativo Expo & React Native
+# 📱 TrampoTaxa Mobile — Aplicativo Nativo Expo Go
 
-Aplicativo móvel nativo do **TrampoTaxa (Loctaxa CWB)**, construído com **Expo (React Native)** e conectado diretamente ao pacote compartilhado `@trampotaxa/shared` dentro do monorepo Bun.
+Aplicativo móvel nativo do **TrampoTaxa (Loctaxa CWB)**, desenvolvido com **Expo (React Native)** e conectado ao pacote compartilhado `@trampotaxa/shared` no monorepo Bun.
 
 ---
 
 ## 🛠️ Stack Tecnológica Mobile
 
 * **Framework:** [React Native 0.74](https://reactnative.dev/) & [Expo SDK 51](https://docs.expo.dev/)
-* **Navegação Nativa:** [React Navigation](https://reactnavigation.org/) (`@react-navigation/native` & `@react-navigation/bottom-tabs`)
-* **Gerenciamento de Estado Assíncrono:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`, `retry: 1`)
-* **Mapas Nativos:** `react-native-maps` com suporte a geolocalização e marcadores personalizados
-* **Lógica Compartilhada:** `@trampotaxa/shared` (tipagens unificadas, formatadores fiscais e datasets)
-* **Resolução Monorepo:** Metro Bundler configurado com `watchFolders` e `extraNodeModules`
+* **Navegação Nativa:** [React Navigation](https://reactnavigation.org/) (`@react-navigation/bottom-tabs`)
+* **Gerenciamento de Estado:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`)
+* **Listas Performáticas:** `FlatList` com `RefreshControl` nativo (pull-to-refresh)
+* **Contratos Compartilhados:** `@trampotaxa/shared` (tipagens, formatadores fiscais e dados mock)
+* **Empacotador:** Metro Bundler configurado para o monorepo Bun (`metro.config.js`)
 
 ---
 
-## 🎯 Telas e Funcionalidades Nativas
+## 🧭 As 3 Abas Nativas do Aplicativo
 
-### 1. Radar de Vagas (`MapScreen.tsx`)
-- **Visualização Nativa de Mapa:** Renderiza `MapView` centrado em Curitiba (Batel/Centro) com chips de valor (`R$ 220,00`) e marcadores interativos com a cor tema `#00E676`.
-- **Filtros Ágeis:** Filtro horizontal de funções (*Todos*, *Bartender*, *Garçom*) atualizando a renderização em tempo real.
-- **Card Flutuante & Candidatura:** Toque no marcador para exibir o resumo da vaga e botão de candidatura imediata.
-- **Resiliência e Fallback:** Se executado em ambiente sem chaves externas de mapa, oferece alternador dinâmico para visualização em Lista de Oportunidades nativa.
-- **Feedback de Rede:** Estados elegantes com `ActivityIndicator` nativo e banner de erro com tentativa de reconexão.
-
-### 2. Relatórios & Fechamentos (`EarningsScreen.tsx`)
-- **KPIs Financeiros:** Cards de faturamento no topo (*Hoje*, *Esta Semana*, *Este Mês*).
-- **Lista Nativa com Performance:** Renderização via `FlatList` com `RefreshControl` nativo (pull-to-refresh) conectado ao `refetch()` do React Query.
-- **Formatação de Moeda:** Utilização da função `formatCurrency(amount)` de `@trampotaxa/shared` para exibição consistente de valores em Real (BRL).
-- **Banner de Status PIX:** Identificação da chave PIX ativa para repasse imediato pós-turno.
-
-### 3. Perfil do Usuário (`ProfileScreen.tsx`)
-- **Apresentação Limpa de Produção:** Remoção de alternadores artificiais de teste, focando na identidade e métricas do profissional autônomo.
-- **Métricas Operacionais:** Avaliação geral por estrelas (`4.9 ★`), total de turnos (`48`), pontualidade (`99%`), especialidades de balcão e status de disponibilidade no radar (*Disponível* / *Pausado*).
-- **Dados Fiscais:** Exibição do telefone formatado (`formatPhone`) e chave PIX cadastrada.
+1. **Radar de Vagas (`MapScreen.tsx`):**
+   - Visualização com marcadores interativos com chips de valor (`R$ 220,00`).
+   - Filtros horizontais por cargo (*Todos*, *Bartender*, *Garçom*).
+   - Alternador para Lista de Oportunidades com pull-to-refresh para atualização em tempo real.
+2. **Extrato de Ganhos (`EarningsScreen.tsx`):**
+   - Cards de faturamento no topo (*Hoje*, *Esta Semana*, *Este Mês*).
+   - Lista nativa de turnos realizados com valores formatados em Real (`formatCurrency`) e status de repasse PIX.
+3. **Perfil do Freelancer (`ProfileScreen.tsx`):**
+   - Dados operacionais: avaliação média por estrelas (`4.9 ★`), turnos concluídos e índice de pontualidade.
+   - Status de disponibilidade no radar (*Disponível* / *Pausado*) e chave PIX cadastrada.
 
 ---
 
-## 🏗️ Integração com o Monorepo (Bun + Metro)
+## 🚀 Guia Rápido: Como Executar no Smartphone via Expo Go
 
-O aplicativo resolve `@trampotaxa/shared` diretamente dos fontes TypeScript sem necessidade de etapas intermediárias de compilação:
+Não é necessário instalar Android Studio nem Xcode para testar o aplicativo no seu dispositivo móvel.
 
-```
-┌──────────────────────────────────────────────┐
-│             apps/mobile/App.tsx              │
-│       ┌──────────────────────────────┐       │
-│       │     QueryClientProvider      │       │
-│       │   (TanStack React Query)     │       │
-│       └──────────────┬───────────────┘       │
-│                      │                       │
-│       ┌──────────────▼──────────────┐        │
-│       │      BottomTabNavigator     │        │
-│       │  [Radar] [Ganhos] [Perfil]   │        │
-│       └──────────────┬───────────────┘       │
-└──────────────────────┼───────────────────────┘
-                       │
-                       │ import from "@trampotaxa/shared"
-                       ▼
-       ┌─────────────────────────────────┐
-       │        packages/shared/         │
-       │  • Types (GigOffer, User)       │
-       │  • Formatters (formatCurrency)  │
-       │  • Mocks (mockGigs)             │
-       │  • API Hooks (Orval)            │
-       └─────────────────────────────────┘
-```
+### Passo 1: Instalar o app Expo Go
+* **Android:** Baixar na [Google Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent).
+* **iOS (iPhone):** Baixar na [App Store](https://apps.apple.com/app/expo-go/id982107779).
 
-A configuração em `apps/mobile/metro.config.js` garante que o empacotador monitore todo o monorepo:
-```javascript
-config.watchFolders = [monorepoRoot];
-config.resolver.extraNodeModules = {
-  '@trampotaxa/shared': path.resolve(monorepoRoot, 'packages/shared/src'),
-};
-```
+### Passo 2: Iniciar o servidor Metro
 
----
-
-## 🚀 Como Executar no Smartphone com Expo Go
-
-### Pré-requisitos
-1. Smartphone com o app **Expo Go** instalado ([Android](https://play.google.com/store/apps/details?id=host.exp.exponent) ou [iOS](https://apps.apple.com/app/expo-go/id982107779)).
-2. Computador e smartphone conectados à mesma rede Wi-Fi (ou usar `--tunnel`).
-
-### Comandos de Inicialização (Bun)
-
-A partir da raiz do monorepo:
+Na raiz do monorepo TrampoTaxa:
 
 ```bash
 # Iniciar o servidor Metro do Expo
 bun run dev:mobile
-
-# Iniciar com conexão em modo túnel (caso redes Wi-Fi sejam diferentes)
-cd apps/mobile && npx expo start --tunnel
 ```
 
-Aponte a câmera do celular (iOS) ou o leitor de QR Code do app Expo Go (Android) para o terminal.
+### Passo 3: Abrir no celular
+1. Certifique-se de que o computador e o smartphone estão conectados à **mesma rede Wi-Fi**.
+2. **No Android:** Abra o app Expo Go e toque em **"Scan QR Code"**, apontando para o terminal.
+3. **No iOS:** Abra a câmera nativa do iPhone, aponte para o QR Code do terminal e toque na notificação para abrir no Expo Go.
 
----
-
-## 📦 Como Gerar o Instalador APK (Android)
-
-Para compilar o instalador nativo `.apk`:
-
-```bash
-cd apps/mobile
-
-# Login no serviço oficial Expo Application Services (EAS)
-bunx eas login
-
-# Gerar compilação para testes em dispositivo físico
-bunx eas build -p android --profile preview
-```
+> 💡 **Dica (Redes Diferentes):** Se o computador e o celular estiverem em conexões diferentes (ex: 4G/5G no celular), execute em modo túnel:
+> ```bash
+> cd apps/mobile && npx expo start --tunnel
+> ```
 
 ---
 
 ## 🧪 Verificação de Tipos e Qualidade
 
+O aplicativo possui checagem rigorosa de tipos TypeScript integrada ao compilador da Web:
+
 ```bash
-# Executar verificação de tipagem TypeScript no mobile (0 erros)
+# Executar a verificação estrita de tipagem (0 erros)
 bun run typecheck:mobile
 ```
+
+---
+
+## 🔧 Troubleshooting Mobile
+
+* **Erro de conexão ao ler o QR Code:** Use a flag `--tunnel` mencionada acima.
+* **Cache preso do Metro:** Execute `cd apps/mobile && npx expo start -c` para limpar o cache de compilação.

@@ -1,95 +1,63 @@
 # 🌐 TrampoTaxa Web — Aplicação SPA & PWA
 
-Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, projetada para alta performance, suporte offline avançado (PWA), inteligência geoespacial com agrupamento de marcadores (Map Clustering) e interface de produção limpa.
+Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, focada em alta performance, mapas geoespaciais com clustering, suporte offline avançado (PWA) e interface limpa de produção.
 
 ---
 
-## 🛠️ Stack Tecnológica
+## 🛠️ Stack Tecnológica Web
 
 * **Framework UI:** [React 19](https://react.dev/) com TypeScript 5.8
-* **Build Tool:** [Vite 8](https://vitejs.dev/) com Rolldown bundler
-* **Gerenciamento de Estado de Servidor:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`, `retry: 1`)
-* **Design System & Estilos:** [Tailwind CSS v4](https://tailwindcss.com/) no tema escuro moderno (`#0A0B0E` e `#00E676`)
-* **PWA & Offline Caching:** `vite-plugin-pwa` com estratégias de Workbox
-* **Mapas & Performance Geoespacial:** `@vis.gl/react-google-maps`, `use-supercluster` e `supercluster`
-* **Geração Automática de API:** [Orval 8](https://orval.dev/) consumindo OpenAPI 3.0 (`docs/openapi.yaml`)
-* **Roteamento:** [React Router v7](https://reactrouter.com/) com RBAC (Controle de Acesso Baseado em Papéis)
+* **Build Tool:** [Vite 8](https://vitejs.dev/) com suporte a HMR condicional
+* **Estado de Servidor:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`, `retry: 1`)
+* **Design & Estilização:** [Tailwind CSS v4](https://tailwindcss.com/) com paleta escura (`#0A0B0E`, `#121418`) e acento verde neon (`#00E676`)
+* **Inteligência Geoespacial:** `@vis.gl/react-google-maps`, `use-supercluster` e mapa vetorial em SVG nativo
+* **Offline & PWA:** `vite-plugin-pwa` e Workbox (`NetworkFirst` e `CacheFirst`)
+* **Roteamento & Proteção:** [React Router v7](https://reactrouter.com/) com segregação de rotas por papel de usuário (RBAC)
 
 ---
 
-## 🚀 Funcionalidades Principais & Arquitetura de Interface
+## 🎯 Experiências de Uso no Front-End Web
 
-### 1. Radar de Vagas & Layout Full-Bleed
-- **Eliminação de Faixas em Branco:** Estrutura corrigida com Flexbox encadeado (`h-screen overflow-hidden` e `min-h-0`). A barra lateral de vagas possui rolagem interna estrita (`overflow-y-auto custom-scrollbar`), mantendo o mapa preenchendo 100% da viewport visível sem transbordamentos ou faixas vazias abaixo dele.
-- **Agrupamento Dinâmico de Taxas (Clustering):** O `use-supercluster` agrupa marcadores de oportunidades em clusters (`ClusterMarker`) quando o zoom estiver afastado, exibindo a contagem de taxas naquela região com efeito de pulso neon verde (`#00E676`).
-- **Expansão Fluida:** O cluster se expande automaticamente para marcadores individuais (`GigMarker`) exibindo o valor (`R$ 220,00`) ao clicar no grupo ou aproximar o zoom.
-- **Resiliência e Fallback Vetorial:** Fallback vetorial em SVG (`MinimalVectorMap`) com suporte a arrasto (drag & pan) e zoom caso a chave externa do Google Maps não esteja configurada ou a rede oscile.
+### 1. Visão do Freelancer (Profissional Autônomo)
+* **Radar em Tela Cheia (Full-Bleed):** O mapa ocupa 100% da viewport (`h-screen overflow-hidden`), sem faixas em branco no rodapé. A barra lateral esquerda possui rolagem interna independente (`overflow-y-auto custom-scrollbar`).
+* **Clustering de Oportunidades:** Grupos de vagas são condensados visualmente pelo `use-supercluster`, exibindo a quantidade de taxas com pulso verde neon. Ao aproximar o zoom ou clicar, o cluster se divide em marcadores individuais (`GigMarker`) com o valor do turno (ex: `R$ 220,00`).
+* **Resiliência Vetorial (`MinimalVectorMap`):** Se a conexão cair ou a chave da API do Google não estiver configurada, o sistema aciona um mapa vetorial interativo em SVG com suporte completo a arrasto (drag/pan), zoom e clique.
+* **Detalhes do Turno & Traje:** Ao clicar em uma vaga, um Bottom Sheet é aberto com o briefing de apresentação (ex: camisa preta lisa, avental e abridor de garrafas), valor e botão de candidatura imediata.
+* **Extrato de Ganhos (`/earnings`):** Visão diária, semanal e mensal de rendimentos com lista detalhada de turnos e status de repasse PIX.
 
-### 2. Interface Limpa de Produção (Zero-Noise UI)
-- **Remoção de Botões de Desenvolvimento:** Os botões de atalho de depuração presentes em protótipos foram definitivamente removidos:
-  - O botão e o modal de código-fonte (`CodeViewerModal`).
-  - Os botões artificiais de alternância rápida de perfil (`Modo: Freelancer / Contratante` no cabeçalho, na tela de perfil e no mapa).
-- O papel do usuário é derivado de forma estrita e segura da sua sessão autenticada.
-
-### 3. Recursos Offline Avançados (PWA)
-- **Service Worker Automático:** Gerado via `vite-plugin-pwa` com registro no entrypoint (`src/main.tsx`).
-- **Estratégias de Cache Workbox:**
-  - `NetworkFirst`: Rotas de API (`/api`, `/gigs`, `/earnings`, `/contractor`, `/chat`), mantendo os últimos dados disponíveis em zonas de sombra de conectividade celular.
-  - `CacheFirst`: Assets estáticos (JavaScript, CSS, imagens SVG/PNG, fontes web).
-- **Instalação Nativa:** Botão `PWAInstallButton` integrado, com guia interativo para iOS Safari e prompt direto para Chrome/Android.
-
-### 4. Automação da API com OpenAPI + React Query
-- Configurado via `orval.config.ts`, lendo o arquivo `docs/openapi.yaml`.
-- Gera automaticamente clientes HTTP nativos (Fetch) e hooks do React Query (`useQuery` e `useMutation`).
-- A saída é compartilhada em `packages/shared/src/api/` para que Web e Mobile consumam os mesmos contratos de dados.
+### 2. Visão do Contratante (Estabelecimento Gastronômico)
+* **Gestão de Vagas (`/contractor/gigs`):** Painel com abas segmentadas por status (*Todas*, *Abertas*, *Aguardando Confirmação*, *Preenchidas*, *Finalizadas*).
+* **Criação Rápida de Taxas (`/contractor/create`):** Formulário completo com validação de remuneração horária, horário de início/término, função e dress code.
+* **Triagem de Candidatos:** Visualização de candidatos com foto, estrelas de avaliação, pontualidade e turnos concluídos, com botões de aprovação e recusa em tempo real.
+* **Chat Operacional (`/contractor/chat`):** Mensageria instantânea com freelancers aprovados para alinhamento de portaria e chegada.
+* **Tela de Estabelecimento (`/profile`):** Informações cadastrais completas da empresa (Razão Social, CNPJ mascarado, segmento, total de vagas e investimento financeiro).
+* **Rolagem Vertical Fluida:** Todas as telas de gestão contam com rolagem suave (`overflow-y-auto`), permitindo a visualização de listas extensas de candidatos e turnos sem bloqueios.
 
 ---
 
-## 📂 Estrutura de Diretórios
+## 📱 Recursos de PWA e Offline Caching
 
-```
-apps/web/
-├── docs/                     # Documentação de banco de dados, relatórios e OpenAPI
-│   ├── DATABASE_MER.md       # Diagrama de Entidade-Relacionamento e DBML
-│   ├── EXPO_GO_GUIDE.md      # Guia de testes mobile
-│   └── openapi.yaml          # Especificação OpenAPI 3.0 formal da API
-├── public/
-│   ├── icon.svg              # Ícone vetorial da marca
-│   └── manifest.json         # Manifesto PWA com display standalone
-├── src/
-│   ├── components/           # Componentes modulares
-│   │   ├── map/              # GigMarker, ClusterMarker, MapPlaceholder
-│   │   ├── navigation/       # BottomNavigation para smartphones
-│   │   └── ui/               # Botões, inputs mascarados e badges
-│   ├── context/              # AuthContext e ContractorContext
-│   ├── hooks/                # useGigsQuery, useEarningsQuery
-│   ├── layouts/              # AppLayout com header limpo e proteções RBAC
-│   ├── routes/               # Definição de rotas com React Router
-│   ├── screens/              # Telas do Freelancer e Contratante
-│   ├── main.tsx              # Ponto de entrada com registro do Service Worker
-│   └── index.css             # Estilos globais Tailwind CSS v4
-├── orval.config.ts           # Configuração de geração de hooks da API
-├── vite.config.ts            # Configuração do Vite com VitePWA e Workbox
-└── tsconfig.json             # Compilador TypeScript com suporte a PWA e GeoJSON
-```
+* **Service Worker com Workbox:**
+  * `NetworkFirst`: Aplicado a todas as rotas de dados (`/api`, `/gigs`, `/earnings`, `/contractor`, `/chat`), permitindo consultar vagas e relatórios mesmo em áreas de sinal instável em Curitiba.
+  * `CacheFirst`: Para folhas de estilo, fontes e scripts estáticos.
+* **Interface Limpa:** A aplicação não exibe botões artificiais de código ou alternadores de papel manuais, assegurando a autenticidade da experiência em produção.
 
 ---
 
-## 🛠️ Scripts Disponíveis (Bun)
+## 🛠️ Comandos de Execução (Bun)
+
+A partir da raiz do monorepo:
 
 ```bash
-# Iniciar servidor de desenvolvimento (porta 3000)
+# Iniciar ambiente web de desenvolvimento (porta 3000)
 bun run dev:web
 
-# Gerar código tipado da API a partir do openapi.yaml
-bun run api:generate
-
-# Validar lint e tipagem TypeScript (código 0, sem avisos)
+# Executar a análise estática (ESLint 0 erros)
 bun run lint
 
-# Executar testes unitários e de integração
+# Executar suíte de testes unitários e de rotas
 bun test
 
-# Gerar compilação de produção com Service Worker
+# Compilar para produção (gera pasta apps/web/dist)
 bun run build:web
 ```

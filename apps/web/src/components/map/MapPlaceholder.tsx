@@ -500,7 +500,60 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
   onSelectGig,
   isOnline = true,
 }) => {
-  const hasKey = Boolean(GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY.trim().length > 5);
+  const [mapAuthError, setMapAuthError] = useState(() => {
+    try {
+      return sessionStorage.getItem('gmp_billing_disabled') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    const handleAuthFailure = () => {
+      console.warn(
+        '[Google Maps] gm_authFailure detectado (BillingNotEnabledMapError). Alternando para o mapa vetorial resiliente.'
+      );
+      try {
+        sessionStorage.setItem('gmp_billing_disabled', 'true');
+      } catch {}
+      setMapAuthError(true);
+    };
+
+    const win = window as unknown as { gm_authFailure?: () => void };
+    const prevAuthFailure = win.gm_authFailure;
+    win.gm_authFailure = () => {
+      handleAuthFailure();
+      if (typeof prevAuthFailure === 'function') {
+        prevAuthFailure();
+      }
+    };
+
+    const handleWindowError = (event: ErrorEvent) => {
+      if (
+        event.message?.includes('BillingNotEnabledMapError') ||
+        event.message?.includes('Google Maps')
+      ) {
+        handleAuthFailure();
+      }
+    };
+
+    const handleCustomBillingEvent = () => {
+      handleAuthFailure();
+    };
+
+    window.addEventListener('error', handleWindowError);
+    window.addEventListener('gmp_billing_error', handleCustomBillingEvent);
+
+    return () => {
+      win.gm_authFailure = prevAuthFailure;
+      window.removeEventListener('error', handleWindowError);
+      window.removeEventListener('gmp_billing_error', handleCustomBillingEvent);
+    };
+  }, []);
+
+  const hasKey = Boolean(
+    !mapAuthError && GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY.trim().length > 5
+  );
 
   const fallbackView = useMemo(
     () => (

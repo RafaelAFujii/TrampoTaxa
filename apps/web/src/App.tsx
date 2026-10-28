@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { APIProvider } from '@vis.gl/react-google-maps';
@@ -18,9 +19,39 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  const [billingDisabled, setBillingDisabled] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('gmp_billing_disabled') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    const handleBillingError = () => {
+      setBillingDisabled(true);
+    };
+
+    window.addEventListener('gmp_billing_error', handleBillingError);
+    return () => {
+      window.removeEventListener('gmp_billing_error', handleBillingError);
+    };
+  }, []);
+
+  const activeKey = billingDisabled ? '' : GOOGLE_MAPS_API_KEY;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
+      <APIProvider
+        apiKey={activeKey}
+        onError={(err) => {
+          console.warn('[Google Maps APIProvider] Erro ao carregar motor:', err);
+          try {
+            sessionStorage.setItem('gmp_billing_disabled', 'true');
+          } catch {}
+          setBillingDisabled(true);
+        }}
+      >
         <AuthProvider>
           <ContractorProvider>
             <RouterProvider router={router} />

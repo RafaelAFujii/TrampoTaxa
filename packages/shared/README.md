@@ -6,36 +6,41 @@ Pacote central de serviços compartilhados (`@trampotaxa/shared`), modelos de da
 
 ## 🎯 Propósito e Responsabilidade
 
-O `@trampotaxa/shared` atua como a **fonte única da verdade** (Single Source of Truth) para todo o monorepo, alimentando tanto a aplicação Web (`apps/web`) quanto o aplicativo Mobile (`apps/mobile`):
+O `@trampotaxa/shared` é a **fonte única da verdade** (Single Source of Truth) para todo o monorepo, alimentando tanto a aplicação Web (`apps/web`) quanto o aplicativo Mobile (`apps/mobile`):
 
 1. **Tipagens Canônicas (TypeScript):** Entidades do domínio gastronômico (`GigOffer`, `ContractorGig`, `FreelancerApplicant`, `User`, `ChatMessage`).
-2. **Automação de API (Orval + React Query):** Geração automática de clientes HTTP nativos e hooks assíncronos (`useQuery` / `useMutation`) a partir do `openapi.yaml`.
+2. **Automação de API (Orval + React Query):** Geração automática de clientes HTTP e hooks tipados (`useQuery` / `useMutation`) a partir do contrato OpenAPI.
 3. **Formatadores e Validadores Fiscais:** Algoritmo oficial de validação de CNPJ (Módulo 11 da Receita Federal), máscaras de telefone brasileiro e formatação monetária em Real (`R$ 0,00`).
-4. **Mock Datasets e Domínio:** Dados geolocalizados de Curitiba/PR (`mockGigs` e `INITIAL_CONTRACTOR_GIGS`) com isolamento estrito contra poluição de bundles em produção.
+4. **Mock Datasets de Domínio:** Dados geolocalizados de Curitiba/PR (`mockGigs` e `INITIAL_CONTRACTOR_GIGS`) com isolamento estrito contra poluição de bundles em produção.
 
 ---
 
-## 📡 Especificação da API RESTful (OpenAPI 3.0)
+## 📡 Matriz Completa de Endpoints da API RESTful (OpenAPI 3.0)
 
 A especificação formal completa está documentada em [`apps/web/docs/openapi.yaml`](../../apps/web/docs/openapi.yaml) e [`docs/openapi.yaml`](../../docs/openapi.yaml).
 
-### Principais Grupos de Endpoints
-
-| Tag / Módulo | Métodos | Endpoints | Descrição |
-| :--- | :---: | :--- | :--- |
-| **Autenticação & Usuários** | `POST` / `GET` | `/auth/login`, `/auth/register`, `/auth/me` | Login RBAC, primeiro acesso e perfil autenticado com Bearer JWT |
-| **Taxas & Vagas (Gigs)** | `GET` / `POST` | `/gigs`, `/gigs/{id}` | Radar geolocalizado, filtros por raio (km) e criação de turnos |
-| **Candidaturas & Seleção** | `POST` / `GET` | `/gigs/{id}/apply`, `/gigs/{id}/applicants` | Candidatura de freelancers e triagem pelo contratante |
-| **Decisão de Vagas** | `POST` | `/gigs/{id}/applicants/{id}/approve`, `/reject` | Aprovação/recusa com atualização atômica de status |
-| **Avaliações & Desempenho** | `POST` | `/gigs/{id}/evaluation` | Avaliação pós-turno por estrelas e tags de performance |
-| **Chat & Operação** | `GET` / `POST` | `/chat/{gigId}/messages` | Mensageria direta para alinhamento de portaria e vestimenta |
-| **Relatórios & Financeiro** | `GET` | `/contractor/reports` | KPIs de investimento, média horária gasta e repasses PIX |
+| Módulo / Tag | Método | Rota | Descrição do Fluxo | Autenticação |
+| :--- | :---: | :--- | :--- | :---: |
+| **Autenticação** | `POST` | `/auth/login` | Login com e-mail/senha, retornando JWT e papel do usuário | Pública |
+| **Autenticação** | `POST` | `/auth/register` | Cadastro com validação de CNPJ ou CPF e papel inicial | Pública |
+| **Autenticação** | `GET` | `/auth/me` | Retorna o perfil completo do usuário da sessão atual | Bearer JWT |
+| **Vagas & Radar** | `GET` | `/gigs` | Listagem geolocalizada de vagas com filtros de raio e cargo | Pública |
+| **Vagas & Radar** | `GET` | `/gigs/{id}` | Detalhes da vaga, briefing de apresentação e dress code | Pública |
+| **Vagas & Radar** | `POST` | `/gigs` | Criação de nova vaga de taxa por um contratante | Bearer JWT (B2B) |
+| **Candidaturas** | `POST` | `/gigs/{id}/apply` | Candidatura de um freelancer a uma vaga em aberto | Bearer JWT |
+| **Candidaturas** | `GET` | `/gigs/{id}/applicants`| Lista de candidatos inscritos para avaliação do contratante | Bearer JWT (B2B) |
+| **Decisão de Vagas**| `POST` | `/gigs/{id}/applicants/{id}/approve` | Aprovação do candidato e fechamento da vaga | Bearer JWT (B2B) |
+| **Decisão de Vagas**| `POST` | `/gigs/{id}/applicants/{id}/reject` | Recusa do candidato com feedback discreto | Bearer JWT (B2B) |
+| **Avaliação** | `POST` | `/gigs/{id}/evaluation` | Avaliação pós-evento com nota de 1 a 5 estrelas | Bearer JWT |
+| **Chat Operacional**| `GET` | `/chat/{gigId}/messages` | Histórico de mensagens alinhando portaria e vestimenta | Bearer JWT |
+| **Chat Operacional**| `POST` | `/chat/{gigId}/messages` | Envio de nova mensagem em tempo real | Bearer JWT |
+| **Relatórios B2B** | `GET` | `/contractor/reports` | Métricas financeiras, total investido e média horária | Bearer JWT (B2B) |
 
 ---
 
 ## 🤖 Pipeline de Geração de Código com Orval
 
-Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nativos e hooks do React Query:
+O **Orval 8** lê a especificação OpenAPI e gera automaticamente clientes tipados em TypeScript e hooks do React Query:
 
 ```
                   ┌────────────────────────┐
@@ -54,8 +59,8 @@ Utilizamos o **Orval 8** para ler a especificação OpenAPI e gerar clientes nat
                   └────────────────────────┘
 ```
 
-### Como Executar a Geração (Bun)
-A partir da raiz do monorepo:
+Para atualizar os clientes após alterar o contrato:
+
 ```bash
 bun run api:generate
 ```
@@ -71,15 +76,9 @@ Para detalhes completos de modelagem relacional, consulte [`apps/web/docs/DATABA
 
 ---
 
-## 🧪 Testes Automatizados da Camada de Domínio
-
-O pacote possui cobertura completa com o **Bun Test**:
-
-- `formatters.test.ts`: Validação matemática de CNPJs válidos e inválidos, tratamento de caracteres não numéricos e formatação monetária.
-- `gigs.test.ts` & `gig_consultation.test.ts`: Filtros de profissão, ordenação de taxas por valor e validação de atributos obrigatórios.
-- `api-generation.test.ts`: Validação de tags OpenAPI e consistência dos clientes gerados.
-- `mocks.test.ts`: Garantia de isolamento dos fixtures de teste fora do bundle de produção.
+## 🧪 Testes Automatizados com Bun Test
 
 ```bash
+# Executar a suíte de testes do pacote compartilhado
 bun test
 ```

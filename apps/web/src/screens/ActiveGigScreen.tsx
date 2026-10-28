@@ -135,7 +135,55 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
     'heading_to_venue'
   );
-  const apiKey = GOOGLE_MAPS_API_KEY;
+  const [mapAuthError, setMapAuthError] = useState(() => {
+    try {
+      return sessionStorage.getItem('gmp_billing_disabled') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    const handleAuthFailure = () => {
+      try {
+        sessionStorage.setItem('gmp_billing_disabled', 'true');
+      } catch {}
+      setMapAuthError(true);
+    };
+
+    const win = window as unknown as { gm_authFailure?: () => void };
+    const prevAuthFailure = win.gm_authFailure;
+    win.gm_authFailure = () => {
+      handleAuthFailure();
+      if (typeof prevAuthFailure === 'function') {
+        prevAuthFailure();
+      }
+    };
+
+    const handleWindowError = (event: ErrorEvent) => {
+      if (
+        event.message?.includes('BillingNotEnabledMapError') ||
+        event.message?.includes('Google Maps')
+      ) {
+        handleAuthFailure();
+      }
+    };
+
+    const handleCustomBillingEvent = () => {
+      handleAuthFailure();
+    };
+
+    window.addEventListener('error', handleWindowError);
+    window.addEventListener('gmp_billing_error', handleCustomBillingEvent);
+
+    return () => {
+      win.gm_authFailure = prevAuthFailure;
+      window.removeEventListener('error', handleWindowError);
+      window.removeEventListener('gmp_billing_error', handleCustomBillingEvent);
+    };
+  }, []);
+
+  const apiKey = !mapAuthError && GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY.trim().length > 5;
 
   if (!gig) {
     return (

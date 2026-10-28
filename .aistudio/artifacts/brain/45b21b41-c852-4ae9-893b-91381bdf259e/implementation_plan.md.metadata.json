@@ -1,6 +1,6 @@
 {
-  "summary": "Plano detalhado para correção estrutural do layout de tela cheia do Mapa no MapDashboardScreen (eliminando a faixa em branco causada pelo crescimento descontrolado da sidebar de vagas através de flex-1 min-h-0 e overflow-hidden) e remoção definitiva do botão de perfil/troca de papel flutuante sobre o mapa.",
-  "updatedAt": "2026-10-18T01:43:00.784400126Z",
-  "requestFeedback": true,
-  "userFacing": true
+  "summary":  "Plano de especificação e estruturação completa de todos os arquivos README do monorepo TrampoTaxa (Raiz, apps/web, apps/mobile e packages/shared), com diagramas visuais (Mermaid e ASCII) dos fluxos operacionais de Contratante e Freelancer, guia de desenvolvimento e troubleshooting Bun/Expo.",
+  "updatedAt":  "2026-10-28T19:30:19.181502122Z",
+  "requestFeedback":  true,
+  "userFacing":  true
 }

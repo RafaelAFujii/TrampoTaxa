@@ -1,128 +1,220 @@
-# 🍸 TrampoTaxa (Loctaxa) — Monorepo de Gestão de Taxas e Freelancers
+# 🍸 TrampoTaxa (Loctaxa) — Monorepo de Gestão de Taxas & Freelancers
 
 [![CI/CD GitHub Pages](https://github.com/akirarafael19/trampo-taxa/actions/workflows/deploy.yml/badge.svg)](https://github.com/akirarafael19/trampo-taxa/actions/workflows/deploy.yml)
-[![Mobile CI & EAS](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml/badge.svg)](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml)
+[![Mobile CI & Tests](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml/badge.svg)](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml)
 [![Bun Monorepo](https://img.shields.io/badge/Bun-v1.4-black?logo=bun)](https://bun.sh/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
 [![React Native](https://img.shields.io/badge/React_Native-0.74-61DAFB?logo=react)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-SDK_51-000020?logo=expo)](https://expo.dev/)
-[![Tests](https://img.shields.io/badge/Tests-91%20Passed-brightgreen?logo=vitest)](https://vitest.dev/)
+[![Tests](https://img.shields.io/badge/Tests-73%20Passed-brightgreen?logo=vitest)](https://vitest.dev/)
 [![Technical Debt](https://img.shields.io/badge/D%C3%A9bito_T%C3%A9cnico-0%25-brightgreen)](https://eslint.org/)
 
-O **TrampoTaxa (Loctaxa CWB)** é um ecossistema digital em monorepo projetado para conectar **estabelecimentos gastronômicos** (restaurantes, bares, pubs e casas noturnas) a **profissionais autônomos e freelancers** (bartenders, garçons, cozinheiros e recepcionistas) para cobertura ágil de turnos temporários (*taxas*) em tempo real em Curitiba e região.
+O **TrampoTaxa (Loctaxa CWB)** é uma plataforma digital desenvolvida em arquitetura monorepo voltada a conectar **estabelecimentos gastronômicos** (bares, restaurantes, pubs e casas de eventos) a **profissionais autônomos e freelancers** (bartenders, garçons, cozinheiros e recepcionistas) para cobertura de turnos pontuais (*taxas*) em tempo real em Curitiba e Região Metropolitana.
 
 ---
 
-## 🌐 Links do Projeto
+## 🌐 Links Rápidos do Ecossistema
 
 * 🚀 **Aplicação Web (GitHub Pages):** [https://akirarafael19.github.io/trampo-taxa/](https://akirarafael19.github.io/trampo-taxa/)
-* 💻 **Repositório no GitHub:** [https://github.com/akirarafael19/trampo-taxa](https://github.com/akirarafael19/trampo-taxa)
-* 🧪 **Ambiente de Desenvolvimento em Nuvem:** [Acessar Applet em Desenvolvimento](https://ais-dev-v6aa5zop4sov5raedzqgg4-97325856245.us-east1.run.app)
+* 💻 **Repositório GitHub:** [https://github.com/akirarafael19/trampo-taxa](https://github.com/akirarafael19/trampo-taxa)
+* 🧪 **Ambiente de Desenvolvimento em Nuvem:** [Acessar Applet Ativo](https://ais-dev-v6aa5zop4sov5raedzqgg4-97325856245.us-east1.run.app)
 
 ---
 
-## 🏛️ Arquitetura do Monorepo (Bun Workspaces)
+## 🧭 Fluxos de Uso do Sistema (Jornadas Operacionais)
 
-O repositório é gerenciado através do **Bun Workspaces**, garantindo separação rigorosa de responsabilidades, contratos compartilhados e execução ultrarrápida:
+O TrampoTaxa possui fluxos de experiência desenhados especificamente para dois papéis fundamentais: **Freelancer** e **Contratante**.
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        TRAMPOTAXA MONOREPO ROOT                        │
-│   "workspaces": ["apps/*", "packages/*"]                               │
-└──────────────┬────────────────────────────┬────────────────────────────┘
-               │                            │
-       ┌───────▼─────────┐          ┌───────▼─────────┐
-       │    apps/web     │          │   apps/mobile   │
-       │ (React 19 + PWA)│          │ (Expo + Native) │
-       └───────┬─────────┘          └───────┬─────────┘
-               │                            │
-               │   import from              │   import from
-               │   "@trampotaxa/shared"     │   "@trampotaxa/shared"
-               ▼                            ▼
-      ┌──────────────────────────────────────────────────┐
-      │                 packages/shared                  │
-      │  • api/    (Hooks React Query gerados via Orval) │
-      │  • types/  (GigOffer, User, ContractorGig...)    │
-      │  • utils/  (formatCurrency, formatCNPJ...)       │
-      │  • data/   (mockGigs, mockContractorData...)     │
-      └──────────────────────────────────────────────────┘
+### 1. Fluxo do Freelancer (Profissional de Atendimento & Bar)
+
+O profissional busca turnos com remuneração transparente, regras claras de vestimenta e agilidade de pagamento.
+
+```mermaid
+graph TD
+    A[Início: Acesso à Plataforma] --> B[Login Seguro / Registro como Freelancer]
+    B --> C[Radar de Vagas em Tempo Real - Mapa CWB]
+    C --> D{Exploração de Oportunidades}
+    D -->|Filtro Rápido| E[Filtrar por Função: Bartender ou Garçom]
+    D -->|Clusters| F[Aproximar Zoom em Bairros: Batel, Centro Cívico, etc.]
+    D -->|Marcador| G[Visualizar Card da Vaga: Valor R$, Horário e Local]
+    E --> G
+    F --> G
+    G --> H[Abrir Detalhes: Briefing de Apresentação e Vestimenta]
+    H --> I[Candidatar-se / Aceitar Vaga]
+    I --> J[Turno Ativo: Check-in e Informações de Chegada]
+    J --> K[Conclusão do Turno no Estabelecimento]
+    K --> L[Extrato de Ganhos: Acompanhamento de Faturamento e PIX]
 ```
 
-### Documentações Detalhadas por Módulo
-
-* 🌐 **[Documentação do Front-End Web (`apps/web/README.md`)](./apps/web/README.md):** SPA React 19, Tailwind CSS v4, PWA com Workbox offline caching, Map Clustering geoespacial (`use-supercluster`), layout full-bleed e remoção de botões de teste.
-* 📱 **[Documentação do Aplicativo Móvel (`apps/mobile/README.md`)](./apps/mobile/README.md):** React Native nativo com Expo SDK 51, React Navigation Bottom Tabs (Radar, Ganhos e Perfil), Metro Bundler integrado ao shared e checagem de tipos estrita.
-* ⚙️ **[Documentação do Backend & API Core (`packages/shared/README.md`)](./packages/shared/README.md):** Especificação OpenAPI 3.0 (`docs/openapi.yaml`), pipeline Orval de geração de código tipado, validação de CNPJ Módulo 11 e datasets de domínio.
-* 📚 **[Índice de Documentos de Arquitetura (`apps/web/docs/README.md`)](./apps/web/docs/README.md):** Modelagem MER/DER de banco de dados, dicionário DBML, guia do Expo Go e relatórios de conformidade.
-
----
-
-## ✨ Inovações e Recursos Chave do Sistema
-
-1. **Automação de Contratos (OpenAPI 3.0 + Orval + React Query v5):**
-   - O contrato formal em `apps/web/docs/openapi.yaml` é a fonte absoluta da verdade para clientes HTTP e hooks tipados em `packages/shared/src/api/`.
-   - Execução automatizada com o comando: `bun run api:generate`.
-
-2. **Interface Limpa de Produção (Zero-Noise UI):**
-   - Eliminação completa de controles artificiais de desenvolvimento: botão de código-fonte (`CodeViewerModal`) e alternadores manuais de perfil (`switchRole`), garantindo fidelidade estrita à sessão autenticada do usuário.
-
-3. **Layout de Tela Cheia e Resiliência Geoespacial:**
-   - Correção estrutural do layout de mapa (`h-screen overflow-hidden` e `min-h-0`), permitindo que a barra lateral de vagas tenha rolagem interna independente sem expandir o corpo da página nem deixar faixas em branco no rodapé do mapa.
-   - Agrupamento inteligente de marcadores com `use-supercluster` e fallback vetorial interativo com arrasto e zoom.
-
-4. **Capacidades Offline Avançadas (PWA):**
-   - Service Worker gerado automaticamente com Workbox: estratégia `NetworkFirst` para endpoints de vagas e relatórios financeiros (tolerância a zonas de sombra celular) e `CacheFirst` para assets estáticos.
-
-5. **Aplicativo Móvel 100% Nativo:**
-   - Navegação por abas nativas com `@react-navigation/bottom-tabs` e `@react-navigation/native`.
-   - Listas performáticas com `FlatList` e `RefreshControl` nativo (pull-to-refresh).
+```
+[VISÃO FREELANCER - ASCII]
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Radar Mapa  │ ──> │   Card da    │ ──> │ Turno Ativo  │ ──> │  Extrato de  │
+│ em Tempo Real│     │ Vaga (Taxa)  │     │ & Vestimenta │     │ Ganhos / PIX │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+```
 
 ---
 
-## 🛠️ Guia Rápido de Comandos (Bun)
+### 2. Fluxo do Contratante (Estabelecimento / Restaurante / Bar)
 
-Todos os comandos são executados a partir da raiz do monorepo:
+O contratante publica vagas emergenciais ou programadas, avalia candidatos verificados, alinha detalhes e gerencia custos.
+
+```mermaid
+graph TD
+    A[Início: Acesso ao Painel B2B] --> B[Login do Estabelecimento com CNPJ]
+    B --> C[Painel Minhas Vagas]
+    C --> D[Criar Nova Taxa: Função, Horário, Valor e Traje]
+    D --> E[Publicação Instantânea no Radar de Curitiba]
+    E --> F[Recebimento de Candidaturas em Tempo Real]
+    F --> G{Triagem do Candidato}
+    G -->|Recusar| H[Notificar e Manter Vaga em Aberto]
+    G -->|Aprovar| I[Vaga Preenchida com Sucesso]
+    I --> J[Chat Direto: Alinhamento de Portaria e Chegada]
+    J --> K[Turno Realizado no Salão/Bar]
+    K --> L[Avaliação de Desempenho 1-5 Estrelas]
+    L --> M[Painel de Relatórios: Média de Horas e Custo Total]
+```
+
+```
+[VISÃO CONTRATANTE - ASCII]
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Criar Vaga  │ ──> │ Triagem de   │ ──> │ Chat Direto  │ ──> │ Relatórios & │
+│   de Taxa    │     │ Candidaturas │     │ de Alinhamento│     │ Custos B2B   │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+```
+
+---
+
+## 🏛️ Topologia e Estrutura de Diretórios do Monorepo
+
+O monorepo utiliza o **Bun Workspaces**, garantindo separação arquitetural e compartilhamento estrito de contratos:
+
+```
+trampo-taxa/
+├── apps/
+│   ├── web/                          # Aplicação SPA & PWA (React 19 + Vite)
+│   │   ├── docs/                     # Contratos OpenAPI 3.0 e MER de Banco
+│   │   ├── public/                   # Manifesto PWA, ícones e assets estáticos
+│   │   ├── src/
+│   │   │   ├── components/map/       # Marcadores, Clusters e Radar de Vagas
+│   │   │   ├── context/              # Autenticação RBAC e Estado do Contratante
+│   │   │   ├── layouts/              # AppLayout com header limpo e navegação
+│   │   │   ├── routes/               # Proteção de rotas por perfil (/map vs /contractor)
+│   │   │   └── screens/              # Telas de Freelancer e Contratante
+│   │   ├── orval.config.ts           # Configuração de geração de hooks de API
+│   │   └── vite.config.ts            # Vite com PWA Workbox e aliases
+│   │
+│   └── mobile/                       # Aplicativo Mobile Nativo (Expo SDK 51)
+│       ├── src/
+│       │   ├── api/                  # Clientes e fetch autenticado Bearer JWT
+│       │   ├── context/              # AuthContext mobile com SecureStore
+│       │   ├── navigation/           # BottomTabs nativas (Radar, Ganhos, Perfil)
+│       │   └── screens/              # Telas com FlatList e componentes nativos
+│       ├── app.json                  # Manifesto Expo com permissões
+│       └── metro.config.js           # Resolução de symlinks e pacotes monorepo
+│
+├── packages/
+│   └── shared/                       # Pacote Central de Lógica e Contratos
+│       ├── src/
+│       │   ├── api/                  # Hooks React Query gerados automaticamente
+│       │   ├── data/                 # Datasets mock de Curitiba (mockGigs)
+│       │   ├── types/                # Entidades canônicas (User, GigOffer...)
+│       │   └── utils/                # Validadores fiscais (CNPJ Módulo 11, BRL)
+│       └── openapi.yaml              # Especificação formal da API RESTful
+│
+├── specs/                            # Metodologia Spec-Kit (Documentação Viva)
+│   ├── 001-engineering-foundation/   # Fundação técnica do monorepo
+│   ├── 002-refatoracao-critica.../   # Refatorações críticas de arquitetura
+│   ├── 003-docs-system-readme-sync/  # Sincronização documental
+│   └── 004-readme-flows-overhaul/    # Especificação desta reestruturação
+│
+├── package.json                      # Scripts globais do monorepo
+└── bun.lock                          # Lockfile determinístico do Bun
+```
+
+---
+
+## 🛠️ Guia de Instalação e Desenvolvimento Local
+
+### 1. Pré-requisitos
+* **Bun:** v1.2+ instalado ([Instruções do Bun](https://bun.sh/)).
+* **Node.js:** v20+ ou v24 (apenas para compatibilidade do ecossistema Expo).
+* **Git:** Clonagem do repositório.
+
+### 2. Passo a Passo de Instalação
 
 ```bash
-# 1. Instalar todas as dependências do monorepo
+# 1. Clonar o repositório
+git clone https://github.com/akirarafael19/trampo-taxa.git
+cd trampo-taxa
+
+# 2. Instalar todas as dependências do monorepo via Bun
 bun install
 
-# 2. Iniciar a aplicação Web em desenvolvimento (localhost:3000)
+# 3. Executar a aplicação Web (acessível em http://localhost:3000)
 bun run dev:web
 
-# 3. Iniciar o servidor Metro Bundler do aplicativo móvel
+# 4. Executar o servidor Metro do aplicativo móvel
 bun run dev:mobile
-
-# 4. Executar toda a suíte de 91 testes automatizados (TDD)
-bun test
-
-# 5. Executar a análise estática e linter (código 0, sem warnings)
-bun run lint
-
-# 6. Executar a verificação de tipos TypeScript no mobile
-bun run typecheck:mobile
-
-# 7. Gerar clientes HTTP e hooks React Query a partir do openapi.yaml
-bun run api:generate
-
-# 8. Compilar os assets de produção da Web com Service Worker
-bun run build:web
 ```
 
 ---
 
-## 🔄 Pipelines de Integração e Entrega Contínua (CI/CD)
+## ⚙️ Variáveis de Ambiente (`.env`)
 
-* **`.github/workflows/deploy.yml`**: Configurado com a ação oficial `oven-sh/setup-bun@v2`, instala dependências (`bun install`), roda a suíte de testes (`bun test`), valida o linter (`bun run lint`), compila o bundle de produção (`bun run build`) e publica no GitHub Pages.
-* **`.github/workflows/mobile-build.yml`**: Configurado com Node.js 24 (`actions/setup-node@v4`) e Bun (`oven-sh/setup-bun@v2`), valida a estrutura do aplicativo Expo com `expo/expo-github-action@v8` (`packager: bun`) e realiza a simulação do EAS Build (`bunx expo config --type public`).
+Crie um arquivo `.env` dentro de `apps/web/` (opcional, pois o sistema possui fallback funcional offline e vetorial):
+
+```env
+# Google Maps API (Opcional - caso ausente, o mapa vetorial MinimalVectorMap assume automaticamente)
+VITE_GOOGLE_MAPS_API_KEY=sua_chave_aqui
+
+# Desativar HMR se operando em contêineres restritos
+DISABLE_HMR=false
+```
 
 ---
 
-## 🧪 Governança, TDD e Portas de Qualidade
+## 💻 Resumo de Comandos Oficiais (Bun)
 
-A suíte de **91 testes automatizados** valida:
-- **Regras Fiscais:** Algoritmo matemático Módulo 11 de CNPJs, sanitização e máscaras de moeda BRL (`formatCurrency`).
-- **Segurança & RBAC:** Validação de payloads cadastrais, isolamento de mocks em produção e verificação de Bearer tokens para rotas privadas.
-- **Portas de Exceção de Release:** Mecanismo fail-closed que bloqueia builds com riscos críticos não autorizados.
-- **Domínio de Vagas:** Filtros por profissão, geolocalização e ordenação por remuneração horária.
+| Comando | Finalidade |
+| :--- | :--- |
+| `bun install` | Instala e sincroniza todos os pacotes do monorepo |
+| `bun run dev:web` | Inicia o servidor Vite da aplicação Web na porta 3000 |
+| `bun run dev:mobile` | Inicia o Metro Bundler do aplicativo móvel Expo |
+| `bun test` | Executa a suíte de 73 testes automatizados |
+| `bun run lint` | Executa verificação do ESLint (0 erros e 0 warnings) |
+| `bun run api:generate` | Gera os hooks e tipos da API a partir do `openapi.yaml` com Orval |
+| `bun run typecheck:mobile` | Valida a tipagem TypeScript estrita do app móvel |
+| `bun run build:web` | Gera o bundle compilado e otimizado com PWA Workbox |
+
+---
+
+## 🔧 Guia de Troubleshooting (Problemas Comuns)
+
+### 1. Erro: "Port 3000 is in use, trying another one..."
+* **Sintoma:** O Vite sobe na porta 3001 e o preview do AI Studio / navegador não abre.
+* **Causa:** Um processo anterior do Node/Vite ficou retido em segundo plano como zumbi.
+* **Solução Imediata:**
+  ```bash
+  # Localizar e encerrar processos nas portas 3000 e 3001
+  fuser -k 3000/tcp 3001/tcp 2>/dev/null || kill -9 $(pgrep -f "vite") 2>/dev/null
+  # Reiniciar
+  bun run dev:web
+  ```
+
+### 2. Cache Desatualizado no Bun ou no Expo
+* **Sintoma:** Alterações em `@trampotaxa/shared` não são refletidas no app Web ou Mobile.
+* **Solução:**
+  ```bash
+  # Limpar cache do bundler e reinstalar
+  rm -rf node_modules apps/*/node_modules
+  bun install
+  
+  # Para o mobile: reiniciar com flag de limpeza de cache
+  cd apps/mobile && bunx expo start -c
+  ```
+
+### 3. Falha de Conexão com o Google Maps
+* **Comportamento Esperado:** O sistema entra automaticamente no modo **Resiliente com Mapa Vetorial** (`MinimalVectorMap`), permitindo clustering e arrasto sem interromper a navegação do usuário.
