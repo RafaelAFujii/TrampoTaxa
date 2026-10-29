@@ -16,8 +16,8 @@ O **TrampoTaxa (Loctaxa CWB)** é uma plataforma digital desenvolvida em arquite
 
 ## 🌐 Links Rápidos do Ecossistema
 
-* 🚀 **Aplicação Web (GitHub Pages):** [https://akirarafael19.github.io/trampo-taxa/](https://akirarafael19.github.io/trampo-taxa/)
-* 💻 **Repositório GitHub:** [https://github.com/akirarafael19/trampo-taxa](https://github.com/akirarafael19/trampo-taxa)
+* 🚀 **Aplicação Web (GitHub Pages):** [https://RafaelAFujii.github.io/TrampoTaxa/](https://RafaelAFujii.github.io/TrampoTaxa/)
+* 💻 **Repositório GitHub:** [https://github.com/RafaelAFujii/TrampoTaxa](https://github.com/RafaelAFujii/TrampoTaxa)
 * 🧪 **Ambiente de Desenvolvimento em Nuvem:** [Acessar Applet Ativo](https://ais-dev-v6aa5zop4sov5raedzqgg4-97325856245.us-east1.run.app)
 
 ---
