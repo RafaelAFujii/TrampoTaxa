@@ -40,6 +40,7 @@ interface ContractorContextType {
   submitEvaluation: (gigId: string, evaluation: ContractorEvaluation) => void;
   toggleFavoriteFreelancer: (freelancerId: string) => void;
   sendMessage: (gigId: string, text: string) => void;
+  sendFreelancerMessage: (gigId: string, text: string, freelancerName?: string) => void;
   getMessagesForGig: (gigId: string) => ChatMessage[];
   getGigById: (gigId: string) => ContractorGig | undefined;
   getApplicantById: (applicantId: string) => FreelancerApplicant | undefined;
@@ -339,6 +340,59 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, 1500);
   };
 
+  /**
+   * Envio de mensagem pelo Freelancer com resposta automática simulada do gerente
+   */
+  const sendFreelancerMessage = (
+    gigId: string,
+    text: string,
+    freelancerName = 'Gabriel Silva'
+  ) => {
+    if (!text.trim()) return;
+
+    const newMsg: ChatMessage = {
+      id: `msg-${Date.now()}`,
+      gigId,
+      senderId: 'free-user',
+      senderName: freelancerName,
+      senderRole: 'Freelancer',
+      text: text.trim(),
+      timestamp: 'Agora',
+      read: true,
+    };
+
+    setMessages((prev) => [...prev, newMsg]);
+
+    // Resposta automática simulada do gerente após 1.2s
+    setTimeout(() => {
+      const gig = gigs.find((g) => g.id === gigId);
+      const venueName = gig?.venueName || 'Gerência do Salão';
+
+      const simulatedReplies = [
+        `Olá ${freelancerName}! Mensagem recebida. Pode vir pela entrada lateral de serviço e procurar pelo Carlos.`,
+        `Combinado! Estamos aguardando você. Se precisar guardar sua mochila, temos armários liberados no vestiário.`,
+        `Tudo certo! Acesso liberado com o segurança da portaria. Até já!`,
+        `Recebido! Qualquer dúvida sobre o salão ou comanda, pode me procurar no balcão central.`,
+        `Perfeito! Bom turno, qualquer novidade ou imprevisto nos avise por aqui.`,
+      ];
+      const randomReply =
+        simulatedReplies[Math.floor(Math.random() * simulatedReplies.length)];
+
+      const replyMsg: ChatMessage = {
+        id: `msg-${Date.now() + 1}`,
+        gigId,
+        senderId: 'manager-batel',
+        senderName: `Gerência (${venueName})`,
+        senderRole: 'Contratante',
+        text: randomReply,
+        timestamp: 'Agora mesmo',
+        read: false,
+      };
+
+      setMessages((prev) => [...prev, replyMsg]);
+    }, 1200);
+  };
+
   const getMessagesForGig = (gigId: string) => {
     return messages.filter((m) => m.gigId === gigId);
   };
@@ -370,6 +424,7 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         submitEvaluation,
         toggleFavoriteFreelancer,
         sendMessage,
+        sendFreelancerMessage,
         getMessagesForGig,
         getGigById,
         getApplicantById,

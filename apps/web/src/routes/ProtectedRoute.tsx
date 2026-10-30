@@ -7,7 +7,14 @@ interface ProtectedRouteProps {
 }
 
 const freelancerOnlyRoutes = ['/map', '/active-gig', '/earnings'];
-const contractorOnlyRoutes = ['/contractor/gigs', '/contractor/create', '/contractor/reports', '/contractor/chat'];
+const contractorOnlyRoutes = [
+  '/contractor/dashboard',
+  '/contractor/gigs',
+  '/contractor/create',
+  '/contractor/reports',
+  '/contractor/chat',
+  '/contractor',
+];
 
 export function getRoleRedirectPath(pathname: string, role?: 'Freelancer' | 'Contratante') {
   if (role === 'Freelancer' && contractorOnlyRoutes.some((route) => pathname.startsWith(route))) {
@@ -15,7 +22,7 @@ export function getRoleRedirectPath(pathname: string, role?: 'Freelancer' | 'Con
   }
 
   if (role === 'Contratante' && freelancerOnlyRoutes.some((route) => pathname.startsWith(route))) {
-    return '/contractor/gigs';
+    return '/contractor/dashboard';
   }
 
   return null;

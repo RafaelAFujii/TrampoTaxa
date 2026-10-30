@@ -9,11 +9,13 @@ import {
   ShieldCheck,
   Phone,
   ChevronLeft,
+  MessageSquare,
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GOOGLE_MAPS_API_KEY } from '../constants/maps';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { ManagerChatModal } from '../components/chat/ManagerChatModal';
 import type { GigOffer } from '@trampotaxa/shared';
 
 interface ActiveGigScreenProps {
@@ -135,6 +137,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
     'heading_to_venue'
   );
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [mapAuthError, setMapAuthError] = useState(() => {
     try {
       return sessionStorage.getItem('gmp_billing_disabled') === 'true';
@@ -348,24 +351,46 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               </p>
             </div>
 
-            {/* Establishment Contact */}
-            <div className="bg-[#121418] border border-white/5 rounded-2xl p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-[#00E676]">
-                  <Phone className="w-4 h-4" />
+            {/* Establishment Contact & Chat com o Gerente */}
+            <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 space-y-3.5 shadow-md">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/30 flex items-center justify-center text-[#00E676]">
+                      <MessageSquare className="w-5 h-5" />
+                    </div>
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00E676] border-2 border-[#121418]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-white block">Gerência de Salão</span>
+                      <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30">
+                        Online
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-zinc-400">Canal direto de comunicação</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-xs font-bold text-white block">Gerência de Salão</span>
-                  <span className="text-[11px] text-zinc-400">(41) 98765-4321</span>
-                </div>
+
+                <a
+                  href="tel:41987654321"
+                  title="Ligar para o estabelecimento"
+                  className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
+                >
+                  <Phone className="w-4 h-4 text-[#00E676]" />
+                </a>
               </div>
 
-              <a
-                href="tel:41987654321"
-                className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white cursor-pointer transition-colors"
+              {/* Botão de Abrir Chat com o Gerente */}
+              <button
+                type="button"
+                onClick={() => setIsChatOpen(true)}
+                className="w-full py-3 px-4 rounded-2xl bg-[#00E676]/10 hover:bg-[#00E676]/20 border border-[#00E676]/30 hover:border-[#00E676]/60 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm group"
               >
-                Chamar
-              </a>
+                <MessageSquare className="w-4 h-4 text-[#00E676] transition-transform group-hover:scale-110" />
+                <span>Chat com o Gerente</span>
+                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse ml-1" />
+              </button>
             </div>
           </div>
 
@@ -447,6 +472,14 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Modal de Chat com o Gerente */}
+      <ManagerChatModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        gig={gig}
+        phoneNumber="(41) 98765-4321"
+      />
     </div>
   );
 };

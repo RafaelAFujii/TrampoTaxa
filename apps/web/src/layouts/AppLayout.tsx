@@ -11,6 +11,7 @@ import {
   PlusCircle,
   BarChart3,
   MessageSquare,
+  LayoutDashboard,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
@@ -26,6 +27,7 @@ export const AppLayout: React.FC = () => {
   // Determina a aba ativa a partir da rota atual
   const getActiveTab = (): NavTab => {
     const path = location.pathname;
+    if (path.includes('/contractor/dashboard')) return 'contractor-dashboard';
     if (path.includes('/contractor/gigs')) return 'contractor-gigs';
     if (path.includes('/contractor/create')) return 'contractor-create';
     if (path.includes('/contractor/reports')) return 'contractor-reports';
@@ -37,6 +39,9 @@ export const AppLayout: React.FC = () => {
 
   const handleNavTabChange = (tab: NavTab) => {
     switch (tab) {
+      case 'contractor-dashboard':
+        navigate('/contractor/dashboard');
+        break;
       case 'contractor-gigs':
         navigate('/contractor/gigs');
         break;
@@ -79,7 +84,7 @@ export const AppLayout: React.FC = () => {
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
           <div
-            onClick={() => navigate(isContractor ? '/contractor/gigs' : '/map')}
+            onClick={() => navigate(isContractor ? '/contractor/dashboard' : '/map')}
             className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
             <div className="w-8 h-8 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(0,230,118,0.5)] transition-transform group-hover:scale-105">
@@ -106,6 +111,19 @@ export const AppLayout: React.FC = () => {
           {isContractor ? (
             /* Links do Contratante */
             <>
+              <button
+                type="button"
+                onClick={() => navigate('/contractor/dashboard')}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  currentPath === '/contractor/dashboard' || currentPath === '/contractor'
+                    ? 'bg-[#00E676] text-black shadow-sm'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>Dashboard</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => navigate('/contractor/gigs')}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Star, MapPin, X, Clock, ShieldCheck, Check, DollarSign } from 'lucide-react';
+import { Star, MapPin, X, Clock, ShieldCheck, Check, DollarSign, MessageSquare } from 'lucide-react';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
+import { ManagerChatModal } from '../components/chat/ManagerChatModal';
 import { GigOffer } from '@trampotaxa/shared';
 
 export interface GigOfferBottomSheetProps {
@@ -19,11 +20,13 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
   onClose,
 }) => {
   const [acknowledgedDressCode, setAcknowledgedDressCode] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Redefine a confirmação sempre que uma nova vaga for aberta
   useEffect(() => {
     if (isOpen) {
       setAcknowledgedDressCode(false);
+      setIsChatOpen(false);
     }
   }, [isOpen, gig?.id]);
 
@@ -184,6 +187,19 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           </div>
         </div>
 
+        {/* Dúvidas sobre o turno: Chat com o Gerente */}
+        <div className="flex items-center justify-between px-1 py-1">
+          <span className="text-xs text-zinc-400">Dúvidas sobre o turno ou local?</span>
+          <button
+            type="button"
+            onClick={() => setIsChatOpen(true)}
+            className="flex items-center gap-1.5 text-xs font-bold text-[#00E676] hover:text-[#00E676]/80 hover:underline transition-all cursor-pointer"
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+            <span>Chat com o Gerente</span>
+          </button>
+        </div>
+
         {/* 4. BOTÃO PRINCIPAL DE ACEITAR TAXA & RECUSAR */}
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <button
@@ -214,6 +230,13 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Modal de Chat com o Gerente */}
+      <ManagerChatModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        gig={gig}
+      />
     </div>
   );
 };

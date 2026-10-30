@@ -7,7 +7,7 @@ import {
   PlusCircle,
   BarChart3,
   MessageSquare,
-  Building2,
+  LayoutDashboard,
 } from 'lucide-react';
 import { NavTab } from '@trampotaxa/shared';
 import { UserRole } from '../../context/AuthContext';
@@ -32,11 +32,11 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   ];
 
   const contractorTabs = [
+    { id: 'contractor-dashboard' as NavTab, label: 'Início', icon: LayoutDashboard },
     { id: 'contractor-gigs' as NavTab, label: 'Vagas', icon: Briefcase },
     { id: 'contractor-create' as NavTab, label: 'Criar', icon: PlusCircle },
-    { id: 'contractor-reports' as NavTab, label: 'Relatórios', icon: BarChart3 },
     { id: 'contractor-chat' as NavTab, label: 'Chat', icon: MessageSquare },
-    { id: 'profile' as NavTab, label: 'Perfil', icon: Building2 },
+    { id: 'contractor-reports' as NavTab, label: 'Relatórios', icon: BarChart3 },
   ];
 
   const tabs = role === 'Contratante' ? contractorTabs : freelancerTabs;
