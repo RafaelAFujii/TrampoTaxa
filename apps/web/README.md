@@ -16,6 +16,58 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, focada e
 
 ---
 
+## 📁 Estrutura de Diretórios e Submódulos
+
+```
+apps/web/
+├── public/                     # Ícones, manifesto PWA e assets estáticos
+├── src/
+│   ├── components/             # Componentes modulares de UI, mapas e modais
+│   │   ├── chat/               # Modal de chat com o contratante
+│   │   ├── flow/               # Modais de fluxo de turno (QR Scanner, Avaliação)
+│   │   ├── map/                # Marcadores, Radar e visualização vetorial de fallback
+│   │   ├── navigation/         # Barra de navegação inferior responsiva
+│   │   ├── ui/                 # Elementos atômicos (Botões, Toggles, Inputs)
+│   │   └── README.md           # Documentação detalhada dos componentes
+│   │
+│   ├── context/                # Contextos de autenticação, contratante e freelancer
+│   │   ├── AuthContext.tsx     # Sessão JWT e RBAC
+│   │   ├── ContractorContext.tsx # Estado de vagas e candidatos do contratante
+│   │   ├── FreelancerFlowContext.tsx # Máquina de estados do turno do freelancer
+│   │   └── README.md           # Documentação detalhada dos contextos
+│   │
+│   ├── hooks/                  # Hooks customizados para regras de negócio
+│   │   ├── useFreelancerGigFlow.ts # Orquestração do turno do profissional
+│   │   ├── useGigsQuery.ts     # Query cacheada de vagas disponíveis
+│   │   └── README.md           # Documentação detalhada dos hooks
+│   │
+│   ├── layouts/                # Moldura da aplicação (AppLayout)
+│   │
+│   ├── routes/                 # Roteamento declarativo e guardas
+│   │   ├── ProtectedRoute.tsx  # Guarda de rotas com verificação de perfil
+│   │   ├── routes.tsx          # Definição das rotas da aplicação
+│   │   └── README.md           # Documentação detalhada das rotas
+│   │
+│   ├── screens/                # Telas completas da aplicação
+│   │   ├── contractor/         # Telas dedicadas ao estabelecimento
+│   │   ├── ActiveGigScreen.tsx # Visão do turno ativo com check-in
+│   │   ├── CadastroScreen.tsx  # Cadastro com seleção de perfil
+│   │   ├── EarningsScreen.tsx  # Extrato financeiro com repasse PIX
+│   │   ├── LoginScreen.tsx     # Autenticação com credenciais
+│   │   ├── MapDashboardScreen.tsx # Radar de vagas em tempo real
+│   │   ├── ProfileScreen.tsx   # Perfil e configurações do usuário
+│   │   └── README.md           # Documentação detalhada de cada tela
+│   │
+│   ├── App.tsx                 # Composição dos Provedores e Rotas
+│   ├── main.tsx                # Bootstrap da aplicação React
+│   └── index.css               # Import do Tailwind CSS e estilos globais
+│
+├── vite.config.ts              # Configuração Vite com Workbox PWA
+└── tsconfig.json               # Configuração TypeScript Web
+```
+
+---
+
 ## 🎯 Experiências de Uso no Front-End Web
 
 ### 1. Visão do Freelancer (Profissional Autônomo)
@@ -31,16 +83,14 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, focada e
 * **Triagem de Candidatos:** Visualização de candidatos com foto, estrelas de avaliação, pontualidade e turnos concluídos, com botões de aprovação e recusa em tempo real.
 * **Chat Operacional (`/contractor/chat`):** Mensageria instantânea com freelancers aprovados para alinhamento de portaria e chegada.
 * **Tela de Estabelecimento (`/profile`):** Informações cadastrais completas da empresa (Razão Social, CNPJ mascarado, segmento, total de vagas e investimento financeiro).
-* **Rolagem Vertical Fluida:** Todas as telas de gestão contam com rolagem suave (`overflow-y-auto`), permitindo a visualização de listas extensas de candidatos e turnos sem bloqueios.
 
 ---
 
 ## 📱 Recursos de PWA e Offline Caching
 
 * **Service Worker com Workbox:**
-  * `NetworkFirst`: Aplicado a todas as rotas de dados (`/api`, `/gigs`, `/earnings`, `/contractor`, `/chat`), permitindo consultar vagas e relatórios mesmo em áreas de sinal instável em Curitiba.
+  * `NetworkFirst`: Aplicado a rotas de dados dinâmicos (`/api`, `/gigs`, `/earnings`, `/contractor`, `/chat`), permitindo consultar vagas e relatórios mesmo em áreas de sinal instável em Curitiba.
   * `CacheFirst`: Para folhas de estilo, fontes e scripts estáticos.
-* **Interface Limpa:** A aplicação não exibe botões artificiais de código ou alternadores de papel manuais, assegurando a autenticidade da experiência em produção.
 
 ---
 
@@ -61,3 +111,13 @@ bun test
 # Compilar para produção (gera pasta apps/web/dist)
 bun run build:web
 ```
+
+---
+
+## 🔗 Navegação Modular
+
+* Componentes reutilizáveis: [src/components/README.md](./src/components/README.md)
+* Contextos e estado global: [src/context/README.md](./src/context/README.md)
+* Hooks customizados: [src/hooks/README.md](./src/hooks/README.md)
+* Rotas e proteção RBAC: [src/routes/README.md](./src/routes/README.md)
+* Telas da aplicação: [src/screens/README.md](./src/screens/README.md)
