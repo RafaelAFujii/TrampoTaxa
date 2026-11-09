@@ -10,6 +10,9 @@ export interface GigOfferBottomSheetProps {
   onAccept: (gig: GigOffer) => void;
   onDecline?: (gig: GigOffer) => void;
   onClose?: () => void;
+  isApplied?: boolean;
+  activeApplicationsCount?: number;
+  maxApplicationsReached?: boolean;
 }
 
 export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
@@ -18,6 +21,9 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
   onAccept,
   onDecline,
   onClose,
+  isApplied = false,
+  activeApplicationsCount = 0,
+  maxApplicationsReached = false,
 }) => {
   const [acknowledgedDressCode, setAcknowledgedDressCode] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -207,26 +213,39 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
             onClick={handleDecline}
             className="sm:order-1 order-2 flex-1 py-3.5 px-4 rounded-2xl border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
           >
-            Recusar Proposta
+            {isApplied ? 'Fechar Detalhes' : 'Recusar Proposta'}
           </button>
 
           <div className="sm:order-2 order-1 flex-1 flex flex-col">
-            <PrimaryButton
-              onClick={() => {
-                if (acknowledgedDressCode) {
-                  onAccept(gig);
+            {isApplied ? (
+              <div className="w-full py-3.5 px-4 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/40 flex items-center justify-center gap-2 text-center">
+                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+                <span className="text-xs font-black text-[#00E676] uppercase tracking-wider">
+                  Candidatura Ativa ({activeApplicationsCount}/3)
+                </span>
+              </div>
+            ) : maxApplicationsReached ? (
+              <div className="w-full py-3.5 px-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center gap-2 text-center text-amber-300">
+                <span className="text-xs font-bold">Limite de 3 Vagas Atingido</span>
+              </div>
+            ) : (
+              <PrimaryButton
+                onClick={() => {
+                  if (acknowledgedDressCode) {
+                    onAccept(gig);
+                  }
+                }}
+                disabled={!acknowledgedDressCode}
+                title={
+                  !acknowledgedDressCode
+                    ? 'Confirme a ciência das regras de apresentação para aceitar'
+                    : undefined
                 }
-              }}
-              disabled={!acknowledgedDressCode}
-              title={
-                !acknowledgedDressCode
-                  ? 'Confirme a ciência das regras de apresentação para aceitar'
-                  : undefined
-              }
-              icon={<ShieldCheck className="w-4 h-4 text-black" />}
-            >
-              ACEITAR TAXA ({gig.rateFormatted})
-            </PrimaryButton>
+                icon={<ShieldCheck className="w-4 h-4 text-black" />}
+              >
+                CANDIDATAR-SE ({gig.rateFormatted})
+              </PrimaryButton>
+            )}
           </div>
         </div>
       </div>

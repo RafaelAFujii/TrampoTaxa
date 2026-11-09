@@ -43,6 +43,8 @@ export const INITIAL_CONTRACTOR_GIGS: ContractorGig[] = [
         phone: '(41) 99123-4567',
         bio: 'Bartender com mais de 5 anos de experiência na noite curitibana. Especialista em coquetelaria italiana e agilidade em grandes fluxos.',
         isFavorite: true,
+        isOverbooking: true,
+        overbookingSlots: 3,
       },
       {
         id: 'free-2',

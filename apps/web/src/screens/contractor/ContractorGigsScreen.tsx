@@ -10,12 +10,15 @@ import {
   MessageSquare,
   Star,
   ChevronRight,
+  QrCode,
+  CheckCircle,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useContractor } from '../../context/ContractorContext';
 import { ContractorGig, FreelancerApplicant, ContractorGigStatus } from '@trampotaxa/shared';
 import { FreelancerProfileModal } from './FreelancerProfileModal';
 import { PerformanceReviewModal } from './PerformanceReviewModal';
+import { MasterQrCodeModal } from './MasterQrCodeModal';
 
 const STATUS_FILTERS: { label: string; value: 'All' | ContractorGigStatus }[] = [
   { label: 'Todas', value: 'All' },
@@ -27,7 +30,14 @@ const STATUS_FILTERS: { label: string; value: 'All' | ContractorGigStatus }[] = 
 
 export const ContractorGigsScreen: React.FC = () => {
   const navigate = useNavigate();
-  const { gigs, approveApplicant, rejectApplicant, toggleFavoriteFreelancer } = useContractor();
+  const {
+    gigs,
+    approveApplicant,
+    rejectApplicant,
+    toggleFavoriteFreelancer,
+    approveCheckoutImmediately,
+    confirmFreelancerCheckIn,
+  } = useContractor();
 
   const [statusFilter, setStatusFilter] = useState<'All' | ContractorGigStatus>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -43,6 +53,10 @@ export const ContractorGigsScreen: React.FC = () => {
   // Modal de Avaliação de Desempenho pós-evento
   const [reviewGig, setReviewGig] = useState<ContractorGig | null>(null);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
+
+  // Modal de exibição do QR Code Mestre do Salão
+  const [qrModalGig, setQrModalGig] = useState<ContractorGig | null>(null);
+  const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false);
 
   // Filtragem das vagas
   const filteredGigs = gigs.filter((gig) => {
@@ -263,6 +277,35 @@ export const ContractorGigsScreen: React.FC = () => {
                         </button>
                       )}
 
+                    {/* Botão de Exibir QR Code Mestre do Salão */}
+                    {(gig.status === 'Preenchida' || gig.status === 'Aberta') && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setQrModalGig(gig);
+                          setIsQrModalOpen(true);
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#00E676]/10 hover:bg-[#00E676]/20 border border-[#00E676]/30 text-xs font-bold text-[#00E676] transition-colors cursor-pointer"
+                        title="Exibir QR Code Mestre para o freelancer ler na chegada"
+                      >
+                        <QrCode className="w-3.5 h-3.5" />
+                        <span>QR Mestre</span>
+                      </button>
+                    )}
+
+                    {/* Botão de Aprovação de PIX Imediato no Fechamento */}
+                    {gig.status === 'Preenchida' && (
+                      <button
+                        type="button"
+                        onClick={() => approveCheckoutImmediately(gig.id)}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-bold text-emerald-400 transition-colors cursor-pointer"
+                        title="Liberar PIX agora sem aguardar o prazo de 2h"
+                      >
+                        <CheckCircle className="w-3.5 h-3.5" />
+                        <span>Liberar PIX</span>
+                      </button>
+                    )}
+
                     {/* Botão de alternar lista de candidatos */}
                     <button
                       type="button"
@@ -450,6 +493,14 @@ export const ContractorGigsScreen: React.FC = () => {
         gig={reviewGig}
         isOpen={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}
+      />
+
+      {/* Modal de Exibição do QR Code Mestre do Salão */}
+      <MasterQrCodeModal
+        gig={qrModalGig}
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        onSimulateCheckIn={(gigId) => confirmFreelancerCheckIn(gigId)}
       />
     </div>
   );

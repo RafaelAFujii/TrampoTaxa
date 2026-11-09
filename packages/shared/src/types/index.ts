@@ -1,6 +1,7 @@
 export type Profession = 'Bartender' | 'Garçom' | 'Recepcionista' | 'Hostess' | 'Copeiro';
 
 export * from './contractor';
+export * from './freelancerFlow';
 
 export interface GigOffer {
   id: string;

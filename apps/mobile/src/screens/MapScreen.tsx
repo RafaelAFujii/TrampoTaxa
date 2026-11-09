@@ -12,6 +12,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { filterGigsByProfession } from '@trampotaxa/shared';
 import type { GigOffer } from '@trampotaxa/shared';
+import { useFreelancerGigFlow } from '../hooks/useFreelancerGigFlow';
 
 // Import resiliente de react-native-maps para suportar Expo Go, Web e simuladores
 let MapView: any = null;
@@ -41,7 +42,14 @@ export const MapScreen: React.FC = () => {
   const [selectedProfession, setSelectedProfession] = useState<string>('Todos');
   const [selectedGig, setSelectedGig] = useState<GigOffer | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
-  const [appliedGigs, setAppliedGigs] = useState<string[]>([]);
+
+  const {
+    applyToGig,
+    gigs: flowGigs,
+    activeApplicationsCount,
+    maxApplicationsReached,
+    activeShift,
+  } = useFreelancerGigFlow();
 
   // Consumo reativo via TanStack React Query com cache de 5 minutos
   const {
@@ -67,8 +75,18 @@ export const MapScreen: React.FC = () => {
     return filterGigsByProfession(gigs, selectedProfession);
   }, [gigs, selectedProfession]);
 
-  const handleApply = (gigId: string) => {
-    setAppliedGigs((prev) => (prev.includes(gigId) ? prev : [...prev, gigId]));
+  const getGigStatus = (gig: GigOffer) => {
+    const flowGig = flowGigs.find((g) => g.venueName.toLowerCase() === gig.venueName.toLowerCase() || g.id === gig.id);
+    return flowGig?.status ?? 'disponivel';
+  };
+
+  const handleApply = (gig: GigOffer) => {
+    // Busca id do flow ou cria mapeamento
+    const flowGig = flowGigs.find((g) => g.venueName.toLowerCase() === gig.venueName.toLowerCase() || g.id === gig.id);
+    const targetId = flowGig?.id ?? flowGigs[0]?.id;
+    if (targetId) {
+      applyToGig(targetId);
+    }
   };
 
   if (isLoading) {
@@ -159,17 +177,43 @@ export const MapScreen: React.FC = () => {
         /* Fallback elegante com Lista de Taxas e Radar de Oportunidades */
         <ScrollView style={styles.listContainer} contentContainerStyle={styles.listScrollContent}>
           <View style={styles.radarHeader}>
+            <View style={styles.overbookingRow}>
+              <View style={styles.overbookingPill}>
+                <View style={[styles.overbookingDot, activeApplicationsCount > 0 && styles.overbookingDotActive]} />
+                <Text style={styles.overbookingPillText}>
+                  OVERBOOKING: {activeApplicationsCount}/3 CANDIDATURAS ATIVAS
+                </Text>
+              </View>
+              {activeShift && (
+                <View style={styles.activeShiftPill}>
+                  <Text style={styles.activeShiftPillText}>TURNO ATIVO ⚡</Text>
+                </View>
+              )}
+            </View>
+
             <Text style={styles.radarTitle}>Oportunidades em Curitiba</Text>
-            <Text style={styles.radarSubtitle}>{filteredGigs.length} vagas encontradas no Batel e Centro</Text>
+            <Text style={styles.radarSubtitle}>
+              {maxApplicationsReached
+                ? 'Limite de 3 vagas atingido. Aguardando aceite de um contratante...'
+                : `${filteredGigs.length} vagas encontradas no Batel e Centro`}
+            </Text>
           </View>
 
           {filteredGigs.map((gig) => {
             const isSelected = selectedGig?.id === gig.id;
-            const isApplied = appliedGigs.includes(gig.id);
+            const status = getGigStatus(gig);
+            const isApplied = status === 'candidatado';
+            const isConfirmed = status === 'confirmado';
+            const isCancelled = status === 'cancelado';
+
             return (
               <TouchableOpacity
                 key={gig.id}
-                style={[styles.gigCard, isSelected && styles.gigCardSelected]}
+                style={[
+                  styles.gigCard,
+                  isSelected && styles.gigCardSelected,
+                  isConfirmed && styles.gigCardConfirmed,
+                ]}
                 onPress={() => setSelectedGig(gig)}
               >
                 <View style={styles.gigCardHeader}>
@@ -177,6 +221,11 @@ export const MapScreen: React.FC = () => {
                     <View style={styles.tagContainer}>
                       <Text style={styles.professionTag}>{gig.profession}</Text>
                       <Text style={styles.distanceText}>{gig.distance}</Text>
+                      {isConfirmed && (
+                        <View style={styles.hiredBadge}>
+                          <Text style={styles.hiredBadgeText}>CONTRATADO</Text>
+                        </View>
+                      )}
                     </View>
                     <Text style={styles.venueName}>{gig.venueName}</Text>
                     <Text style={styles.neighborhoodText}>{gig.neighborhood}, Curitiba</Text>
@@ -190,11 +239,28 @@ export const MapScreen: React.FC = () => {
                 <View style={styles.gigCardFooter}>
                   <Text style={styles.shiftTimeText}>Horário: {gig.shiftTime}</Text>
                   <TouchableOpacity
-                    style={[styles.actionButton, isApplied && styles.actionButtonSuccess]}
-                    onPress={() => handleApply(gig.id)}
+                    style={[
+                      styles.actionButton,
+                      isApplied && styles.actionButtonApplied,
+                      isConfirmed && styles.actionButtonSuccess,
+                      isCancelled && styles.actionButtonCancelled,
+                    ]}
+                    disabled={isApplied || isConfirmed}
+                    onPress={() => handleApply(gig)}
                   >
-                    <Text style={[styles.actionButtonText, isApplied && styles.actionButtonTextSuccess]}>
-                      {isApplied ? 'Inscrito ✓' : 'Candidatar'}
+                    <Text
+                      style={[
+                        styles.actionButtonText,
+                        (isApplied || isConfirmed) && styles.actionButtonTextSuccess,
+                      ]}
+                    >
+                      {isConfirmed
+                        ? 'Contratado! ✓'
+                        : isApplied
+                        ? 'Candidatado (Aguardando...)'
+                        : isCancelled
+                        ? 'Cancelado'
+                        : 'Candidatar'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -221,22 +287,35 @@ export const MapScreen: React.FC = () => {
 
           <View style={styles.floatingFooter}>
             <Text style={styles.shiftTimeText}>{selectedGig.shiftTime}</Text>
-            <TouchableOpacity
-              style={[
-                styles.floatingApplyButton,
-                appliedGigs.includes(selectedGig.id) && styles.actionButtonSuccess,
-              ]}
-              onPress={() => handleApply(selectedGig.id)}
-            >
-              <Text
-                style={[
-                  styles.floatingApplyText,
-                  appliedGigs.includes(selectedGig.id) && styles.actionButtonTextSuccess,
-                ]}
-              >
-                {appliedGigs.includes(selectedGig.id) ? 'Candidatura Enviada ✓' : 'Aceitar Turno'}
-              </Text>
-            </TouchableOpacity>
+            {(() => {
+              const status = getGigStatus(selectedGig);
+              const isApplied = status === 'candidatado';
+              const isConfirmed = status === 'confirmado';
+              return (
+                <TouchableOpacity
+                  style={[
+                    styles.floatingApplyButton,
+                    isApplied && styles.actionButtonApplied,
+                    isConfirmed && styles.actionButtonSuccess,
+                  ]}
+                  disabled={isApplied || isConfirmed}
+                  onPress={() => handleApply(selectedGig)}
+                >
+                  <Text
+                    style={[
+                      styles.floatingApplyText,
+                      (isApplied || isConfirmed) && styles.actionButtonTextSuccess,
+                    ]}
+                  >
+                    {isConfirmed
+                      ? 'Contratado! ✓'
+                      : isApplied
+                      ? 'Candidatura Enviada ✓'
+                      : 'Aceitar Turno'}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })()}
           </View>
         </View>
       )}
@@ -531,5 +610,75 @@ const styles = StyleSheet.create({
     color: '#0A0B0E',
     fontSize: 12,
     fontWeight: 'bold',
+  },
+  overbookingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+    flexWrap: 'wrap',
+  },
+  overbookingPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 230, 118, 0.3)',
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    gap: 6,
+  },
+  overbookingDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#64748B',
+  },
+  overbookingDotActive: {
+    backgroundColor: '#00E676',
+  },
+  overbookingPillText: {
+    color: '#00E676',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 0.3,
+  },
+  activeShiftPill: {
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.3)',
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  activeShiftPillText: {
+    color: '#F59E0B',
+    fontSize: 10,
+    fontWeight: '900',
+  },
+  gigCardConfirmed: {
+    borderColor: '#00E676',
+    backgroundColor: 'rgba(0, 230, 118, 0.05)',
+  },
+  hiredBadge: {
+    backgroundColor: '#00E676',
+    borderRadius: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    marginLeft: 4,
+  },
+  hiredBadgeText: {
+    color: '#0A0B0E',
+    fontSize: 9,
+    fontWeight: '900',
+  },
+  actionButtonApplied: {
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+    borderColor: 'rgba(245, 158, 11, 0.4)',
+  },
+  actionButtonCancelled: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
 });

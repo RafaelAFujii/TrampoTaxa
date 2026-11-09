@@ -5,6 +5,7 @@ export * from './types/contractor';
 // Utilitários de formatação e validação fiscal
 export * from './utils/formatters';
 export * from './utils/gigs';
+export * from './utils/freelancerFlowState';
 
 // API gerada a partir da especificação OpenAPI (React Query + Fetch)
 export * as api from './api';

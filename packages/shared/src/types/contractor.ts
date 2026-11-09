@@ -19,6 +19,8 @@ export interface FreelancerApplicant {
   phone: string;
   bio?: string;
   isFavorite?: boolean;
+  isOverbooking?: boolean;
+  overbookingSlots?: number;
 }
 
 export interface ContractorEvaluation {
@@ -52,6 +54,18 @@ export interface ContractorGig {
   approvedFreelancerId?: string;
   evaluation?: ContractorEvaluation;
   createdAt: string;
+  // Campos de Sincronização da Jornada Mútua (Spec 006)
+  checkInTimestamp?: number;
+  checkOutTimestamp?: number;
+  autoCheckoutDeadline?: number;
+  qrCodeSecret?: string; // Default "QR_MESTRE_123"
+  shiftPhase?: 'aguardando_checkin' | 'em_turno' | 'checkout_pendente' | 'pix_aprovado' | 'contestado';
+  disputeReason?: string;
+  freelancerReview?: {
+    rating: number;
+    tags: string[];
+    submittedAt?: string;
+  };
 }
 
 export interface ChatMessage {

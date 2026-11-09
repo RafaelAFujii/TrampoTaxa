@@ -1,5 +1,6 @@
 export type FreelancerTabParamList = {
   Mapa: undefined;
+  TurnoAtivo: undefined;
   Relatorios: undefined;
   Perfil: undefined;
 };

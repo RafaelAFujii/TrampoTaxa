@@ -4,18 +4,22 @@ import {
   Navigation,
   MapPin,
   Clock,
-  CheckCircle,
   ExternalLink,
   ShieldCheck,
   Phone,
   ChevronLeft,
   MessageSquare,
+  QrCode,
+  Sparkles,
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../components/ui/PrimaryButton';
 import { GOOGLE_MAPS_API_KEY } from '../constants/maps';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { ManagerChatModal } from '../components/chat/ManagerChatModal';
+import { MasterQrScannerModal } from '../components/flow/MasterQrScannerModal';
+import { VenueReviewModal } from '../components/flow/VenueReviewModal';
+import { useFreelancerGigFlow } from '../hooks/useFreelancerGigFlow';
 import type { GigOffer } from '@trampotaxa/shared';
 
 interface ActiveGigScreenProps {
@@ -121,7 +125,7 @@ import { useActiveGigQuery } from '../hooks/useGigsQuery';
 
 export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   gig: propGig,
-  onFinishShift,
+  onFinishShift: _onFinishShift,
   onOpenNavigation: _onOpenNavigation,
   onCancelGig,
   onBackToDashboard,
@@ -134,10 +138,27 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const { data: queryGig, isLoading, isError, refetch } = useActiveGigQuery(targetGigId);
   const gig = propGig || stateGig || queryGig;
 
-  const [shiftStatus, setShiftStatus] = useState<'heading_to_venue' | 'arrived_working'>(
-    'heading_to_venue'
-  );
+  const {
+    activeShift,
+    performCheckIn,
+    requestCheckOut,
+    submitVenueReview,
+    finishAndReceive,
+  } = useFreelancerGigFlow();
+
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // Status unificado do turno
+  const currentPhase: 'heading' | 'in_shift' | 'awaiting_auto_checkout' | 'pix_scheduled' =
+    activeShift?.status === 'em_turno'
+      ? 'in_shift'
+      : activeShift?.status === 'checkout_pendente_aprovacao'
+        ? 'awaiting_auto_checkout'
+        : activeShift?.status === 'pix_agendado'
+          ? 'pix_scheduled'
+          : 'heading';
   const [mapAuthError, setMapAuthError] = useState(() => {
     try {
       return sessionStorage.getItem('gmp_billing_disabled') === 'true';
@@ -204,15 +225,28 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const gigLocation = gig.latLng || { lat: -25.4398, lng: -49.2885 };
 
   const handlePrimaryAction = () => {
-    if (shiftStatus === 'heading_to_venue') {
-      setShiftStatus('arrived_working');
-    } else {
-      if (onFinishShift) {
-        onFinishShift(gig);
-      } else {
-        navigate('/earnings');
-      }
+    if (currentPhase === 'heading') {
+      setIsScannerOpen(true);
+    } else if (currentPhase === 'in_shift') {
+      requestCheckOut();
+    } else if (currentPhase === 'pix_scheduled') {
+      setIsReviewOpen(true);
     }
+  };
+
+  const handleScanSuccess = (payload: string) => {
+    performCheckIn(payload);
+  };
+
+  const handleReviewCompleted = (rating: number, tags: string[]) => {
+    submitVenueReview({
+      gigId: gig.id,
+      rating,
+      tags,
+    });
+    setIsReviewOpen(false);
+    finishAndReceive();
+    navigate('/earnings', { state: { justCompletedGig: gig, rating } });
   };
 
   const handleBack = () => {
@@ -276,7 +310,13 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
           </div>
 
           <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30">
-            {shiftStatus === 'heading_to_venue' ? 'A Caminho do Local' : 'Em Turno Ativo'}
+            {currentPhase === 'heading'
+              ? 'A Caminho (Check-in Pendente)'
+              : currentPhase === 'in_shift'
+                ? 'Em Turno Ativo'
+                : currentPhase === 'awaiting_auto_checkout'
+                  ? 'Janela de Auto-Checkout (2h)'
+                  : 'Aprovada - PIX Agendado'}
           </span>
         </div>
 
@@ -442,21 +482,50 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               </a>
             </div>
 
-            {/* Primary Action Button */}
+            {/* Primary Action Button & Auto-Checkout Banner */}
             <div className="space-y-3">
+              {currentPhase === 'awaiting_auto_checkout' && (
+                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2 text-center animate-pulse">
+                  <div className="font-extrabold flex items-center justify-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+                    <span>Janela de Auto-Checkout Iniciada (2 Horas)</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-300">
+                    O encerramento do turno foi registrado. Se o gerente não contestar no prazo de 2 horas (simulada em segundos neste teste), o sistema aprovará automaticamente e agendará seu PIX.
+                  </p>
+                </div>
+              )}
+
+              {currentPhase === 'pix_scheduled' && (
+                <div className="p-4 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] text-xs space-y-1.5 text-center shadow-lg">
+                  <div className="font-black text-sm flex items-center justify-center gap-2">
+                    <span>🎉 TAXA APROVADA - PIX AGENDADO!</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-200">
+                    A janela encerrou sem contestação. Avalie o local para liberar a visualização no extrato.
+                  </p>
+                </div>
+              )}
+
               <PrimaryButton
                 onClick={handlePrimaryAction}
                 icon={
-                  shiftStatus === 'heading_to_venue' ? (
-                    <MapPin className="w-4 h-4 text-black" />
+                  currentPhase === 'heading' ? (
+                    <QrCode className="w-4 h-4 text-black" />
+                  ) : currentPhase === 'in_shift' ? (
+                    <Clock className="w-4 h-4 text-black" />
                   ) : (
-                    <CheckCircle className="w-4 h-4 text-black" />
+                    <Sparkles className="w-4 h-4 text-black" />
                   )
                 }
               >
-                {shiftStatus === 'heading_to_venue'
-                  ? 'CHEGUEI NO LOCAL (INICIAR TURNO)'
-                  : 'FINALIZAR TURNO E RECEBER TAXA'}
+                {currentPhase === 'heading'
+                  ? 'ESCANEAR QR CODE MESTRE (CHECK-IN)'
+                  : currentPhase === 'in_shift'
+                    ? 'FINALIZAR TURNO (SOLICITAR CHECK-OUT)'
+                    : currentPhase === 'awaiting_auto_checkout'
+                      ? 'AGUARDANDO AUTO-CHECKOUT (2H)...'
+                      : 'AVALIAR LOCAL E VER MEU PIX (5★)'}
               </PrimaryButton>
 
               <div className="text-center">
@@ -479,6 +548,20 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
         onClose={() => setIsChatOpen(false)}
         gig={gig}
         phoneNumber="(41) 98765-4321"
+      />
+
+      {/* Modal Leitor de QR Code Mestre do Salão */}
+      <MasterQrScannerModal
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScanSuccess={handleScanSuccess}
+      />
+
+      {/* Modal de Avaliação 5 Estrelas Obrigatório Sem Loading */}
+      <VenueReviewModal
+        isOpen={isReviewOpen}
+        venueName={gig.venueName}
+        onCompleteReview={handleReviewCompleted}
       />
     </div>
   );

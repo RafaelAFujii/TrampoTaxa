@@ -11,6 +11,7 @@ import {
   List,
   Map as MapIcon,
   Search,
+  Zap,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MapPlaceholder } from '../components/map/MapPlaceholder';
@@ -18,6 +19,7 @@ import { GigOfferBottomSheet } from './GigOfferBottomSheet';
 import type { GigOffer } from '@trampotaxa/shared';
 import { useAuth } from '../context/AuthContext';
 import { useGigsQuery } from '../hooks/useGigsQuery';
+import { useFreelancerGigFlow } from '../hooks/useFreelancerGigFlow';
 
 export interface MapDashboardScreenProps {
   gigs?: GigOffer[];
@@ -40,7 +42,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   onOpenProfile: _onOpenProfile,
   onOpenEarnings,
   earningsToday = 'R$ 150,00',
-  onAcceptGigSuccess,
+  onAcceptGigSuccess: _onAcceptGigSuccess,
 }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -96,6 +98,16 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
     });
   }, [allGigs, isOnline, filterProfession, searchQuery]);
 
+  const {
+    gigs: flowGigs,
+    activeShift,
+    activeApplicationsCount,
+    maxApplicationsReached,
+    applyToGig,
+    toastMessage,
+    clearToast,
+  } = useFreelancerGigFlow();
+
   // Ação ao clicar em um marcador ou item da lista
   const handleMarkerClick = (gig: GigOffer) => {
     setSelectedGig(gig);
@@ -106,15 +118,14 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
     }
   };
 
-  // Aceitar a vaga através do Bottom Sheet
+  // Aceitar / Candidatar-se à vaga com limite de Overbooking Controlado
   const handleAcceptGig = (gig: GigOffer) => {
     setIsBottomSheetOpen(false);
-    if (onAcceptGigSuccess) {
-      onAcceptGigSuccess(gig);
-    } else {
-      // Redireciona para o turno ativo via React Router
-      navigate('/active-gig', { state: { gig } });
-    }
+    const targetFlowGig = flowGigs.find(
+      (g) => g.venueName.toLowerCase() === gig.venueName.toLowerCase() || g.id === gig.id
+    );
+    const targetId = targetFlowGig?.id || flowGigs[0]?.id || gig.id;
+    applyToGig(targetId);
   };
 
   // Recusar a vaga
@@ -171,6 +182,37 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
               <span className="text-xs font-black text-white">{earningsToday}</span>
             </button>
+          </div>
+
+          {/* Barra de Overbooking Controlado & Status de Turno */}
+          <div className="py-2.5 space-y-2 border-b border-white/5">
+            <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 border border-white/5 text-xs">
+              <div className="flex items-center gap-2">
+                <Zap className="w-3.5 h-3.5 text-[#00E676]" />
+                <span className="font-bold text-zinc-300">Overbooking:</span>
+              </div>
+              <span
+                className={`font-mono font-black ${
+                  maxApplicationsReached ? 'text-amber-400' : 'text-[#00E676]'
+                }`}
+              >
+                {activeApplicationsCount}/3 vagas ativas
+              </span>
+            </div>
+
+            {activeShift && (
+              <button
+                type="button"
+                onClick={() => navigate('/active-gig')}
+                className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#00E676]/15 hover:bg-[#00E676]/25 border border-[#00E676]/40 text-xs font-bold text-[#00E676] transition-all cursor-pointer group"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+                  <span className="truncate">Turno Confirmado: {activeShift.venueName}</span>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
+              </button>
+            )}
           </div>
 
           {/* Filtros de Profissão (Disponíveis quando Online) */}
@@ -546,7 +588,51 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
         onAccept={handleAcceptGig}
         onDecline={handleDeclineGig}
         onClose={() => setIsBottomSheetOpen(false)}
+        isApplied={
+          selectedGig
+            ? flowGigs.find(
+                (g) =>
+                  g.id === selectedGig.id ||
+                  g.venueName.toLowerCase() === selectedGig.venueName.toLowerCase()
+              )?.status === 'candidatado'
+            : false
+        }
+        activeApplicationsCount={activeApplicationsCount}
+        maxApplicationsReached={maxApplicationsReached}
       />
+
+      {/* Floating Toast de Notificação de Contratação */}
+      {toastMessage && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] p-4 rounded-2xl bg-[#12141C] border border-[#00E676]/60 shadow-[0_0_30px_rgba(0,230,118,0.25)] flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-[#00E676]/20 border border-[#00E676]/40 flex items-center justify-center text-[#00E676] shrink-0">
+              <Zap className="w-4 h-4" />
+            </div>
+            <p className="text-xs font-bold text-white">{toastMessage}</p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            {activeShift && (
+              <button
+                type="button"
+                onClick={() => {
+                  clearToast();
+                  navigate('/active-gig');
+                }}
+                className="px-3 py-1.5 rounded-xl bg-[#00E676] hover:bg-[#00c965] text-black text-xs font-extrabold uppercase transition-colors cursor-pointer"
+              >
+                Ver Turno
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={clearToast}
+              className="p-1 rounded-lg text-zinc-400 hover:text-white cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

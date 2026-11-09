@@ -10,6 +10,7 @@ import {
   Check,
   Heart,
   ShieldCheck,
+  Zap,
 } from 'lucide-react';
 import { FreelancerApplicant } from '@trampotaxa/shared';
 
@@ -112,6 +113,23 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
 
         {/* Corpo com métricas e especialidades */}
         <div className="p-6 overflow-y-auto space-y-5 flex-1">
+          {/* Banner de Overbooking Controlado */}
+          {applicant.isOverbooking && (
+            <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-3 text-xs">
+              <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="font-bold text-amber-300 block">
+                  Candidatura Concorrente (Overbooking Ativo)
+                </span>
+                <p className="text-zinc-300 text-[11px] leading-relaxed">
+                  Este profissional está candidatado em até {applicant.overbookingSlots || 3} vagas
+                  no mesmo horário. O primeiro contratante que aprovar garante o profissional com
+                  exclusividade, e o sistema cancelará automaticamente as outras candidaturas dele.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Métricas operacionais */}
           <div className="grid grid-cols-2 gap-3">
             <div className="p-3 bg-[#181a20] rounded-2xl border border-white/5">

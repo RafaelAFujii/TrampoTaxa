@@ -5,6 +5,7 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { EarningsScreen } from '../src/screens/EarningsScreen';
 import { MapScreen } from '../src/screens/MapScreen';
 import { ProfileScreen } from '../src/screens/ProfileScreen';
+import { ActiveShiftScreen } from '../src/screens/ActiveShiftScreen';
 import { ContractorGigsScreen } from '../src/screens/ContractorGigsScreen';
 import { CreateGigScreen } from '../src/screens/CreateGigScreen';
 import { ContractorReportsScreen } from '../src/screens/ContractorReportsScreen';
@@ -28,8 +29,8 @@ const DarkNavTheme = {
   },
 };
 
-function TabIcon({ name, focused }: { name: 'map' | 'earnings' | 'profile'; focused: boolean }) {
-  const symbol = name === 'map' ? '⌖' : name === 'earnings' ? '$' : '👤';
+function TabIcon({ name, focused }: { name: 'map' | 'shift' | 'earnings' | 'profile'; focused: boolean }) {
+  const symbol = name === 'map' ? '⌖' : name === 'shift' ? '⚡' : name === 'earnings' ? '$' : '👤';
   return (
     <View style={[styles.tabIconWrapper, focused && styles.tabIconWrapperFocused]}>
       <Text style={[styles.tabIconText, focused && styles.tabIconTextFocused]}>{symbol}</Text>
@@ -72,6 +73,15 @@ function FreelancerTabs() {
           title: 'Radar de Taxas',
           tabBarLabel: 'Radar',
           tabBarIcon: ({ focused }) => <TabIcon name="map" focused={focused} />,
+        }}
+      />
+      <FreelancerTab.Screen
+        name="TurnoAtivo"
+        component={ActiveShiftScreen}
+        options={{
+          title: 'Turno Ativo',
+          tabBarLabel: 'Turno',
+          tabBarIcon: ({ focused }) => <TabIcon name="shift" focused={focused} />,
         }}
       />
       <FreelancerTab.Screen

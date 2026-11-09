@@ -44,6 +44,9 @@ interface ContractorContextType {
   getMessagesForGig: (gigId: string) => ChatMessage[];
   getGigById: (gigId: string) => ContractorGig | undefined;
   getApplicantById: (applicantId: string) => FreelancerApplicant | undefined;
+  confirmFreelancerCheckIn: (gigId: string) => void;
+  approveCheckoutImmediately: (gigId: string) => void;
+  disputeCheckout: (gigId: string, reason: string) => void;
 }
 
 const ContractorContext = createContext<ContractorContextType | undefined>(undefined);
@@ -276,6 +279,79 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   /**
+   * Confirmação de Check-in presencial no estabelecimento
+   */
+  const confirmFreelancerCheckIn = (gigId: string) => {
+    setGigs((prev) =>
+      prev.map((gig) => {
+        if (gig.id !== gigId) return gig;
+        return {
+          ...gig,
+          checkInTimestamp: Date.now(),
+          shiftPhase: 'em_turno' as const,
+        };
+      })
+    );
+  };
+
+  /**
+   * Aprovação imediata de fechamento pelo contratante (sem esperar as 2h)
+   */
+  const approveCheckoutImmediately = (gigId: string) => {
+    setGigs((prev) =>
+      prev.map((gig) => {
+        if (gig.id !== gigId) return gig;
+        return {
+          ...gig,
+          status: 'Finalizada' as const,
+          shiftPhase: 'pix_aprovado' as const,
+          checkOutTimestamp: Date.now(),
+        };
+      })
+    );
+
+    const approveMsg: ChatMessage = {
+      id: `msg-${Date.now()}`,
+      gigId,
+      senderId: 'contractor-batel',
+      senderName: 'Gerência do Estabelecimento',
+      senderRole: 'Contratante',
+      text: 'Taxa conferida e aprovada pela gerência! PIX liberado com sucesso. Obrigado pelo turno!',
+      timestamp: 'Agora',
+      read: true,
+    };
+    setMessages((prev) => [...prev, approveMsg]);
+  };
+
+  /**
+   * Contestação de turno pelo contratante dentro da janela de 2h
+   */
+  const disputeCheckout = (gigId: string, reason: string) => {
+    setGigs((prev) =>
+      prev.map((gig) => {
+        if (gig.id !== gigId) return gig;
+        return {
+          ...gig,
+          shiftPhase: 'contestado' as const,
+          disputeReason: reason,
+        };
+      })
+    );
+
+    const disputeMsg: ChatMessage = {
+      id: `msg-${Date.now()}`,
+      gigId,
+      senderId: 'contractor-batel',
+      senderName: 'Gerência do Estabelecimento',
+      senderRole: 'Contratante',
+      text: `Atenção: A gerência registrou uma contestação sobre este turno: "${reason}". O repasse automático está em análise.`,
+      timestamp: 'Agora',
+      read: true,
+    };
+    setMessages((prev) => [...prev, disputeMsg]);
+  };
+
+  /**
    * Favoritar / Desfavoritar Freelancer
    */
   const toggleFavoriteFreelancer = (freelancerId: string) => {
@@ -428,6 +504,9 @@ export const ContractorProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         getMessagesForGig,
         getGigById,
         getApplicantById,
+        confirmFreelancerCheckIn,
+        approveCheckoutImmediately,
+        disputeCheckout,
       }}
     >
       {children}

@@ -1,14 +1,42 @@
 import React, { useState } from 'react';
-import { TrendingUp, Wallet, CheckCircle2, Download, Check } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  TrendingUp,
+  Wallet,
+  CheckCircle2,
+  Download,
+  Check,
+  Sparkles,
+  Star,
+  ArrowRight,
+  Clock,
+  ShieldCheck,
+} from 'lucide-react';
 import { useEarningsQuery } from '../hooks/useGigsQuery';
+import { useFreelancerGigFlow } from '../hooks/useFreelancerGigFlow';
 
 type PeriodMode = 'diario' | 'semanal' | 'mensal';
+
+interface CompletedGigState {
+  title?: string;
+  establishment?: string;
+  rate?: string;
+  hourlyRate?: string;
+  duration?: string;
+  rating?: number;
+}
 
 interface EarningsScreenProps {
   onBackToMap?: () => void;
 }
 
-export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap: _onBackToMap }) => {
+export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { activeShift, finishAndReceive } = useFreelancerGigFlow();
+  const locationState = location.state as { justCompletedGig?: CompletedGigState } | undefined;
+  const justCompleted = locationState?.justCompletedGig;
+
   const [period, setPeriod] = useState<PeriodMode>('semanal');
   const [exported, setExported] = useState(false);
   const { data: _queryEarnings, isLoading, isError, refetch } = useEarningsQuery();
@@ -165,9 +193,117 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap: _on
   const current = chartData[period];
   const maxVal = Math.max(...current.bars.map((b) => b.value), 1);
 
+  const isShiftCelebrationActive = Boolean(
+    justCompleted || activeShift?.status === 'pix_agendado'
+  );
+
+  const celebrationData = {
+    venue: justCompleted?.establishment || activeShift?.venueName || 'Taj Bar Curitiba',
+    role: justCompleted?.title || activeShift?.role || 'Bartender',
+    amount: justCompleted?.rate || activeShift?.rateFormatted || 'R$ 260,00',
+    rating: justCompleted?.rating || 5,
+  };
+
+  const handleReturnToRadar = () => {
+    finishAndReceive();
+    if (onBackToMap) {
+      onBackToMap();
+    } else {
+      navigate('/map');
+    }
+  };
+
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-12 bg-[#0A0B0E]">
       <div className="w-full max-w-5xl space-y-6">
+        {/* ======================================================== */}
+        {/* PILAR 3: UX DOPAMINA CATIVADA (FLUXO DE RECOMPENSA)      */}
+        {/* ======================================================== */}
+        {isShiftCelebrationActive && (
+          <div className="relative rounded-3xl bg-gradient-to-b from-[#0F141A] to-[#0A0D12] border-2 border-[#00E676] p-6 sm:p-8 shadow-[0_0_35px_rgba(0,230,118,0.25)] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500">
+            {/* Efeito Glow de Fundo Radial Verde Neon */}
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#00E676]/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+              <div className="inline-flex items-center gap-2 bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(0,230,118,0.2)]">
+                <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                <span>⚡️ Turno Concluído com Sucesso!</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                {celebrationData.role} • {celebrationData.venue}
+              </h2>
+
+              {/* Card Central de Dopamina: Valor em Verde Neon Gigante */}
+              <div className="w-full max-w-xl bg-[#090C10]/90 border border-[#00E676]/50 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-3">
+                <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">
+                  TAXA LÍQUIDA GANHA HOJE
+                </span>
+
+                <div className="text-4xl sm:text-6xl font-black text-[#00E676] tracking-tight drop-shadow-[0_0_25px_rgba(0,230,118,0.5)]">
+                  {celebrationData.amount}
+                </div>
+
+                <div className="inline-flex items-center gap-2 bg-[#00E676]/20 border border-[#00E676] px-4 py-1.5 rounded-full">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#00E676] animate-ping" />
+                  <span className="text-xs font-black text-[#00E676] tracking-wider uppercase">
+                    PIX AGENDADO / LIBERADO
+                  </span>
+                </div>
+
+                <p className="text-xs text-zinc-400 max-w-md mx-auto pt-1">
+                  Aprovado tacitamente sem contestação do contratante. Repasse integral transferido direto para a sua conta cadastrada.
+                </p>
+              </div>
+
+              {/* Detalhes de Fechamento Operacional */}
+              <div className="w-full max-w-xl bg-white/[0.03] border border-white/10 rounded-2xl p-4 sm:p-5 text-left space-y-2.5">
+                <h4 className="text-xs font-black uppercase tracking-wider text-zinc-300">
+                  Resumo da Auditoria Operacional
+                </h4>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                    <span className="text-zinc-400">Check-in Presencial:</span>
+                    <span className="font-bold text-[#00E676] flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" /> Validado (QR Mestre)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                    <span className="text-zinc-400">Janela Auto-Checkout:</span>
+                    <span className="font-bold text-[#00E676] flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" /> 2h Encerradas ✓
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                    <span className="text-zinc-400">Avaliação do Local:</span>
+                    <span className="font-bold text-amber-400 flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 fill-amber-400" /> {celebrationData.rating} Estrelas
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
+                    <span className="text-zinc-400">Chave PIX:</span>
+                    <span className="font-bold text-white">gabriel.silva@curitiba.com</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ação: Voltar ao Radar de Taxas */}
+              <button
+                type="button"
+                onClick={handleReturnToRadar}
+                className="w-full max-w-xl py-4 rounded-2xl bg-[#00E676] hover:bg-[#00c864] text-black font-black text-sm uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,230,118,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>VOLTAR AO RADAR DE TAXAS</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Top Header with Period Tabs */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/10">
           <div>
