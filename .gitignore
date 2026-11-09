@@ -12,3 +12,9 @@ Thumbs.db
 *.swp
 .idea/
 .gmp_cache/
+
+# AI Studio & Generative Metadata (Anti-Bloat Guard)
+.aistudio/
+.aistudio/artifacts/
+*.ai.tmp
+.specify/memory/*.tmp

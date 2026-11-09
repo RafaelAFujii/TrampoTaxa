@@ -156,12 +156,28 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
 
-7. Implementation execution rules:
-   - **Setup first**: Initialize project structure, dependencies, configuration
-   - **Tests before code**: If you need to write tests for contracts, entities, and integration scenarios
-   - **Core development**: Implement models, services, CLI commands, endpoints
-   - **Integration work**: Database connections, middleware, logging, external services
-   - **Polish and validation**: Unit tests, performance optimization, documentation
+7. Implementation execution rules & Strict Architectural Guardrails (NON-NEGOTIABLE):
+   - **Setup first**: Initialize project structure, dependencies, configuration.
+   - **Tests before code**: Write tests for contracts, entities, and integration scenarios before writing implementations.
+   - **GUARDRAIL 1 - tRPC Único (Zero REST / Zero Orval)**:
+     - PROIBIDO gerar, modificar ou sugerir clientes REST (Orval, OpenAPI generator, axios, fetch desacoplado) em `packages/shared/src/api` ou em qualquer app.
+     - Toda comunicação cliente-servidor DEVE ser exclusivamente tipada via tRPC (`apps/server/src/routers/index.ts` -> `AppRouter`).
+   - **GUARDRAIL 2 - Maximização do `packages/shared` e Telas Burras (Dumb UI)**:
+     - Toda lógica de negócios, chamadas e mutations tRPC, validações de domínio, cálculos fiscais, formatadores e custom hooks (ex: `useFreelancerGigFlow`) DEVEM residir em `packages/shared`.
+     - Telas em `apps/mobile/src/screens/` e `apps/web/src/screens/` DEVEM conter APENAS a camada de renderização visual (Dumb UI). É PROIBIDO colocar lógica de negócios, manipulação de rede ou regras de domínio dentro dos arquivos de tela.
+   - **GUARDRAIL 3 - Estado Global e Performance (Zustand + React Query)**:
+     - PROIBIDO utilizar a Context API nativa do React para fluxos de estado complexos e mutáveis (como ciclo de vida de Gigs, QR Code de checkout, relatórios de ganhos ou chats).
+     - Delegar estados assíncronos de rede exclusivamente ao TanStack React Query (orquestrado pelo tRPC).
+     - Delegar estados globais síncronos/locais ao Zustand em stores organizadas dentro de `packages/shared`.
+     - Context API do React é permitida APENAS para injeção de dependência estática ou configurações puramente visuais da árvore.
+   - **GUARDRAIL 4 - Metro Bundler com Resolução Explícita**:
+     - Garantir que `apps/mobile/metro.config.js` contenha `watchFolders = [monorepoRoot]` e `extraNodeModules` apontando para `@trampotaxa/shared` no monorepo Bun.
+   - **GUARDRAIL 5 - Anti-Bloat e Higiene Estrita**:
+     - Bloquear no `.gitignore` e não comitar pastas de lixo gerativo (ex: `.aistudio/`, `.aistudio/artifacts/`, `*.tmp`).
+     - Gerar código conciso, direto ao ponto, eliminando documentações redundantes ou arquivos descritivos desnecessários na raiz.
+   - **Core development**: Implement models, services, tRPC routers/procedures, shared hooks.
+   - **Integration work**: Database connections, middlewares, logging, external services.
+   - **Polish and validation**: Unit tests, performance optimization, lint validation.
 
 8. Progress tracking and error handling:
    - Report progress after each completed task

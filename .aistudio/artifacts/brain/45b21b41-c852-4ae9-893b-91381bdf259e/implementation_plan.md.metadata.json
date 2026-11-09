@@ -1,6 +1,0 @@
-{
-  "summary":  "Plano arquitetural e técnico para migração do estado de dados do TrampoTaxa para um back-end real com Bun, tRPC, Drizzle ORM e Microsoft SQL Server (Docker), contemplando modelagem relacional dos tipos compartilhados, script de seed idempotente com dados originais de Curitiba e roteadores tRPC com validação de JWT e isolamento RBAC.",
-  "updatedAt":  "2026-11-09T02:25:29.843010283Z",
-  "requestFeedback":  true,
-  "userFacing":  true
-}

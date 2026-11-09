@@ -1,84 +1,67 @@
 <!--
 Sync Impact Report
-Version change: unversioned scaffold to 1.0.0
-Modified principles: scaffold placeholders → five project-specific principles
-Added sections: Architecture and Security Constraints; Development and Release Workflow
-Removed sections: none
-Follow-up TODOs: record the original ratification date when confirmed
+Version change: 1.0.0 → 2.0.0
+Modified principles:
+  - Adição de tRPC v11 como Fonte Única de Comunicação (Proibição absoluta de clientes REST/Orval)
+  - Isolamento estrito de regras de negócio em packages/shared e padronização de Telas Burras (Dumb UI)
+  - Política de Estado Global de Alta Performance (React Query via tRPC + Zustand; Proibição de Context API para estados mutáveis complexos)
+  - Obrigatoriedade de watchFolders no Metro Bundler (apps/mobile/metro.config.js) para Bun Workspaces
+  - Princípio Anti-Bloat: Higiene do repositório, concisão gerativa e bloqueio de artefatos de IA no .gitignore
 -->
 
-# TrampoTaxa Constitution
+# TrampoTaxa Constitution (SDD & Monorepo Architecture)
 
-## Core Principles
+## Core Principles (Regras Inquebráveis de Engenharia)
 
-### I. TypeScript for All Application Logic
-All handwritten application logic across Web, Mobile, and shared packages MUST be
-implemented in TypeScript. This includes business rules, validation, state transitions,
-and integration behavior. Declarative configuration and generated artifacts are not
-application logic. This rule keeps behavior consistently type-checked across the
-monorepo.
+### I. tRPC como Fonte Única de Comunicação (Zero REST / Zero Orval)
+Toda a comunicação cliente-servidor entre o backend (`apps/server`) e as aplicações clientes (`apps/web` e `apps/mobile`) DEVE utilizar estrita e exclusivamente o **tRPC v11**.
+- **PROIBIÇÃO ABSOLUTA**: É expressamente proibido gerar, sugerir, manter ou utilizar clientes REST (Orval, OpenAPI generator, axios manual ou fetch desacoplado de contratos) em `packages/shared/src/api` ou nos apps.
+- **CONTRATO ÚNICO**: A tipagem de `AppRouter` do `apps/server` é o único contrato de rede do monorepo, consumido ponta a ponta com total type-safety em tempo de compilação.
 
-### II. Platform Architecture
-The Web application MUST follow the ReactJS and Vite architecture. The Mobile
-application MUST use React Native. Code shared between platforms MUST live in shared
-packages and remain platform-independent; platform-specific behavior MUST stay within
-its respective application. This preserves native platform boundaries while enabling
-reuse.
+### II. Maximização do `packages/shared` e Telas Burras (Dumb UI)
+O pacote `@trampotaxa/shared` DEVE ser o núcleo isolado de toda a inteligência do monorepo.
+- **ISOLAMENTO DE NEGÓCIO**: Toda lógica de negócios, chamadas e mutations tRPC, validações de domínio, cálculos fiscais, formatadores e custom hooks (ex: `useFreelancerGigFlow`, hooks de turno e cálculo de distâncias) DEVEM residir única e exclusivamente em `packages/shared`.
+- **DUMB UI**: As pastas `apps/mobile/src/screens/` e `apps/web/src/screens/` DEVEM conter APENAS componentes de renderização visual e tratamento de eventos de tela. É PROIBIDO manter regras de negócio, manipulação complexa de estado de rede ou processamento de domínio dentro dos arquivos de tela. Telas devem apenas plugar os hooks exportados por `packages/shared`.
 
-### III. Authenticated and Authorized Access
-Authenticated application access MUST use JWT-based authentication managed through
-`AuthContext`. Protected capabilities MUST enforce role-based access control (RBAC),
-and account flows MUST explicitly handle first access. Authentication and authorization
-MUST be enforced at each relevant application boundary; hiding a user interface element
-alone does not constitute access control.
+### III. Estado Global de Alta Performance (Zustand + React Query)
+O gerenciamento de estado da aplicação deve seguir rigorosos critérios de performance e descarte de re-renderizações desnecessárias:
+- **PROIBIÇÃO DE CONTEXT API PARA ESTADOS MUTÁVEIS COMPLEXOS**: É terminantemente proibido utilizar a Context API nativa do React para gerenciar fluxos de dados mutáveis, de alta frequência ou assíncronos (ex: ciclo de vida de Gigs, escaneamento de QR Code de check-in/out, relatórios financeiros ou chats).
+- **ESTADO ASSÍNCRONO / REDE**: Deve ser delegado integralmente ao **TanStack React Query v5** orquestrado através do cliente tRPC.
+- **ESTADO SÍNCRONO / LOCAL COMPLEXO**: Deve ser gerenciado via **Zustand** com stores isoladas e selectors atômicos no `packages/shared`.
+- **USO DO REACT CONTEXT**: Permitido unicamente para injeção estática de dependências imutáveis ou configuração de nível de árvore (ex: troca estática de tema).
 
-### IV. Test-First Development
-Changes to application behavior MUST follow the TDD red-green-refactor cycle, with
-Vitest tests written or updated before implementation. The relevant tests MUST fail
-for the intended reason before the behavior is implemented, then pass after the change.
-This makes expected behavior reproducible and guards against regressions.
+### IV. Metro Bundler com Resolução Explícita de Workspaces
+Para viabilizar a execução nativa do React Native no monorepo Bun:
+- O arquivo `apps/mobile/metro.config.js` DEVE conter obrigatoriamente a configuração explícita de `watchFolders = [monorepoRoot]` e o mapeamento de `nodeModulesPaths` e `extraNodeModules` apontando para `packages/shared`.
+- Nenhuma alteração pode remover ou ignorar essa configuração sob pena de quebra de symlinks no runtime do Expo.
 
-### V. Measurable Quality and Safe Delivery
-ESLint and SonarLint MUST both be used to monitor code quality, and the technical-debt
-measure reported for each tool MUST remain strictly below 10%. A change that causes
-either measure to reach or exceed 10% MUST be corrected before release. Every deployment
-to GitHub Pages MUST be preceded by a passing GitHub Actions pipeline, including the
-applicable Vitest suite. No deployment may proceed when that pipeline fails.
+### V. Anti-Bloat e Higiene Estrita do Repositório
+O framework Spec-Kit e os agentes de IA DEVEM priorizar concisão técnica e limpeza cirúrgica:
+- **BLOQUEIO DE LIXO GERATIVO**: O `.gitignore` DEVE conter bloqueios explícitos para diretórios temporários e de artefatos de IA (ex: `.aistudio/`, `.aistudio/artifacts/`, `*.tmp`).
+- **CONCISÃO DE CÓDIGO**: Evitar arquivos de documentação redundantes ou repetitivos que poluem o monorepo. Cada arquivo gerado deve ter propósito funcional imediato e valor arquitetural comprovado.
+
+### VI. TypeScript Estrito e Test-First (TDD)
+- Todo o código funcional DEVE ser escrito em TypeScript estrito (`strict: true`), sem uso de `any` injustificado.
+- Mudanças comportamentais DEVEM ser acompanhadas por testes Vitest/Bun Test, respeitando o ciclo red-green-refactor.
+- Débito técnico em ferramentas de qualidade (ESLint) DEVE permanecer strictly abaixo de 10% (visando 0% de avisos e erros).
+
+---
 
 ## Architecture and Security Constraints
 
-- Web user experiences MUST use ReactJS with Vite; mobile user experiences MUST use
-  React Native.
-- Application logic MUST be TypeScript throughout Web, Mobile, and shared packages.
-- JWT authentication MUST be integrated through `AuthContext`; protected actions and
-  routes MUST apply RBAC, including the first-access flow.
-- Security-sensitive authorization decisions MUST not rely solely on client-side
-  presentation or navigation restrictions.
+1. **Stack Oficial**:
+   - Backend: `apps/server` (Fastify + tRPC v11 + Drizzle ORM).
+   - Web: `apps/web` (React 19 + Vite + Tailwind CSS v4).
+   - Mobile: `apps/mobile` (React Native 0.74 + Expo SDK 51 + React Navigation).
+   - Shared: `packages/shared` (TypeScript + tRPC Client Hooks + Zustand Stores).
+2. **Segurança Fail-Closed**:
+   - Autenticação e autorização RBAC DEVEM ser validadas no middleware do tRPC (`init.ts`), rejeitando no nível de servidor qualquer operação com token ausente ou papel incompatível.
+   - O cliente não pode assumir autorização baseando-se apenas na visibilidade de componentes gráficos.
 
-## Development and Release Workflow
-
-- Contributors MUST write or update Vitest tests before changing application behavior
-  and verify the red-green-refactor sequence.
-- Changes MUST pass the applicable test suite and GitHub Actions checks before release.
-- Each GitHub Pages deployment MUST be triggered only after the relevant GitHub Actions
-  pipeline has completed successfully.
-- ESLint and SonarLint findings MUST be reviewed as part of quality checks, and each
-  tool's reported technical-debt measure MUST be strictly less than 10%.
+---
 
 ## Governance
 
-This constitution defines mandatory project-wide engineering constraints. Amendments
-MUST be proposed through a reviewed change that explains the rationale and impact on
-existing principles, architecture, security, tests, and delivery practices. The project
-maintainers MUST review compliance in code review and before releases. Exceptions MUST
-be documented with their scope, rationale, approving maintainer, and expiration or
-removal condition.
+Esta Constituição define as regras de engenharia imutáveis do projeto TrampoTaxa. Qualquer proposta de especificação, plano ou implementação gerada via Spec-Kit que viole estes princípios deve ser imediatamente rejeitada pelos gates de validação.
 
-The constitution uses semantic versioning: MAJOR for incompatible governance changes or
-removal/redefinition of a principle; MINOR for new principles or materially expanded
-requirements; PATCH for clarifications and non-semantic wording changes. Every amendment
-MUST update the version, last-amended date, and impact report. Reviewers MUST verify that
-changes and releases comply with this constitution; non-compliance blocks approval or
-deployment until corrected or covered by an approved, time-bounded exception.
-
-**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): original ratification date is not documented | **Last Amended**: 2026-10-15
+**Version**: 2.0.0 | **Ratified**: 2026-11-08 | **Last Amended**: 2026-11-08

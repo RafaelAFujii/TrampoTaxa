@@ -1,6 +1,6 @@
 # [CHECKLIST TYPE] Checklist: [FEATURE NAME]
 
-**Purpose**: [Brief description of what this checklist covers]
+**Purpose**: Validate architectural compliance, requirements quality, and technical integrity
 **Created**: [DATE]
 **Feature**: [Link to spec.md or relevant documentation]
 
@@ -8,38 +8,23 @@
 **Review Ownership**: This checklist is a reviewer-owned requirements-quality review artifact. Mark an item `[x]` only when the reviewer determines the requirements-quality criterion is satisfied.
 **Marker Semantics**: `[x]` means the criterion has been reviewed and satisfied for requirements quality. It does not mean implementation work is complete.
 
-<!--
-  ============================================================================
-  IMPORTANT: The checklist items below are SAMPLE ITEMS for illustration only.
+## Architectural Integrity & Non-Negotiable Gates
 
-  The /speckit-checklist command MUST replace these with actual items based on:
-  - User's specific checklist request
-  - Feature requirements from spec.md
-  - Technical context from plan.md
-  - Implementation details from tasks.md
+- [ ] CHK001 **tRPC Fonte Única**: O design e implementação utilizam estritamente o tRPC v11 do `apps/server`, sem gerar nem referenciar clientes REST (Orval/OpenAPI) em `packages/shared/src/api`.
+- [ ] CHK002 **Maximização do `packages/shared`**: Toda lógica de negócios, chamadas/mutations tRPC, formatadores e custom hooks (ex: `useFreelancerGigFlow`) residem em `packages/shared`.
+- [ ] CHK003 **Telas Burras (Dumb UI)**: Arquivos em `apps/web/src/screens/` e `apps/mobile/src/screens/` contêm apenas apresentação visual e dispatch de eventos aos hooks de `packages/shared`, sem regras de negócio embutidas.
+- [ ] CHK004 **Estado Global de Alta Performance**: Estados assíncronos/remotos são gerenciados pelo React Query (via tRPC) e estados mutáveis locais/síncronos complexos pelo Zustand. Nenhuma Context API nativa é usada para estados mutáveis de alta frequência.
+- [ ] CHK005 **Metro Bundler Workspaces**: Resolução explícita de `watchFolders = [monorepoRoot]` e `extraNodeModules` mantida em `apps/mobile/metro.config.js`.
+- [ ] CHK006 **Anti-Bloat & Higiene**: Ausência de arquivos redundantes ou metadados de IA no repositório; conformidade estrita com o `.gitignore`.
 
-  DO NOT keep these sample items in the generated checklist file.
-  ============================================================================
--->
+## Quality & Testing Gates
 
-## [Category 1]
-
-- [ ] CHK001 First checklist item with clear action
-- [ ] CHK002 Second checklist item
-- [ ] CHK003 Third checklist item
-
-## [Category 2]
-
-- [ ] CHK004 Another category item
-- [ ] CHK005 Item with specific criteria
-- [ ] CHK006 Final item in this category
+- [ ] CHK007 **TypeScript Estrito**: Tipagem 100% estrita sem `any` ou escape de tipos.
+- [ ] CHK008 **TDD & Testes Automatizados**: Testes Vitest/Bun Test cobrindo cenários principais e edge cases.
+- [ ] CHK009 **Débito Técnico ESLint**: 0 erros e débito técnico < 10%.
 
 ## Notes
 
 - Mark items `[x]` only after review confirms the requirement-quality criterion is satisfied
 - Leave items unchecked when they still require clarification, correction, or reviewer evaluation
 - `/speckit-implement` reads checklist checkbox state as a gate and must not modify markers
-- `checklists/requirements.md` has a separate built-in lifecycle maintained by `/speckit-specify` and `/speckit-clarify`
-- Add comments or findings inline
-- Link to relevant resources or documentation
-- Items are numbered sequentially for easy reference
