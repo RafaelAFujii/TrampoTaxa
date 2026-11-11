@@ -96,23 +96,34 @@ export default defineConfig(() => {
           ],
         },
         devOptions: {
-          enabled: true,
-          type: 'module',
+          enabled: false,
         },
+        disable: process.env.NODE_ENV !== 'production' || process.env.DISABLE_HMR === 'true',
       }),
     ],
     resolve: {
-      alias: {
-        '@': path.resolve(import.meta.dirname || '.', '.'),
-        '@trampotaxa/shared/mocks': path.resolve(
-          import.meta.dirname || '.',
-          '../../packages/shared/src/mocks.ts'
-        ),
-        '@trampotaxa/shared': path.resolve(
-          import.meta.dirname || '.',
-          '../../packages/shared/src/index.ts'
-        ),
-      },
+      dedupe: ['react', 'react-dom', 'zustand'],
+      alias: [
+        { find: /^react$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/react') },
+        { find: /^react\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/react')}/$1` },
+        { find: /^react-dom$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/react-dom') },
+        { find: /^react-dom\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/react-dom')}/$1` },
+        { find: /^zustand$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/zustand') },
+        { find: /^zustand\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/zustand')}/$1` },
+        {
+          find: '@trampotaxa/shared/mocks',
+          replacement: path.resolve(import.meta.dirname || '.', '../../packages/shared/src/mocks.ts'),
+        },
+        {
+          find: '@trampotaxa/shared',
+          replacement: path.resolve(import.meta.dirname || '.', '../../packages/shared/src/index.ts'),
+        },
+        { find: '@', replacement: path.resolve(import.meta.dirname || '.', '.') },
+      ],
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'zustand'],
+      force: true,
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

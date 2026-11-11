@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Star, Heart, Send, CheckCircle2, Sparkles } from 'lucide-react';
 import { ContractorGig, FreelancerApplicant } from '@trampotaxa/shared';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 
 interface PerformanceReviewModalProps {
   gig: ContractorGig | null;

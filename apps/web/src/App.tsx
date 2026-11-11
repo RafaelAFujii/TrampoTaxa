@@ -4,8 +4,6 @@ import { RouterProvider } from 'react-router-dom';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { GOOGLE_MAPS_API_KEY } from './constants/maps';
 import { AuthProvider } from './context/AuthContext';
-import { ContractorProvider } from './context/ContractorContext';
-import { FreelancerFlowProvider } from './context/FreelancerFlowContext';
 import { router } from './routes/routes';
 
 // Configuração do cliente React Query com 5 min de staleTime e 1 retry
@@ -54,11 +52,7 @@ export default function App() {
         }}
       >
         <AuthProvider>
-          <ContractorProvider>
-            <FreelancerFlowProvider>
-              <RouterProvider router={router} />
-            </FreelancerFlowProvider>
-          </ContractorProvider>
+          <RouterProvider router={router} />
         </AuthProvider>
       </APIProvider>
     </QueryClientProvider>

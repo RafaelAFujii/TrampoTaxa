@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, MessageSquare, CheckCheck, Search, Info } from 'lucide-react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 import { FreelancerApplicant } from '@trampotaxa/shared';
 
 const QUICK_MESSAGES = [

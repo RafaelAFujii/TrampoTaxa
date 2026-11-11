@@ -8,6 +8,7 @@ export default defineConfig(() => {
     base: '/TrampoTaxa/',
     plugins: [react(), tailwindcss()],
     resolve: {
+      dedupe: ['react', 'react-dom', 'zustand'],
       alias: {
         '@': path.resolve(import.meta.dirname || '.', '.'),
       },

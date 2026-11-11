@@ -10,7 +10,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 import { ContractorGigCategory, formatCurrencyInput, formatCurrency } from '@trampotaxa/shared';
 
 const DEFAULT_ROLES = ['Bartender', 'Garçom', 'Recepcionista', 'Hostess', 'Copeiro'] as const;

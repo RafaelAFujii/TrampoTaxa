@@ -9,7 +9,7 @@ import {
   Clock,
   Sparkles,
 } from 'lucide-react';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 import { useAuth } from '../../context/AuthContext';
 import type { GigOffer } from '@trampotaxa/shared';
 

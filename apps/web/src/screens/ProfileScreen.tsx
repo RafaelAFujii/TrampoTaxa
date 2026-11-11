@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useContractor } from '../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 
 export interface UserProfileData {
   name: string;

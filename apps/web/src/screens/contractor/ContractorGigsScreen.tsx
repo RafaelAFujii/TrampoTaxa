@@ -14,7 +14,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 import { ContractorGig, FreelancerApplicant, ContractorGigStatus } from '@trampotaxa/shared';
 import { FreelancerProfileModal } from './FreelancerProfileModal';
 import { PerformanceReviewModal } from './PerformanceReviewModal';

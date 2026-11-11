@@ -1,2 +1,2 @@
-export { useFreelancerGigFlow } from '../context/FreelancerFlowContext';
-export type { FreelancerFlowContextData } from '../context/FreelancerFlowContext';
+export { useFreelancerGigFlow } from '@trampotaxa/shared';
+export type { FreelancerFlowStore as FreelancerFlowContextData } from '@trampotaxa/shared';

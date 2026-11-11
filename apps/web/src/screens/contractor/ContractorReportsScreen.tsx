@@ -10,7 +10,7 @@ import {
   X,
   Printer,
 } from 'lucide-react';
-import { useContractor } from '../../context/ContractorContext';
+import { useContractor } from '@trampotaxa/shared';
 import { ContractorGig } from '@trampotaxa/shared';
 
 type PeriodFilter = '7dias' | 'esteMes' | '3meses' | 'todos';
