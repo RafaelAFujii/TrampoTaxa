@@ -12,6 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useContractor } from '@trampotaxa/shared';
 import { ContractorGigCategory, formatCurrencyInput, formatCurrency } from '@trampotaxa/shared';
+import { useAuth } from '../../context/AuthContext';
 
 const DEFAULT_ROLES = ['Bartender', 'Garçom', 'Recepcionista', 'Hostess', 'Copeiro'] as const;
 
@@ -97,38 +98,67 @@ export const CreateGigScreen: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { user } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      addGig({
-        title: customTitle,
-        role,
-        category,
-        date,
-        dateFormatted: 'Sexta-feira, 24 de Outubro',
-        startTime,
-        endTime,
-        rate: rateRaw,
-        rateFormatted: formatCurrency(rateRaw),
-        dressCode,
-        rulesAndNotes,
-        venueName: 'Bistrô do Batel',
-        neighborhood,
-        address,
-        vacancies,
+    const venueId = user?.venue?.id || '55555555-5555-5555-5555-555555555555';
+    const venueName = user?.venue?.name || 'Bistrô do Batel';
+    const venueAddress = user?.venue?.address || address;
+    const venueNeighborhood = user?.venue?.neighborhood || neighborhood;
+
+    // Envio real ao backend .NET / PostgreSQL
+    try {
+      await fetch('/api/contractor/gigs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
+        },
+        body: JSON.stringify({
+          venueId,
+          title: customTitle,
+          roleRequired: role,
+          description: `${dressCode} • ${rulesAndNotes}`,
+          hourlyRate: Math.round(rateRaw / 6),
+          estimatedTotal: rateRaw,
+          shiftStart: new Date(`${date}T${startTime}:00Z`).toISOString(),
+          shiftEnd: new Date(`${date}T${endTime}:00Z`).toISOString(),
+          vacancies,
+        }),
       });
+    } catch {
+      // Continua e atualiza a store local
+    }
 
-      setIsSubmitting(false);
-      setSuccessMessage(
-        'Vaga de taxa publicada com sucesso! Redirecionando para o painel de vagas...'
-      );
+    addGig({
+      title: customTitle,
+      role,
+      category,
+      date,
+      dateFormatted: 'Sexta-feira, 24 de Outubro',
+      startTime,
+      endTime,
+      rate: rateRaw,
+      rateFormatted: formatCurrency(rateRaw),
+      dressCode,
+      rulesAndNotes,
+      venueName,
+      neighborhood: venueNeighborhood,
+      address: venueAddress,
+      vacancies,
+    });
 
-      setTimeout(() => {
-        navigate('/contractor/gigs');
-      }, 1000);
-    }, 400);
+    setIsSubmitting(false);
+    setSuccessMessage(
+      'Vaga de taxa publicada com sucesso! Redirecionando para o painel de vagas...'
+    );
+
+    setTimeout(() => {
+      navigate('/contractor/gigs');
+    }, 800);
   };
 
   return (

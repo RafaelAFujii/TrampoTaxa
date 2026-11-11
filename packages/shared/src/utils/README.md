@@ -1,29 +1,37 @@
-# 🛠️ Shared Utilities (`packages/shared/src/utils`)
+# 🛠️ Shared Utilities & Zustand Stores (`packages/shared/src/utils`)
 
-Este diretório contém funções utilitárias puras, validadores fiscais, formatadores de moeda/documentos e lógica matemática compartilhada no ecossistema TrampoTaxa.
+Este diretório contém funções utilitárias puras, validadores fiscais, formatadores e as **Stores Globais do Zustand** que orquestram a inteligência de negócios de todo o monorepo TrampoTaxa.
 
 ---
 
 ## 📋 Arquivos e Módulos do Diretório
 
-| Arquivo | Finalidade Técnica | Funções Principais | Testes Associados |
+| Arquivo | Finalidade Técnica | Funções / Stores Principais | Testes Associados |
 | :--- | :--- | :--- | :--- |
-| **`formatters.ts`** | Validação fiscal e formatação de dados brasileiros | `formatCurrencyBRL`, `formatCNPJ`, `formatCPF`, `formatPhoneBR`, `isValidCNPJ` (Módulo 11) | `formatters.test.ts` |
-| **`freelancerFlowState.ts`** | Regras de transição e validação da máquina de estados de turno | `canTransitionShiftPhase`, `getNextAllowedPhases`, `resolveAutoCheckout` | `freelancerFlowState.test.ts` |
-| **`gigs.ts`** | Cálculos de distância e filtragem geoespacial | `calculateHaversineDistance`, `filterGigsByDistance`, `sortGigsByUrgency` | `gigs.test.ts` |
+| **`freelancerFlowState.ts`** | Store Zustand da jornada do freelancer e máquina de estados de turno | `useFreelancerFlowStore`, `useFreelancerGigFlow`, controle de overbooking (máx 3), validação `QR_MESTRE_123` | `freelancer_flow.test.ts` |
+| **`contractorState.ts`** | Store Zustand do contratante e métricas financeiras | `useContractorStore`, `useContractor`, `calculateContractorKPIs`, aprovações e chat | `contractor.test.ts` |
+| **`formatters.ts`** | Validação fiscal e formatação de dados brasileiros | `formatCurrency`, `formatCurrencyBRL`, `formatCNPJ`, `formatCPF`, `formatPhoneBR`, `isValidCNPJ` (Módulo 11) | `formatters.test.ts` |
+| **`gigs.ts`** | Cálculos de distância e filtragem geoespacial | `calculateHaversineDistance`, `filterGigsByDistance`, `sortGigsByUrgency` | Testes do pacote |
 
 ---
 
-## 🏛️ Detalhamento dos Utilitários
+## 🏛️ Detalhamento dos Módulos
 
-### 1. `formatters.ts` — Regras Fiscais Brasileiras
-* **`isValidCNPJ`**: Implementa o algoritmo oficial de dígitos verificadores Módulo 11 da Receita Federal, rejeitando sequências nulas e dígitos incorretos.
-* **`formatCurrencyBRL`**: Formata números e strings para o padrão monetário brasileiro `R$ 0,00` usando `Intl.NumberFormat('pt-BR')`.
-* **Máscaras de Telefone e Documentos**: Formatação dinâmica de telefones móveis e fixos (`(41) 99999-9999`) e CNPJs (`00.000.000/0000-00`).
+### 1. `freelancerFlowState.ts` — Governança de Turnos do Freelancer
+* Implementa a store Zustand que substituiu os antigos React Contexts.
+* **Overbooking**: Bloqueia a candidatura se o usuário já tiver 3 vagas com status pendente ou aprovado.
+* **QR Code Mestre**: Valida o código físico `QR_MESTRE_123` no momento do check-in.
+* **Auto Check-out**: Controla a janela de contestação de 2 horas e as fases (`idle` -> `candidatado` -> `aprovado` -> `em_turno` -> `checkout_pendente` -> `pix_agendado`).
 
-### 2. `freelancerFlowState.ts` — Governança de Turnos
-* Assegura que nenhuma transição inválida ocorra (ex: tentar fazer check-out sem ter feito check-in prévio).
-* Calcula prazos de tolerância para auto check-out após o horário previsto de término do turno.
+### 2. `contractorState.ts` — Painel do Contratante e Métricas B2B
+* Gerencia o estado de vagas criadas pelo estabelecimento, candidatos em triagem e mensagens de chat.
+* **KPIs Reativos**: Calcula dinamicamente o valor total investido em taxas finalizadas, número de profissionais contratados e nota de pontualidade.
+* Fornece simulação resiliente de respostas de chat para experiência em tempo real.
 
-### 3. `gigs.ts` — Inteligência Geoespacial
-* Utiliza a fórmula de Haversine para calcular a distância em quilômetros entre a localização atual do usuário e as vagas disponíveis em Curitiba.
+### 3. `formatters.ts` — Regras Fiscais Brasileiras
+* **`isValidCNPJ`**: Algoritmo oficial de dígitos verificadores Módulo 11 da Receita Federal.
+* **`formatCurrency`**: Formata números e strings para o padrão monetário brasileiro `R$ 0,00` usando `Intl.NumberFormat('pt-BR')`.
+* **Máscaras de Telefone e Documentos**: Telefones móveis/fixos (`(41) 99999-9999`) e CNPJ (`00.000.000/0000-00`).
+
+### 4. `gigs.ts` — Inteligência Geoespacial
+* Fórmula de Haversine para cálculo de distância em quilômetros entre a localização do usuário e os pontos gastronômicos de Curitiba.

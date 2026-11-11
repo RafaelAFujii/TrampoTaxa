@@ -51,6 +51,8 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
   const [cnpj, setCnpj] = useState('12.345.678/0001-90');
   const [razaoSocial, setRazaoSocial] = useState('Bistrô do Batel Gastronomia LTDA');
   const [ramoAtuacao, setRamoAtuacao] = useState<string>('Restaurante');
+  const [enderecoLoja, setEnderecoLoja] = useState('Av. do Batel, 1550');
+  const [bairroLoja, setBairroLoja] = useState('Batel');
 
   // Campos específicos do Freelancer
   const [profession, setProfession] = useState<Profession>('Bartender');
@@ -130,12 +132,18 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
       await cadastrar({
         name: nome,
         email,
+        password: senha,
         role,
         phone: telefone,
         profession: role === 'Freelancer' ? profession : undefined,
         cnpj: role === 'Contratante' ? cnpj : undefined,
         businessSegment: role === 'Contratante' ? ramoAtuacao : undefined,
         corporateName: role === 'Contratante' ? razaoSocial || nome : undefined,
+        venueName: role === 'Contratante' ? nome : undefined,
+        address: role === 'Contratante' ? enderecoLoja : undefined,
+        neighborhood: role === 'Contratante' ? bairroLoja : undefined,
+        city: 'Curitiba',
+        state: 'PR',
       });
 
       if (onCadastroSuccess) {
@@ -147,8 +155,9 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
           navigate('/map', { replace: true });
         }
       }
-    } catch {
-      setErrorMessage('Erro ao realizar cadastro. Tente novamente.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Erro ao realizar cadastro. Tente novamente.';
+      setErrorMessage(msg);
     } finally {
       setIsLoading(false);
     }
@@ -345,6 +354,21 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                       value={telefone}
                       onChange={handlePhoneChange}
                       placeholder="(41) 99999-0000"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <TextInput
+                      label="ENDEREÇO DA LOJA / RESTAURANTE"
+                      value={enderecoLoja}
+                      onChange={(e) => setEnderecoLoja(e.target.value)}
+                      placeholder="Ex: Av. do Batel, 1550"
+                    />
+                    <TextInput
+                      label="BAIRRO (CURITIBA)"
+                      value={bairroLoja}
+                      onChange={(e) => setBairroLoja(e.target.value)}
+                      placeholder="Ex: Batel Soho"
                     />
                   </div>
                 </>

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{89FD7BF2-0B07-4811-A898-C8E2D756712C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrampoTaxa.Api", "src\TrampoTaxa.Api\TrampoTaxa.Api.csproj", "{A0E6D861-6035-4364-93C5-6138B5C8672E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D089D2B9-5B8D-40AB-B2D2-5B33E04AD692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrampoTaxa.Api.Tests", "tests\TrampoTaxa.Api.Tests\TrampoTaxa.Api.Tests.csproj", "{3014A169-05DE-4739-BEE6-6608418B33A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0E6D861-6035-4364-93C5-6138B5C8672E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E6D861-6035-4364-93C5-6138B5C8672E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E6D861-6035-4364-93C5-6138B5C8672E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E6D861-6035-4364-93C5-6138B5C8672E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3014A169-05DE-4739-BEE6-6608418B33A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3014A169-05DE-4739-BEE6-6608418B33A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3014A169-05DE-4739-BEE6-6608418B33A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3014A169-05DE-4739-BEE6-6608418B33A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0E6D861-6035-4364-93C5-6138B5C8672E} = {89FD7BF2-0B07-4811-A898-C8E2D756712C}
+		{3014A169-05DE-4739-BEE6-6608418B33A1} = {D089D2B9-5B8D-40AB-B2D2-5B33E04AD692}
+	EndGlobalSection
+EndGlobal

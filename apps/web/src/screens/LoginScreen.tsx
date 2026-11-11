@@ -28,38 +28,41 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const { login } = useAuth();
 
   const [role, setRole] = useState<UserRole>('Freelancer');
-  const [email, setEmail] = useState('freelancer@curitiba.com');
-  const [password, setPassword] = useState('••••••••');
+  const [email, setEmail] = useState('gabriel.silva@trampotaxa.com.br');
+  const [password, setPassword] = useState('SenhaSegura123!');
   const [isLoading, setIsLoading] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleRoleChange = (newRole: UserRole) => {
     setRole(newRole);
+    setErrorMessage(null);
     if (newRole === 'Freelancer') {
-      setEmail('freelancer@curitiba.com');
+      setEmail('gabriel.silva@trampotaxa.com.br');
+      setPassword('SenhaSegura123!');
     } else {
-      setEmail('gerente@restaurante.com');
+      setEmail('gerencia@bistrobatel.com.br');
+      setPassword('SenhaSegura123!');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setFeedbackMessage(null);
+    setErrorMessage(null);
 
     try {
-      await login(email, role);
+      await login(email, password, role);
       if (onLoginSuccess) {
         onLoginSuccess();
       } else {
-        // Redireciona para o destino original ou para a rota do papel específico
         const defaultPath = role === 'Contratante' ? '/contractor/gigs' : '/map';
         const from =
           (location.state as { from?: { pathname: string } })?.from?.pathname || defaultPath;
         navigate(from, { replace: true });
       }
-    } catch {
-      setFeedbackMessage('Erro ao efetuar login. Tente novamente.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Email ou senha incorretos.';
+      setErrorMessage(msg);
     } finally {
       setIsLoading(false);
     }
@@ -177,9 +180,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
               </button>
             </div>
 
-            {feedbackMessage && (
-              <div className="mb-4 p-3 bg-amber-500/15 border border-amber-500/30 rounded-xl text-xs text-amber-300">
-                {feedbackMessage}
+            {errorMessage && (
+              <div className="mb-4 p-3.5 bg-rose-500/15 border border-rose-500/30 rounded-xl text-xs text-rose-300 flex items-center gap-2">
+                <span className="font-bold">Aviso:</span>
+                <span>{errorMessage}</span>
               </div>
             )}
 
@@ -202,17 +206,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   placeholder="••••••••"
                 />
                 <div className="flex justify-end mt-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFeedbackMessage(
-                        'Link de redefinição de senha enviado para o seu e-mail cadastrado.'
-                      )
-                    }
-                    className="text-xs text-[#00E676] hover:text-[#00FF77] hover:underline font-semibold transition-colors cursor-pointer"
-                  >
-                    Esqueceu a senha?
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setErrorMessage(
+                          'Link de redefinição de senha enviado para o seu e-mail cadastrado.'
+                        )
+                      }
+                      className="text-xs text-[#00E676] hover:text-[#00FF77] hover:underline font-semibold transition-colors cursor-pointer"
+                    >
+                      Esqueceu a senha?
+                    </button>
                 </div>
               </div>
 
