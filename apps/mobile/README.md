@@ -6,8 +6,8 @@ Aplicativo móvel nativo do **TrampoTaxa (Loctaxa CWB)**, desenvolvido com **Exp
 
 ## 🛠️ Stack Tecnológica Mobile
 
-* **Framework:** [React Native 0.74](https://reactnative.dev/) & [Expo SDK 51](https://docs.expo.dev/)
-* **Navegação Nativa:** [React Navigation](https://reactnavigation.org/) (`@react-navigation/bottom-tabs`)
+* **Framework:** [React Native 0.88.1](https://reactnative.dev/) & [Expo SDK 58.0.25](https://docs.expo.dev/)
+* **Navegação Nativa:** [React Navigation 7](https://reactnavigation.org/) (`@react-navigation/bottom-tabs`)
 * **Gerenciamento de Estado:** [TanStack React Query v5](https://tanstack.com/query) (`staleTime: 5min`)
 * **Listas Performáticas:** `FlatList` com `RefreshControl` nativo (pull-to-refresh)
 * **Contratos Compartilhados:** `@trampotaxa/shared` (tipagens, formatadores fiscais e dados mock)
@@ -55,7 +55,7 @@ apps/mobile/
 │   │
 │   └── types/                  # Declarações de ambiente e tipos específicos
 │
-├── app.json                    # Configuração e permissões do Expo SDK 51
+├── app.json                    # Configuração e permissões do Expo SDK 58
 ├── metro.config.js             # Resolução de symlinks e pacotes monorepo
 └── tsconfig.json               # Configuração TypeScript Mobile
 ```

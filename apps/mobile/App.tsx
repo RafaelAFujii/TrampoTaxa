@@ -19,7 +19,7 @@ function MobileNavigation() {
 
   return (
     <>
-      <StatusBar style="light" backgroundColor="#0A0B0E" />
+      <StatusBar style="light" />
       <RootNavigator authState={state} />
     </>
   );

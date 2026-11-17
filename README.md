@@ -2,13 +2,13 @@
 
 [![CI/CD GitHub Pages](https://github.com/akirarafael19/trampo-taxa/actions/workflows/deploy.yml/badge.svg)](https://github.com/akirarafael19/trampo-taxa/actions/workflows/deploy.yml)
 [![Mobile CI & Tests](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml/badge.svg)](https://github.com/akirarafael19/trampo-taxa/actions/workflows/mobile-build.yml)
-[![Bun Monorepo](https://img.shields.io/badge/Bun-v1.2+-black?logo=bun)](https://bun.sh/)
-[![.NET](https://img.shields.io/badge/.NET-8.0_LTS-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![Bun Monorepo](https://img.shields.io/badge/Bun-v1.4.4-black?logo=bun)](https://bun.sh/)
+[![.NET](https://img.shields.io/badge/.NET-11.0_STS-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql)](https://www.postgresql.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
-[![React Native](https://img.shields.io/badge/React_Native-0.74-61DAFB?logo=react)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-SDK_51-000020?logo=expo)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React_Native-0.88-61DAFB?logo=react)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-SDK_58-000020?logo=expo)](https://expo.dev/)
 [![Zustand](https://img.shields.io/badge/State-Zustand-orange)](https://zustand.docs.pmnd.rs/)
 [![tRPC](https://img.shields.io/badge/tRPC-v11-2596be?logo=trpc)](https://trpc.io/)
 [![Tests](https://img.shields.io/badge/xUnit-5%20Passed-brightgreen)](https://xunit.net/)
@@ -32,7 +32,7 @@ Para facilitar a exploração e a manutenção pontual, o monorepo conta com doc
 | Módulo / Camada | Documentação Dedicada | Descrição Técnica |
 | :--- | :--- | :--- |
 | **Monorepo Raiz** | [README.md](./README.md) | Visão holística, comandos Bun / .NET, variáveis globais e governança |
-| **Backend .NET 8 (PostgreSQL)** | [apps/server-dotnet/README.md](./apps/server-dotnet/README.md) | ASP.NET Core Web API, EF Core 8 (Npgsql), JWT, BCrypt, PostgreSQL 15 e xUnit |
+| **Backend .NET 11 (PostgreSQL)** | [apps/server-dotnet/README.md](./apps/server-dotnet/README.md) | ASP.NET Core Web API, EF Core 10 (Npgsql), JWT, BCrypt, PostgreSQL 15 e xUnit |
 | **Backend Node.js (tRPC)** | [apps/server/README.md](./apps/server/README.md) | Servidor tRPC v11, Fastify e Drizzle ORM |
 | ↳ *Server Database* | [apps/server/src/db/README.md](./apps/server/src/db/README.md) | Conexão pool (`client.ts`), schemas relacionais (`schema.ts`) e dados de seed |
 | ↳ *Server Routers* | [apps/server/src/routers/README.md](./apps/server/src/routers/README.md) | Routers tRPC: `auth`, `gigs`, `chat`, `contractor`, `freelancer` |
@@ -43,7 +43,7 @@ Para facilitar a exploração e a manutenção pontual, o monorepo conta com doc
 | ↳ *Web Hooks* | [apps/web/src/hooks/README.md](./apps/web/src/hooks/README.md) | Hooks re-exportados das stores do Zustand em `@trampotaxa/shared` |
 | ↳ *Web Routes* | [apps/web/src/routes/README.md](./apps/web/src/routes/README.md) | Configuração de rotas e guardas de autorização (`ProtectedRoute`) |
 | ↳ *Web Screens* | [apps/web/src/screens/README.md](./apps/web/src/screens/README.md) | Telas completas de Freelancer, Contratante e Autenticação (Dumb UI) |
-| **Mobile App** | [apps/mobile/README.md](./apps/mobile/README.md) | Aplicativo móvel nativo Expo SDK 51, React Native e Metro Bundler |
+| **Mobile App** | [apps/mobile/README.md](./apps/mobile/README.md) | Aplicativo móvel nativo Expo SDK 58, React Native e Metro Bundler |
 | ↳ *Mobile API* | [apps/mobile/src/api/README.md](./apps/mobile/src/api/README.md) | Cliente HTTP autenticado com injeção automática de token JWT |
 | ↳ *Mobile Contexts* | [apps/mobile/src/context/README.md](./apps/mobile/src/context/README.md) | Gerenciamento de sessão móvel e SecureStore |
 | ↳ *Mobile Navigation*| [apps/mobile/navigation/README.md](./apps/mobile/navigation/README.md) | BottomTabs nativas, autenticação e tipagem de rotas |
@@ -104,7 +104,7 @@ graph TD
 ```
 trampo-taxa/
 ├── apps/
-│   ├── server-dotnet/                # Backend ASP.NET Core .NET 8 + EF Core 8 + PostgreSQL 15
+│   ├── server-dotnet/                # Backend ASP.NET Core .NET 11 + EF Core 10 + PostgreSQL 15
 │   │   ├── src/TrampoTaxa.Api/       # Controllers, DbContext, Models, DTOs, JWT Service e Seed
 │   │   ├── tests/TrampoTaxa.Api.Tests/ # Suíte de testes automatizados de integração xUnit
 │   │   └── TrampoTaxa.sln            # Solução .NET
@@ -128,7 +128,7 @@ trampo-taxa/
 │   │   │   └── screens/              # Telas burras (Dumb UI)
 │   │   └── vite.config.ts            # Vite com deduplicação de React e Zustand
 │   │
-│   └── mobile/                       # Aplicativo Mobile Nativo (Expo SDK 51)
+│   └── mobile/                       # Aplicativo Mobile Nativo (Expo SDK 58)
 │       ├── navigation/               # BottomTabs nativas
 │       ├── src/                      # API, Contexto, Hooks e Telas
 │       └── metro.config.js           # Resolução de symlinks e pacotes do monorepo
@@ -164,29 +164,33 @@ Os seguintes usuários estão persistidos no banco de dados com senhas em hash B
 ## 🛠️ Guia de Instalação e Desenvolvimento Local
 
 ### 1. Pré-requisitos
-* **Bun:** v1.2+ ([Instruções do Bun](https://bun.sh/)).
-* **.NET SDK:** .NET 8.0 LTS instalado ([Download .NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)).
+* **Bun:** v1.4.4 ([Instruções do Bun](https://bun.sh/)).
+* **.NET SDK:** .NET 11.0.100 ([Download .NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)).
 * **PostgreSQL:** Versão 15+ em execução (`localhost:5432`).
-* **Node.js:** v20+ ou v24 (para Metro Bundler e scripts auxiliares).
+* **Node.js:** v26.13.1 (versão fixada na CI e suportada pelo Expo SDK 58).
 
 ### 2. Passo a Passo de Execução
 
-```bash
+```powershell
 # 1. Instalar as dependências do monorepo
-bun install
+bun install --frozen-lockfile
 
 # 2. Executar a aplicação Web (porta 3000)
 bun run dev:web
 
-# 3. Executar o backend ASP.NET Core .NET 8 com PostgreSQL
-dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj
+# 3. Executar o backend ASP.NET Core .NET 11 com PostgreSQL
+$artifacts = Join-Path $env:TEMP 'trampotaxa-artifacts'
+dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj --artifacts-path $artifacts
 
-# 4. Executar os testes de integração automatizados do backend (.NET xUnit)
-dotnet test apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj
+# 4. Compilar e executar os testes .NET em artefatos temporários
+dotnet build apps/server-dotnet/TrampoTaxa.sln --artifacts-path $artifacts
+dotnet test --project apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj --artifacts-path $artifacts
 
 # 5. Executar a suíte de testes do monorepo (Bun / Vitest)
 bun test
 ```
+
+O `global.json` seleciona o Microsoft.Testing.Platform; por isso, use `dotnet test --project` com o SDK 11. Os testes de integração .NET podem gravar dados no banco configurado. Antes de executá-los, defina `ConnectionStrings__DefaultConnection` para um PostgreSQL descartável dedicado; nunca use um banco compartilhado ou de produção.
 
 ---
 
@@ -225,6 +229,6 @@ DISABLE_HMR=false
 | `bun test` | Executa a suíte de testes unitários e de stores do monorepo |
 | `bun run lint` | Executa a checagem do ESLint em todo o monorepo (0 erros e 0 warnings) |
 | `bun run build:web` | Gera o bundle de produção otimizado com Service Worker PWA |
-| `dotnet build apps/server-dotnet/TrampoTaxa.sln` | Compila a solução inteira do backend .NET |
-| `dotnet test apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj` | Executa todos os testes de integração com xUnit e PostgreSQL |
-| `dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj` | Inicia a Web API do backend .NET com Swagger |
+| `dotnet build apps/server-dotnet/TrampoTaxa.sln --artifacts-path $artifacts` | Compila a solução inteira do backend .NET sem sobrescrever artefatos rastreados |
+| `dotnet test --project apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj --artifacts-path $artifacts` | Executa testes xUnit v3 com Microsoft.Testing.Platform e PostgreSQL descartável |
+| `dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj --artifacts-path $artifacts` | Inicia a Web API do backend .NET com Swagger |

@@ -24,11 +24,11 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
     [Fact]
     public async Task HealthEndpoint_ReturnsHealthyStatus()
     {
-        var response = await _client.GetAsync("/");
+        var response = await _client.GetAsync("/", TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
 
-        var body = await response.Content.ReadAsStringAsync();
-        Assert.Contains("TrampoTaxa .NET 8 Backend API", body);
+        var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+        Assert.Contains("TrampoTaxa .NET 11 Backend API", body);
         Assert.Contains("PostgreSQL 15", body);
     }
 
@@ -37,10 +37,10 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
     {
         // 1. Contractor login
         var contractorLogin = new LoginRequest("gerencia@bistrobatel.com.br", "SenhaSegura123!");
-        var contractorRes = await _client.PostAsJsonAsync("/api/auth/login", contractorLogin);
+        var contractorRes = await _client.PostAsJsonAsync("/api/auth/login", contractorLogin, TestContext.Current.CancellationToken);
         contractorRes.EnsureSuccessStatusCode();
 
-        var contractorAuth = await contractorRes.Content.ReadFromJsonAsync<AuthResponse>();
+        var contractorAuth = await contractorRes.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: TestContext.Current.CancellationToken);
         Assert.NotNull(contractorAuth);
         Assert.NotEmpty(contractorAuth.Token);
         Assert.Equal("Contractor", contractorAuth.Role);
@@ -48,10 +48,10 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
 
         // 2. Freelancer login
         var freelancerLogin = new LoginRequest("gabriel.silva@trampotaxa.com.br", "SenhaSegura123!");
-        var freelancerRes = await _client.PostAsJsonAsync("/api/auth/login", freelancerLogin);
+        var freelancerRes = await _client.PostAsJsonAsync("/api/auth/login", freelancerLogin, TestContext.Current.CancellationToken);
         freelancerRes.EnsureSuccessStatusCode();
 
-        var freelancerAuth = await freelancerRes.Content.ReadFromJsonAsync<AuthResponse>();
+        var freelancerAuth = await freelancerRes.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: TestContext.Current.CancellationToken);
         Assert.NotNull(freelancerAuth);
         Assert.NotEmpty(freelancerAuth.Token);
         Assert.Equal("Freelancer", freelancerAuth.Role);
@@ -94,22 +94,22 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
             db.Gigs.Add(g);
             gigs.Add(g);
         }
-        await db.SaveChangesAsync();
+        await db.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // Apply to 1st, 2nd, 3rd gig (should succeed)
         for (int i = 0; i < 3; i++)
         {
             var applyReq = new ApplyGigRequest(gigs[i].Id, testFreelancer.Id);
-            var res = await _client.PostAsJsonAsync("/api/freelancer/apply", applyReq);
+            var res = await _client.PostAsJsonAsync("/api/freelancer/apply", applyReq, TestContext.Current.CancellationToken);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
         }
 
         // Apply to 4th gig (MUST BE BLOCKED by Pillar 1 rule)
         var blockedReq = new ApplyGigRequest(gigs[3].Id, testFreelancer.Id);
-        var blockedRes = await _client.PostAsJsonAsync("/api/freelancer/apply", blockedReq);
+        var blockedRes = await _client.PostAsJsonAsync("/api/freelancer/apply", blockedReq, TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.BadRequest, blockedRes.StatusCode);
 
-        var errContent = await blockedRes.Content.ReadAsStringAsync();
+        var errContent = await blockedRes.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         Assert.Contains("Limite de overbooking atingido", errContent);
     }
 
@@ -143,21 +143,21 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
             Status = ApplicationStatus.Approved
         };
         db.GigApplications.Add(app);
-        await db.SaveChangesAsync();
+        await db.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // 1. Try Invalid QR Code -> Must fail
         var invalidCheckIn = new CheckInRequest(gig.Id, freelancer.Id, "QR_FAKE_INVALIDO_999");
-        var failRes = await _client.PostAsJsonAsync("/api/freelancer/checkin", invalidCheckIn);
+        var failRes = await _client.PostAsJsonAsync("/api/freelancer/checkin", invalidCheckIn, TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.BadRequest, failRes.StatusCode);
-        var failMsg = await failRes.Content.ReadAsStringAsync();
+        var failMsg = await failRes.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         Assert.Contains("QR Code inválido", failMsg);
 
         // 2. Try Master QR Code -> Must succeed
         var validCheckIn = new CheckInRequest(gig.Id, freelancer.Id, "QR_MESTRE_123");
-        var successRes = await _client.PostAsJsonAsync("/api/freelancer/checkin", validCheckIn);
+        var successRes = await _client.PostAsJsonAsync("/api/freelancer/checkin", validCheckIn, TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.OK, successRes.StatusCode);
 
-        var okMsg = await successRes.Content.ReadAsStringAsync();
+        var okMsg = await successRes.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         Assert.Contains("Check-in realizado com sucesso", okMsg);
     }
 
@@ -192,18 +192,18 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
             TotalAmount = 210
         };
         db.Shifts.Add(shift);
-        await db.SaveChangesAsync();
+        await db.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         // 1. Request Checkout -> Enters ReviewPending with 2-hour deadline
         var checkoutReq = new RequestCheckoutRequest(shift.Id);
-        var checkoutRes = await _client.PostAsJsonAsync("/api/freelancer/request-checkout", checkoutReq);
+        var checkoutRes = await _client.PostAsJsonAsync("/api/freelancer/request-checkout", checkoutReq, TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.OK, checkoutRes.StatusCode);
 
         // Refresh shift
         using (var verifyScope = _factory.Services.CreateScope())
         {
             var verifyDb = verifyScope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var updatedShift = await verifyDb.Shifts.FindAsync(shift.Id);
+            var updatedShift = await verifyDb.Shifts.FindAsync([shift.Id], TestContext.Current.CancellationToken);
             Assert.NotNull(updatedShift);
             Assert.Equal(ShiftPhase.ReviewPending, updatedShift.Phase);
             Assert.NotNull(updatedShift.ContestationDeadline);
@@ -213,10 +213,10 @@ public class TrampoTaxaApiIntegrationTests : IClassFixture<WebApplicationFactory
 
         // 2. Contractor Approves Shift with 5-star rating -> Advances to PixScheduled
         var approveReq = new ApproveShiftRequest(shift.Id, 5, "Atendimento exemplar no Bistrô");
-        var approveRes = await _client.PostAsJsonAsync("/api/contractor/approve-shift", approveReq);
+        var approveRes = await _client.PostAsJsonAsync("/api/contractor/approve-shift", approveReq, TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.OK, approveRes.StatusCode);
 
-        var approveMsg = await approveRes.Content.ReadAsStringAsync();
+        var approveMsg = await approveRes.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         Assert.Contains("Pix agendado automaticamente", approveMsg);
     }
 }

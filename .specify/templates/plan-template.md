@@ -103,6 +103,31 @@ ios/ or android/
 **Structure Decision**: [Document the selected structure and reference the real
 directories captured above]
 
+## Frontend Design
+
+<!--
+  Include this section only when the feature creates or changes a user-facing
+  web or mobile interface. Follow .github/skills/frontend-design/SKILL.md.
+-->
+
+**Subject, audience, and primary job**: [Ground the design in the brief]
+
+**Color**: [4–6 named colors with hex values]
+
+**Type**: [Typeface choices and roles]
+
+**Layout**: [Concept, alignment guidance, and brief rationale]
+
+**Wireframes**:
+
+```text
+[Compare compact ASCII layout concepts]
+```
+
+**Principles**: [Choices that make this design specific to the subject]
+
+**Uniqueness review**: [What felt generic, what changed, and why the revised direction fits this brief]
+
 ## Complexity Tracking
 
 > **Fill ONLY if Constitution Check has violations that must be justified**

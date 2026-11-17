@@ -113,8 +113,6 @@ describe('Web Freelancer Flow & 3 Pillars Parity Suite', () => {
       status: 'aguardando_checkin' as const,
       checkInTime: null,
       checkOutTime: null,
-      autoCheckoutDeadline: null,
-      pixScheduledDate: null,
     };
 
     const invalidResult = validateQrCodeCheckIn(shift, 'QR_INVALIDO');
@@ -137,8 +135,6 @@ describe('Web Freelancer Flow & 3 Pillars Parity Suite', () => {
       status: 'em_turno' as const,
       checkInTime: new Date().toISOString(),
       checkOutTime: null,
-      autoCheckoutDeadline: null,
-      pixScheduledDate: null,
     };
 
     const pendingCheckout = requestCheckOutState(inProgressShift);

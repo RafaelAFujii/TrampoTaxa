@@ -1,18 +1,18 @@
-# ⚙️ apps/server-dotnet — TrampoTaxa .NET 8 Backend API
+# ⚙️ apps/server-dotnet — TrampoTaxa .NET 11 Backend API
 
-API de backend corporativa do ecossistema **TrampoTaxa (Loctaxa CWB)** desenvolvida em **ASP.NET Core (.NET 8)** com **PostgreSQL 15** e **Entity Framework Core (Npgsql)**.
+API de backend corporativa do ecossistema **TrampoTaxa (Loctaxa CWB)** desenvolvida em **ASP.NET Core (.NET 11)** com **PostgreSQL 15** e **Entity Framework Core (Npgsql)**.
 
 ---
 
 ## 🛠️ Stack Tecnológica Backend .NET
 
-* **Plataforma:** [.NET 8 LTS (ASP.NET Core Web API)](https://dotnet.microsoft.com/)
+* **Plataforma:** [.NET 11 STS (ASP.NET Core Web API)](https://dotnet.microsoft.com/)
 * **Banco de Dados:** [PostgreSQL 15](https://www.postgresql.org/) rodando localmente
-* **ORM:** [Entity Framework Core 8 (Npgsql.EntityFrameworkCore.PostgreSQL)](https://www.npgsql.org/efcore/)
+* **ORM:** Entity Framework Core 10 com `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.3
 * **Autenticação:** JWT nativo com assinatura `HMAC-SHA256` (`Microsoft.AspNetCore.Authentication.JwtBearer`)
 * **Criptografia de Senhas:** `BCrypt.Net-Next` (Blowfish salting nativo)
 * **Documentação de API:** Swagger / OpenAPI (`Swashbuckle.AspNetCore`)
-* **Testes Automatizados:** [xUnit](https://xunit.net/) com `Microsoft.AspNetCore.Mvc.Testing` (`WebApplicationFactory`)
+* **Testes Automatizados:** xUnit v3 (`xunit.v3` 4.0.3) com `Microsoft.AspNetCore.Mvc.Testing` (`WebApplicationFactory`)
 
 ---
 
@@ -78,20 +78,25 @@ Ao iniciar a API, o `DbInitializer.Seed` provisiona usuários reais com senhas c
 
 ---
 
+Antes de executar os testes de integração, configure `ConnectionStrings__DefaultConnection` para um PostgreSQL descartável dedicado. Os testes inicializam e gravam dados; nunca use um banco compartilhado ou de produção.
+
 ## 💻 Comandos de Execução (.NET CLI)
 
 A partir da raiz do monorepo:
 
-```bash
+```powershell
 # 1. Compilar a solução inteira
-dotnet build apps/server-dotnet/TrampoTaxa.sln
+$artifacts = Join-Path $env:TEMP 'trampotaxa-artifacts'
+dotnet build apps/server-dotnet/TrampoTaxa.sln --artifacts-path $artifacts
 
 # 2. Executar os testes de integração automatizados (xUnit)
-dotnet test apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj
+dotnet test --project apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj --artifacts-path $artifacts
 
 # 3. Executar o servidor backend (porta 5000 / Swagger em /swagger)
-dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj
+dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj --artifacts-path $artifacts
 ```
+
+`global.json` configura o Microsoft.Testing.Platform para xUnit v3 no SDK 11. Os comandos de teste usam `--project`; configure `ConnectionStrings__DefaultConnection` para um PostgreSQL descartável antes de executar a suíte.
 
 ---
 

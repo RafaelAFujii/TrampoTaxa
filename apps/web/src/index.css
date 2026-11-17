@@ -1,12 +1,43 @@
 @import "tailwindcss";
 
+:root {
+  --work-asphalt: #171b1a;
+  --work-concrete: #e7ece8;
+  --work-green: #34745a;
+  --work-yellow: #e3b23c;
+  --work-clay: #b85c3d;
+  --work-snow: #f7f9f7;
+  --work-line: rgba(231, 236, 232, 0.12);
+  --work-muted: #aab5ae;
+}
+
 /* Garante preenchimento de viewport sem colapso de altura */
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #0A0B0E;
+  background-color: var(--work-asphalt);
+  color: var(--work-snow);
+  font-family: "Public Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button, a, input, select, textarea {
+  outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--work-yellow);
+}
+
+::selection {
+  background: var(--work-green);
+  color: var(--work-snow);
 }
 
 /* Garante que containers do Google Maps tenham altura explícita em mobile */

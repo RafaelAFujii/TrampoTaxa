@@ -2,6 +2,7 @@ node_modules/
 build/
 dist/
 coverage/
+**/.expo/
 .DS_Store
 *.log
 .env
@@ -12,6 +13,10 @@ Thumbs.db
 *.swp
 .idea/
 .gmp_cache/
+
+# .NET build outputs
+apps/server-dotnet/**/bin/
+apps/server-dotnet/**/obj/
 
 # AI Studio & Generative Metadata (Anti-Bloat Guard)
 .aistudio/

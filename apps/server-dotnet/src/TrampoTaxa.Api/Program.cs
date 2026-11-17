@@ -85,7 +85,7 @@ app.MapControllers();
 
 app.MapGet("/", () => Results.Ok(new
 {
-    name = "TrampoTaxa .NET 8 Backend API",
+    name = "TrampoTaxa .NET 11 Backend API",
     status = "healthy",
     database = "PostgreSQL 15",
     version = "1.0.0",

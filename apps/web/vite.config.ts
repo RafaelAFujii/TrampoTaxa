@@ -4,6 +4,8 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const rootNodeModules = path.resolve(import.meta.dirname || '.', '../../node_modules');
+
 export default defineConfig(() => {
   return {
     base: './',
@@ -104,12 +106,12 @@ export default defineConfig(() => {
     resolve: {
       dedupe: ['react', 'react-dom', 'zustand'],
       alias: [
-        { find: /^react$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/react') },
-        { find: /^react\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/react')}/$1` },
-        { find: /^react-dom$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/react-dom') },
-        { find: /^react-dom\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/react-dom')}/$1` },
-        { find: /^zustand$/, replacement: path.resolve(import.meta.dirname || '.', 'node_modules/zustand') },
-        { find: /^zustand\/(.*)$/, replacement: `${path.resolve(import.meta.dirname || '.', 'node_modules/zustand')}/$1` },
+        { find: /^react$/, replacement: path.resolve(rootNodeModules, 'react') },
+        { find: /^react\/(.*)$/, replacement: `${path.resolve(rootNodeModules, 'react')}/$1` },
+        { find: /^react-dom$/, replacement: path.resolve(rootNodeModules, 'react-dom') },
+        { find: /^react-dom\/(.*)$/, replacement: `${path.resolve(rootNodeModules, 'react-dom')}/$1` },
+        { find: /^zustand$/, replacement: path.resolve(rootNodeModules, 'zustand') },
+        { find: /^zustand\/(.*)$/, replacement: `${path.resolve(rootNodeModules, 'zustand')}/$1` },
         {
           find: '@trampotaxa/shared/mocks',
           replacement: path.resolve(import.meta.dirname || '.', '../../packages/shared/src/mocks.ts'),

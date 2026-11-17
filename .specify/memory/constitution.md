@@ -1,12 +1,8 @@
 <!--
 Sync Impact Report
-Version change: 1.0.0 → 2.0.0
-Modified principles:
-  - Adição de tRPC v11 como Fonte Única de Comunicação (Proibição absoluta de clientes REST/Orval)
-  - Isolamento estrito de regras de negócio em packages/shared e padronização de Telas Burras (Dumb UI)
-  - Política de Estado Global de Alta Performance (React Query via tRPC + Zustand; Proibição de Context API para estados mutáveis complexos)
-  - Obrigatoriedade de watchFolders no Metro Bundler (apps/mobile/metro.config.js) para Bun Workspaces
-  - Princípio Anti-Bloat: Higiene do repositório, concisão gerativa e bloqueio de artefatos de IA no .gitignore
+Version change: 2.0.0 → 2.1.0
+Modified principles: None.
+Updated versioned stack claims to current supported releases; engineering principles and architecture are unchanged.
 -->
 
 # TrampoTaxa Constitution (SDD & Monorepo Architecture)
@@ -50,10 +46,11 @@ O framework Spec-Kit e os agentes de IA DEVEM priorizar concisão técnica e lim
 ## Architecture and Security Constraints
 
 1. **Stack Oficial**:
-   - Backend: `apps/server` (Fastify + tRPC v11 + Drizzle ORM).
-   - Web: `apps/web` (React 19 + Vite + Tailwind CSS v4).
-   - Mobile: `apps/mobile` (React Native 0.74 + Expo SDK 51 + React Navigation).
-   - Shared: `packages/shared` (TypeScript + tRPC Client Hooks + Zustand Stores).
+   - Backend: `apps/server` (Bun 1.4.4 / Node.js 26.13.1 + Fastify + tRPC v11 + Drizzle ORM).
+   - Web: `apps/web` (React 19.3.0 + Vite 8.3.8 + Tailwind CSS v4).
+   - Mobile: `apps/mobile` (React 19.3.0 + React Native 0.88.1 + Expo SDK 58.0.25 + React Navigation 7).
+   - Shared: `packages/shared` (TypeScript 6.0.3 + tRPC Client Hooks + Zustand Stores).
+   - .NET API: `apps/server-dotnet` (ASP.NET Core .NET 11 + EF Core 10 + Npgsql 10.0.3).
 2. **Segurança Fail-Closed**:
    - Autenticação e autorização RBAC DEVEM ser validadas no middleware do tRPC (`init.ts`), rejeitando no nível de servidor qualquer operação com token ausente ou papel incompatível.
    - O cliente não pode assumir autorização baseando-se apenas na visibilidade de componentes gráficos.
@@ -64,4 +61,4 @@ O framework Spec-Kit e os agentes de IA DEVEM priorizar concisão técnica e lim
 
 Esta Constituição define as regras de engenharia imutáveis do projeto TrampoTaxa. Qualquer proposta de especificação, plano ou implementação gerada via Spec-Kit que viole estes princípios deve ser imediatamente rejeitada pelos gates de validação.
 
-**Version**: 2.0.0 | **Ratified**: 2026-11-08 | **Last Amended**: 2026-11-08
+**Version**: 2.1.0 | **Ratified**: 2026-11-08 | **Last Amended**: 2026-11-13

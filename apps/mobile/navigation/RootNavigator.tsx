@@ -21,11 +21,11 @@ const DarkNavTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#0A0B0E',
-    card: '#0F1117',
-    text: '#FFFFFF',
-    border: 'rgba(255, 255, 255, 0.08)',
-    primary: '#00E676',
+    background: '#171B1A',
+    card: '#171B1A',
+    text: '#F7F9F7',
+    border: 'rgba(231, 236, 232, 0.12)',
+    primary: '#34745A',
   },
 };
 
@@ -41,7 +41,7 @@ function TabIcon({ name, focused }: { name: 'map' | 'shift' | 'earnings' | 'prof
 function SessionGate({ restoring }: { restoring: boolean }) {
   return (
     <View style={styles.gate}>
-      {restoring && <ActivityIndicator color="#00E676" />}
+      {restoring && <ActivityIndicator color="#34745A" />}
       <Text style={styles.gateText}>
         {restoring
           ? 'Restaurando sessão segura...'
@@ -54,10 +54,11 @@ function SessionGate({ restoring }: { restoring: boolean }) {
 function FreelancerTabs() {
   return (
     <FreelancerTab.Navigator
+      id="freelancer-tabs"
       initialRouteName="Mapa"
       screenOptions={{
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#00E676',
+        tabBarActiveTintColor: '#34745A',
         tabBarInactiveTintColor: '#8E95A5',
         tabBarLabelStyle: styles.tabLabel,
         headerStyle: styles.header,
@@ -109,10 +110,11 @@ function FreelancerTabs() {
 function ContractorTabs() {
   return (
     <ContractorTab.Navigator
+      id="contractor-tabs"
       initialRouteName="Vagas"
       screenOptions={{
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#00E676',
+        tabBarActiveTintColor: '#34745A',
         tabBarInactiveTintColor: '#8E95A5',
         tabBarLabelStyle: styles.tabLabel,
         headerStyle: styles.header,
@@ -185,15 +187,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
     padding: 24,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   gateText: {
     color: '#FFFFFF',
     textAlign: 'center',
   },
   tabBar: {
-    backgroundColor: '#0F1117',
-    borderTopColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: '#171B1A',
+    borderTopColor: 'rgba(231, 236, 232, 0.12)',
     borderTopWidth: 1,
     height: 64,
     paddingBottom: 8,
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabIconWrapperFocused: {
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(52, 116, 90, 0.18)',
   },
   tabIconText: {
     fontSize: 16,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   tabIconTextFocused: {
-    color: '#00E676',
+    color: '#34745A',
   },
   header: {
     backgroundColor: '#0F1117',

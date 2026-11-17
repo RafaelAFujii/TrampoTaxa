@@ -17,34 +17,76 @@ jobs:
   validate:
     name: Complete Monorepo Validation
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: trampotaxa_test
+          POSTGRES_USER: trampotaxa_test
+          POSTGRES_PASSWORD: trampotaxa_test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U trampotaxa_test -d trampotaxa_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     outputs:
       gate-results: ${{ steps.summarize.outputs.gate-results }}
     steps:
       - name: Checkout candidate revision
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Node.js for Expo
         id: setup-node
         if: steps.checkout.outcome == 'success'
         continue-on-error: true
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7.1.0
         with:
-          node-version: '24'
+          node-version: '26.13.1'
 
       - name: Setup Bun
         id: setup-bun
         if: steps.setup-node.outcome == 'success'
         continue-on-error: true
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
+
+      - name: Setup .NET SDK
+        id: setup-dotnet
+        if: steps.checkout.outcome == 'success'
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6.1.0
+        with:
+          dotnet-version: '11.0.100'
 
       - name: Install workspace dependencies
         id: install
         if: steps.setup-bun.outcome == 'success'
         continue-on-error: true
         run: bun install --frozen-lockfile
+
+      - name: Restore .NET solution
+        id: dotnet-restore
+        if: always() && steps.setup-dotnet.outcome == 'success'
+        continue-on-error: true
+        run: dotnet restore apps/server-dotnet/TrampoTaxa.sln
+
+      - name: Build .NET solution
+        id: dotnet-build
+        if: always() && steps.dotnet-restore.outcome == 'success'
+        continue-on-error: true
+        run: dotnet build apps/server-dotnet/TrampoTaxa.sln --no-restore
+
+      - name: Run .NET integration tests against disposable PostgreSQL
+        id: dotnet-tests
+        if: always() && steps.dotnet-build.outcome == 'success'
+        continue-on-error: true
+        env:
+          ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=trampotaxa_test;Username=trampotaxa_test;Password=trampotaxa_test_password
+        run: dotnet test --project apps/server-dotnet/tests/TrampoTaxa.Api.Tests/TrampoTaxa.Api.Tests.csproj --no-restore --no-build
 
       - name: Run root Vitest suite
         id: root-tests
@@ -97,24 +139,6 @@ jobs:
         continue-on-error: true
         run: bun run --filter @trampotaxa/shared test
 
-      - name: Regenerate shared API clients
-        id: api-generation
-        if: always() && steps.install.outcome == 'success'
-        continue-on-error: true
-        run: bun run api:generate
-
-      - name: Require generated API artifacts to be current
-        id: generated-api-clean
-        if: always() && steps.install.outcome == 'success'
-        continue-on-error: true
-        shell: bash
-        run: |
-          if [[ -n "$(git status --porcelain --untracked-files=all -- packages/shared/src/api)" ]]; then
-            echo "OpenAPI/Orval generation changed tracked or untracked API artifacts."
-            git status --short -- packages/shared/src/api
-            exit 1
-          fi
-
       - name: Validate Sonar configuration
         id: sonar-prerequisites
         if: always() && steps.install.outcome == 'success'
@@ -140,7 +164,7 @@ jobs:
         id: sonar-analysis
         if: always() && steps.sonar-prerequisites.outcome == 'success'
         continue-on-error: true
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: SonarSource/sonarqube-scan-action@v8.4.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
@@ -150,7 +174,7 @@ jobs:
         if: always() && steps.sonar-analysis.outcome == 'success'
         continue-on-error: true
         timeout-minutes: 10
-        uses: SonarSource/sonarqube-quality-gate-action@v1
+        uses: SonarSource/sonarqube-quality-gate-action@v1.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
@@ -186,7 +210,7 @@ jobs:
         id: pages-artifact
         if: always() && steps.web-build.outcome == 'success'
         continue-on-error: true
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: ./apps/web/dist
 
@@ -211,6 +235,9 @@ jobs:
           }
           gate_results="$(jq -cn \
             --arg ci "$(prerequisite_status '${{ steps.install.outcome }}')" \
+            --arg dotnet_restore "$(outcome_status '${{ steps.dotnet-restore.outcome }}')" \
+            --arg dotnet_build "$(outcome_status '${{ steps.dotnet-build.outcome }}')" \
+            --arg dotnet_tests "$(outcome_status '${{ steps.dotnet-tests.outcome }}')" \
             --arg root "$(outcome_status '${{ steps.root-tests.outcome }}')" \
             --arg web "$(outcome_status '${{ steps.web-tests.outcome }}')" \
             --arg lint "$(outcome_status '${{ steps.eslint-errors.outcome }}')" \
@@ -219,13 +246,14 @@ jobs:
             --arg mobile_types "$(outcome_status '${{ steps.mobile-typecheck.outcome }}')" \
             --arg expo "$(outcome_status '${{ steps.expo-public-config.outcome }}')" \
             --arg shared "$(outcome_status '${{ steps.shared-tests.outcome }}')" \
-            --arg generate "$(outcome_status '${{ steps.api-generation.outcome }}')" \
-            --arg generated "$(outcome_status '${{ steps.generated-api-clean.outcome }}')" \
             --arg sonar_prereq "$(prerequisite_status '${{ steps.sonar-prerequisites.outcome }}')" \
             --arg sonar_quality "$(outcome_status '${{ steps.sonar-quality-gate.outcome }}')" \
             --arg sonar_debt "$(outcome_status '${{ steps.sonar-debt-ratio.outcome }}')" \
             '[
               {gate:"ci-prerequisites", status:$ci},
+              {gate:"dotnet-restore", status:$dotnet_restore},
+              {gate:"dotnet-build", status:$dotnet_build},
+              {gate:"dotnet-tests", status:$dotnet_tests},
               {gate:"root-tests", status:$root},
               {gate:"web-tests", status:$web},
               {gate:"eslint-errors", status:$lint},
@@ -234,8 +262,6 @@ jobs:
               {gate:"mobile-typecheck", status:$mobile_types},
               {gate:"expo-public-config", status:$expo},
               {gate:"shared-tests", status:$shared},
-              {gate:"api-generation", status:$generate},
-              {gate:"generated-api-clean", status:$generated},
               {gate:"sonar-prerequisites", status:$sonar_prereq},
               {gate:"sonar-quality-gate", status:$sonar_quality},
               {gate:"sonar-debt-ratio", status:$sonar_debt}

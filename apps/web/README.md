@@ -6,8 +6,8 @@ Aplicação Web responsiva do ecossistema **TrampoTaxa (Loctaxa CWB)**, focada e
 
 ## 🛠️ Stack Tecnológica Web
 
-* **Framework UI:** [React 19](https://react.dev/) com TypeScript 5.8
-* **Build Tool:** [Vite 8](https://vitejs.dev/) com deduplicação de módulos (`resolve.dedupe: ['react', 'react-dom', 'zustand']`)
+* **Framework UI:** [React 19.3.0](https://react.dev/) com TypeScript 6.0.3
+* **Build Tool:** [Vite 8.3](https://vitejs.dev/) com deduplicação de módulos (`resolve.dedupe: ['react', 'react-dom', 'zustand']`)
 * **Estado Global:** [Zustand](https://zustand.docs.pmnd.rs/) importado diretamente de `@trampotaxa/shared` (Zero Contexts mutáveis em telas)
 * **Design & Estilização:** [Tailwind CSS v4](https://tailwindcss.com/) com paleta escura (`#0A0B0E`, `#121418`) e acento verde neon (`#00E676`)
 * **Inteligência Geoespacial:** `@vis.gl/react-google-maps`, `use-supercluster` e mapa vetorial em SVG nativo (`MinimalVectorMap`)

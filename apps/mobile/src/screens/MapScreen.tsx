@@ -326,7 +326,7 @@ export const MapScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   centerContainer: {
     flex: 1,

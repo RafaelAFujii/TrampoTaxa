@@ -8,7 +8,7 @@ Pacote central de serviços compartilhados (`@trampotaxa/shared`), modelos canô
 
 O `@trampotaxa/shared` é a **fonte única da verdade** (Single Source of Truth) para todo o monorepo, alimentando a aplicação Web (`apps/web`), o aplicativo Mobile (`apps/mobile`) e alinhado aos backends do sistema:
 
-1. **Tipagens Canônicas (TypeScript Estrito):** Entidades do domínio gastronômico (`Gig`, `ContractorGig`, `FreelancerApplicant`, `User`, `ChatMessage`).
+1. **Tipagens Canônicas (TypeScript 6.0.3 Estrito):** Entidades do domínio gastronômico (`Gig`, `ContractorGig`, `FreelancerApplicant`, `User`, `ChatMessage`).
 2. **Estado Global com Zustand (Zero Context API para estados mutáveis):**
    - `useFreelancerFlowStore` (`freelancerFlowState.ts`): Controle de turno, máquina de estados, check-in por QR Code e limites de overbooking.
    - `useContractorStore` (`contractorState.ts`): Gestão de vagas do contratante, KPIs automatizados, triagem de candidatos e chat em tempo real.

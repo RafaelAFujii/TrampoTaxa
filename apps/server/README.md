@@ -6,8 +6,8 @@ O workspace **`@trampotaxa/server`** provê o núcleo transacional, persistênci
 
 ## 🏛️ Arquitetura e Decisões Técnicas
 
-* **Runtime:** Bun / Node.js
-* **Protocolo de Comunicação:** tRPC v11 com transporte HTTP e validação estrita via [Zod](https://zod.dev/).
+* **Runtime:** Bun 1.4.4 / Node.js 26.13.1
+* **Protocolo de Comunicação:** tRPC v11 com transporte HTTP e validação estrita via [Zod 4](https://zod.dev/).
 * **Camada de Dados (ORM):** Drizzle ORM com suporte a dialeto SQL Server / MSSQL (`drizzle-orm/sqlserver-core` e `mssql`).
 * **Segurança e Autenticação:** JWT Bearer tokens com RBAC no middleware de contexto (`freelancer` e `contractor`).
 * **Integração no Monorepo:** O pacote exporta a tipagem do `AppRouter` para consumo direto pelo cliente frontend, garantindo autocompletion total de chamadas de API sem necessidade de sincronização manual.

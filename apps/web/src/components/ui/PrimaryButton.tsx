@@ -17,12 +17,12 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'relative flex items-center justify-center font-bold tracking-wide transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none select-none text-sm';
+    'relative flex items-center justify-center font-bold transition-colors duration-150 active:scale-[0.98] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none select-none text-sm';
 
   const variantStyles = {
-    neon: 'bg-[#00E676] hover:bg-[#00FF77] text-black font-extrabold shadow-[0_4px_20px_rgba(0,230,118,0.35)] hover:shadow-[0_6px_28px_rgba(0,230,118,0.5)] rounded-2xl py-4 px-6 border border-[#52ff9e]/40',
-    dark: 'bg-[#1C1C1E] hover:bg-[#252528] text-white border border-white/10 rounded-2xl py-4 px-6 shadow-sm',
-    ghost: 'bg-transparent hover:bg-white/5 text-zinc-400 hover:text-white rounded-2xl py-3 px-6',
+    neon: 'bg-[#34745A] hover:bg-[#3F8266] text-[#F7F9F7] font-extrabold rounded-lg py-3.5 px-5 border border-[#34745A]',
+    dark: 'bg-[#202421] hover:bg-[#292E2A] text-white border border-[#E7ECE8]/10 rounded-lg py-3.5 px-5',
+    ghost: 'bg-transparent hover:bg-[#E7ECE8]/5 text-[#AAB5AE] hover:text-[#F7F9F7] rounded-lg py-3 px-5',
     danger:
       'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-2xl py-4 px-6',
   };

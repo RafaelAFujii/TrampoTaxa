@@ -28,15 +28,15 @@ jobs:
     needs: validate
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Build Web Application
         run: bun run build:web
@@ -50,12 +50,12 @@ jobs:
     needs: validate
     steps:
       - name: Checkout deployment revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Enforce release-risk policy
         run: bun run apps/web/scripts/check-release-risks.ts
@@ -71,12 +71,12 @@ jobs:
       RELEASE_GATE_RESULTS: ${{ needs.validate.outputs.gate-results }}
     steps:
       - name: Checkout deployment revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.4.4'
 
       - name: Enforce release exception policy
         run: bun run apps/web/scripts/check-release-exceptions.ts
@@ -94,4 +94,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5.0.1

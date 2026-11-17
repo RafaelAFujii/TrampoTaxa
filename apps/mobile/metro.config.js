@@ -6,8 +6,8 @@ const monorepoRoot = path.resolve(projectRoot, '../..');
 
 const config = getDefaultConfig(projectRoot);
 
-// 1. Observar arquivos do monorepo para hot reloading compartilhado
-config.watchFolders = [monorepoRoot];
+// 1. Keep Expo's defaults and watch the monorepo for shared package changes
+config.watchFolders = [...new Set([...config.watchFolders, monorepoRoot])];
 
 // 2. Resolução de módulos priorizando local e caindo para a raiz
 config.resolver.nodeModulesPaths = [

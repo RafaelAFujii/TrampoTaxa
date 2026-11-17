@@ -56,7 +56,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   return (
     <div className="w-full flex flex-col gap-1.5 text-left">
       {label && (
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+        <label className="text-xs font-semibold text-[#AAB5AE]">
           {label}
         </label>
       )}
@@ -68,10 +68,10 @@ export const TextInput: React.FC<TextInputProps> = ({
           onChange={handleChange}
           placeholder={placeholder}
           className={`
-            w-full bg-[#18191D] text-white text-[14px] placeholder-zinc-500 rounded-xl px-4 py-3.5
-            border border-white/5 transition-all duration-200
-            focus:outline-none focus:border-[#00E676]/70 focus:ring-1 focus:ring-[#00E676]/40
-            hover:border-white/10
+            w-full bg-[#202421] text-white text-[14px] placeholder-[#AAB5AE] rounded-lg px-4 py-3.5
+            border border-[#E7ECE8]/10 transition-colors duration-150
+            focus:outline-none focus:border-[#E3B23C] focus:ring-1 focus:ring-[#E3B23C]/40
+            hover:border-[#E7ECE8]/20
             ${isPassword ? 'pr-11' : ''}
             ${error ? 'border-red-500/80 focus:border-red-500' : ''}
             ${className}

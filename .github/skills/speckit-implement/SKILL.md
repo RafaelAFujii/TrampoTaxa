@@ -98,6 +98,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **IF EXISTS**: Read research.md for technical decisions and constraints
    - **IF EXISTS**: Read .specify/memory/constitution.md for governance constraints
    - **IF EXISTS**: Read quickstart.md for integration scenarios
+   - **IF EXISTS**: For a user-facing web or mobile interface, read `.github/skills/frontend-design/SKILL.md` and the `Frontend Design` section in plan.md; implement to that approved direction and perform the available visual, responsive, and accessibility review. Do not invent a separate visual direction during implementation.
 
 4. **Project Setup Verification**:
    - **REQUIRED**: Create/verify ignore files based on actual project setup:

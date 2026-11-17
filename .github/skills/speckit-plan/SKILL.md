@@ -65,6 +65,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Phase 0: Generate research.md (resolve all NEEDS CLARIFICATION)
    - Phase 1: Generate data-model.md, contracts/, quickstart.md
    - Re-evaluate Constitution Check post-design
+   - If the feature creates or changes a user-facing web or mobile interface, read `.github/skills/frontend-design/SKILL.md` and apply its plan-review-build-critique process. Record its design plan and uniqueness review in the `Frontend Design` section of `plan.md`. If the subject is missing from the brief, propose a subject, audience, and primary job and confirm them with the user before designing. Skip this step when the feature has no user-facing interface.
 
 ## Mandatory Post-Execution Hooks
 

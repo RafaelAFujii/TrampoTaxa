@@ -189,7 +189,9 @@ export const EarningsScreen: React.FC = () => {
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
-            onRefresh={refetch}
+            onRefresh={() => {
+              void refetch();
+            }}
             tintColor="#00E676"
             colors={['#00E676']}
           />

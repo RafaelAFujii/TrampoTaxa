@@ -43,7 +43,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
 
   return (
     <nav
-      className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141519]/95 backdrop-blur-xl border-t border-white/10 px-3 py-1.5 pb-4 flex items-center justify-around shadow-[0_-8px_25px_rgba(0,0,0,0.7)] ${className}`}
+      className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#171B1A]/98 border-t border-[#E7ECE8]/12 px-3 py-1.5 pb-4 flex items-center justify-around ${className}`}
     >
       {tabs.map((tab) => {
         const Icon = tab.icon;
@@ -59,16 +59,16 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             <div className="relative">
               <Icon
                 className={`w-5 h-5 transition-transform duration-200 group-hover:scale-110 ${
-                  isActive ? 'text-[#00E676]' : 'text-gray-500 hover:text-zinc-300'
+                  isActive ? 'text-[#34745A]' : 'text-[#AAB5AE] hover:text-[#E7ECE8]'
                 }`}
               />
               {isActive && (
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#00E676] shadow-[0_0_8px_#00E676]" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-none bg-[#34745A]" />
               )}
             </div>
             <span
               className={`text-[10px] font-semibold tracking-wider transition-colors duration-200 ${
-                isActive ? 'text-[#00E676]' : 'text-gray-500 group-hover:text-zinc-300'
+                isActive ? 'text-[#34745A]' : 'text-[#AAB5AE] group-hover:text-[#E7ECE8]'
               }`}
             >
               {tab.label}

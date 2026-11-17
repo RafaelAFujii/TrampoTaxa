@@ -76,24 +76,24 @@ export const AppLayout: React.FC = () => {
   const currentPath = location.pathname;
 
   return (
-    <div className="h-screen bg-[#0A0B0E] text-white flex flex-col font-sans selection:bg-[#00E676] selection:text-black overflow-hidden">
+    <div className="h-screen bg-[#171B1A] text-[#F7F9F7] flex flex-col font-sans overflow-hidden">
       {/* ======================================================== */}
       {/* DESKTOP & MOBILE RESPONSIVE HEADER BAR                  */}
       {/* ======================================================== */}
-      <header className="sticky top-0 z-40 bg-[#121418]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-[#171B1A]/95 border-b border-[#E7ECE8]/10 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
           <div
             onClick={() => navigate(isContractor ? '/contractor/dashboard' : '/map')}
             className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
-            <div className="w-8 h-8 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(0,230,118,0.5)] transition-transform group-hover:scale-105">
+            <div className="w-8 h-8 rounded-md border border-[#34745A] bg-[#34745A] text-white font-black flex items-center justify-center text-sm transition-colors group-hover:bg-[#3F8266]">
               T
             </div>
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold tracking-wider text-base text-white">TRAMPO</span>
-                <span className="text-[10px] font-black uppercase bg-[#00E676]/15 text-[#00E676] px-1.5 py-0.5 rounded border border-[#00E676]/30">
+                <span className="text-[10px] font-bold bg-[#34745A]/15 text-[#E7ECE8] px-1.5 py-0.5 rounded-sm border border-[#34745A]/30">
                   {isContractor ? 'B2B' : 'CWB'}
                 </span>
               </div>
@@ -107,7 +107,7 @@ export const AppLayout: React.FC = () => {
         </div>
 
         {/* Center: Desktop Top Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#181a20] p-1 rounded-2xl border border-white/5">
+        <nav className="hidden lg:flex items-center gap-1 bg-[#202421] p-1 rounded-lg border border-[#E7ECE8]/10">
           {isContractor ? (
             /* Links do Contratante */
             <>
@@ -116,7 +116,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/contractor/dashboard')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/contractor/dashboard' || currentPath === '/contractor'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -129,7 +129,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/contractor/gigs')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/contractor/gigs'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -142,7 +142,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/contractor/create')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/contractor/create'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -155,7 +155,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/contractor/reports')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/contractor/reports'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -168,7 +168,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/contractor/chat')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/contractor/chat'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -181,7 +181,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/profile')}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/profile'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -197,7 +197,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/map')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/map'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -210,7 +210,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/earnings')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/earnings'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -223,7 +223,7 @@ export const AppLayout: React.FC = () => {
                 onClick={() => navigate('/profile')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   currentPath === '/profile'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -261,7 +261,7 @@ export const AppLayout: React.FC = () => {
                 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=240&auto=format&fit=crop&q=80'
               }
               alt={user?.name || 'Perfil'}
-              className="w-9 h-9 rounded-full object-cover border-2 border-[#00E676] transition-transform group-hover:scale-105"
+              className="w-9 h-9 rounded-md object-cover border border-[#34745A]"
             />
           </div>
 
