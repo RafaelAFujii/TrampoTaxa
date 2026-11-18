@@ -11,7 +11,7 @@ export const MobileFrame: React.FC<MobileFrameProps> = ({ title, children, class
     <div className={`flex flex-col items-center ${className}`}>
       {title && (
         <div className="mb-3 text-xs font-mono font-medium tracking-widest text-zinc-400 uppercase flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00E676]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#5FA780]" />
           {title}
         </div>
       )}
@@ -25,12 +25,10 @@ export const MobileFrame: React.FC<MobileFrameProps> = ({ title, children, class
         </div>
 
         {/* Screen inner content */}
-        <div className="w-full h-full rounded-[38px] overflow-hidden bg-[#0A0B0E] relative flex flex-col">
+        <div className="w-full h-full rounded-[38px] overflow-hidden bg-[#171B1A] relative flex flex-col">
           {children}
         </div>
 
-        {/* Subtle glass reflection gradient */}
-        <div className="absolute inset-0 rounded-[48px] pointer-events-none bg-gradient-to-tr from-transparent via-white/[0.02] to-white/[0.04]" />
       </div>
     </div>
   );

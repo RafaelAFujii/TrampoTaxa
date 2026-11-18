@@ -152,7 +152,7 @@ export const EarningsScreen: React.FC = () => {
         <View style={styles.venueBadge}>
           <Text style={styles.venueInitial}>{item.venueName.charAt(0)}</Text>
         </View>
-        <View>
+        <View style={styles.historyDetails}>
           <Text style={styles.historyVenue}>{item.venueName}</Text>
           <Text style={styles.historyMeta}>
             {item.role} • {item.date}
@@ -172,7 +172,7 @@ export const EarningsScreen: React.FC = () => {
   if (isLoading) {
     return (
       <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#00E676" />
+        <ActivityIndicator size="large" color="#5FA780" />
         <Text style={styles.loadingText}>Carregando demonstrativo financeiro...</Text>
       </View>
     );
@@ -192,8 +192,8 @@ export const EarningsScreen: React.FC = () => {
             onRefresh={() => {
               void refetch();
             }}
-            tintColor="#00E676"
-            colors={['#00E676']}
+            tintColor="#5FA780"
+            colors={['#5FA780']}
           />
         }
       />
@@ -204,19 +204,23 @@ export const EarningsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
+    padding: 24,
   },
   loadingText: {
-    color: '#00E676',
+    color: '#5FA780',
     marginTop: 12,
     fontSize: 13,
     fontWeight: 'bold',
+    maxWidth: 280,
+    textAlign: 'center',
+    lineHeight: 20,
   },
   listContent: {
     padding: 16,
@@ -243,8 +247,8 @@ const styles = StyleSheet.create({
   },
   kpiCard: {
     flex: 1,
-    backgroundColor: '#141722',
-    borderRadius: 16,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
@@ -255,7 +259,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   kpiValueHighlight: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 15,
     fontWeight: '900',
     marginTop: 4,
@@ -274,10 +278,10 @@ const styles = StyleSheet.create({
   pixInfoBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.08)',
+    backgroundColor: 'rgba(95,167,128, 0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.25)',
-    borderRadius: 16,
+    borderColor: 'rgba(95,167,128, 0.25)',
+    borderRadius: 12,
     padding: 14,
     marginBottom: 20,
   },
@@ -285,14 +289,14 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
     marginRight: 10,
   },
   pixTextContainer: {
     flex: 1,
   },
   pixTitle: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -321,29 +325,36 @@ const styles = StyleSheet.create({
   historyCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#141722',
-    borderRadius: 16,
+    alignItems: 'flex-start',
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 14,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.06)',
   },
   historyLeft: {
+    flex: 1,
+    minWidth: 0,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    marginRight: 12,
+  },
+  historyDetails: {
+    flex: 1,
+    minWidth: 0,
   },
   venueBadge: {
     width: 38,
     height: 38,
     borderRadius: 12,
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   venueInitial: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 16,
     fontWeight: '900',
   },
@@ -351,29 +362,33 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: 'bold',
+    flexShrink: 1,
   },
   historyMeta: {
     color: '#8E95A5',
     fontSize: 11,
     marginTop: 2,
+    flexShrink: 1,
+    lineHeight: 16,
   },
   historyRight: {
     alignItems: 'flex-end',
+    flexShrink: 0,
   },
   historyAmount: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 15,
     fontWeight: '900',
   },
   statusBadge: {
-    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    backgroundColor: 'rgba(95,167,128, 0.12)',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 8,
     marginTop: 4,
   },
   statusText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 10,
     fontWeight: '700',
   },

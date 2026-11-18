@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   Animated,
+  AccessibilityInfo,
   ScrollView,
 } from 'react-native';
 import { useFreelancerGigFlow } from '../hooks/useFreelancerGigFlow';
@@ -17,12 +18,31 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
   onBackToRadar,
 }) => {
   const { activeShift, finishAndReceive } = useFreelancerGigFlow();
+  const [reduceMotion, setReduceMotion] = useState(false);
 
-  const pulseAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+
+    return () => {
+      active = false;
+      subscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      slideAnim.setValue(0);
+      opacityAnim.setValue(1);
+      return;
+    }
+
     // Entrada animada dos cards
     Animated.parallel([
       Animated.timing(slideAnim, {
@@ -37,27 +57,7 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
       }),
     ]).start();
 
-    // Pulso contínuo do status PIX em verde neon
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 1.05,
-          duration: 900,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 900,
-          useNativeDriver: true,
-        }),
-      ])
-    );
-    loop.start();
-
-    return () => {
-      loop.stop();
-    };
-  }, [pulseAnim, slideAnim, opacityAnim]);
+  }, [slideAnim, opacityAnim, reduceMotion]);
 
   const handleFinish = () => {
     finishAndReceive();
@@ -72,9 +72,6 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
 
   return (
     <View style={styles.container}>
-      {/* Efeito Glow de Fundo Radial Verde Neon */}
-      <View style={styles.neonGlowBackground} />
-
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Animated.View
           style={[
@@ -84,7 +81,6 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
         >
           {/* Top Header Comemorativo */}
           <View style={styles.header}>
-            <Text style={styles.fireEmoji}>⚡️</Text>
             <Text style={styles.congratsTitle}>Turno Concluído com Sucesso!</Text>
             <Text style={styles.venueSubtitle}>
               {role} • {venue}
@@ -97,10 +93,10 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
 
             <Text style={styles.heroAmount}>{earnedAmount}</Text>
 
-            <Animated.View style={[styles.pixStatusBanner, { transform: [{ scale: pulseAnim }] }]}>
+            <View style={styles.pixStatusBanner}>
               <View style={styles.pulsingDot} />
               <Text style={styles.pixStatusText}>PIX AGENDADO / LIBERADO</Text>
-            </Animated.View>
+            </View>
 
             <Text style={styles.pixTimelineText}>
               Aprovado tacitamente sem contestação. Repasse integral direto na sua chave PIX.
@@ -137,7 +133,7 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
 
           {/* Botão de Fechar e Voltar ao Radar */}
           <TouchableOpacity style={styles.primaryButton} activeOpacity={0.88} onPress={handleFinish}>
-            <Text style={styles.primaryButtonText}>VOLTAR AO RADAR DE TAXAS ➔</Text>
+            <Text style={styles.primaryButtonText}>Voltar ao radar de taxas</Text>
           </TouchableOpacity>
         </Animated.View>
       </ScrollView>
@@ -148,16 +144,7 @@ export const HighDopamineEarningsScreen: React.FC<HighDopamineEarningsScreenProp
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#07080B',
-  },
-  neonGlowBackground: {
-    position: 'absolute',
-    top: -120,
-    alignSelf: 'center',
-    width: 320,
-    height: 320,
-    borderRadius: 160,
-    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    backgroundColor: '#171B1A',
   },
   scrollContent: {
     padding: 20,
@@ -170,18 +157,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: '100%',
     marginBottom: 20,
-  },
-  fireEmoji: {
-    fontSize: 38,
-    marginBottom: 6,
   },
   congratsTitle: {
     color: '#FFFFFF',
     fontSize: 22,
-    fontWeight: '900',
-    textAlign: 'center',
+    fontWeight: '700',
+    textAlign: 'left',
   },
   venueSubtitle: {
     color: '#94A3B8',
@@ -191,41 +175,40 @@ const styles = StyleSheet.create({
   },
   heroEarningsCard: {
     width: '100%',
-    backgroundColor: '#0F121A',
-    borderRadius: 28,
-    borderWidth: 2,
-    borderColor: '#00E676',
+    backgroundColor: '#202421',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(95,167,128,0.3)',
     padding: 24,
-    alignItems: 'center',
-    shadowColor: '#00E676',
+    alignItems: 'flex-start',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 20,
-    elevation: 12,
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    elevation: 4,
     marginBottom: 20,
   },
   heroLabel: {
     color: '#8E95A5',
     fontSize: 11,
-    fontWeight: '900',
-    letterSpacing: 1,
+    fontWeight: '600',
   },
   heroAmount: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 44,
-    fontWeight: '900',
+    fontWeight: '700',
     marginVertical: 10,
     letterSpacing: -0.5,
   },
   pixStatusBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.18)',
+    backgroundColor: 'rgba(95,167,128, 0.18)',
     borderWidth: 1,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: 8,
     gap: 8,
     marginBottom: 12,
   },
@@ -233,10 +216,10 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   pixStatusText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.5,
@@ -244,13 +227,13 @@ const styles = StyleSheet.create({
   pixTimelineText: {
     color: '#94A3B8',
     fontSize: 11,
-    textAlign: 'center',
-    maxWidth: 260,
+    textAlign: 'left',
+    maxWidth: '100%',
   },
   summaryCard: {
     width: '100%',
-    backgroundColor: '#12141C',
-    borderRadius: 20,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
     padding: 18,
@@ -264,8 +247,10 @@ const styles = StyleSheet.create({
   },
   summaryRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 8,
     paddingVertical: 8,
   },
   summaryLabel: {
@@ -278,7 +263,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   summaryValueHighlight: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -288,20 +273,15 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     width: '100%',
-    backgroundColor: '#00E676',
-    borderRadius: 18,
+    backgroundColor: '#5FA780',
+    borderRadius: 8,
     paddingVertical: 18,
+    minHeight: 48,
     alignItems: 'center',
-    shadowColor: '#00E676',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
   },
   primaryButtonText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 14,
     fontWeight: '900',
-    letterSpacing: 0.5,
   },
 });

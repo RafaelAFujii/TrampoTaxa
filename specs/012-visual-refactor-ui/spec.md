@@ -8,6 +8,12 @@
 
 **Input**: User description: "realize uma refatoracao visual utilizando a nova skill /frontend-design tirando a cara de IA, nao altere fluxo ou funcionalidades apenas refatore e deixe com menos cara de IA"
 
+## Clarifications
+
+### Session 2026-11-17
+
+- Q: Você quer interromper a execução das 20 tarefas pendentes e encerrar aqui, ou quis dizer para continuar executando-as? → A: Continuar e concluir as tarefas restantes planejadas.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Navegacao visual com identidade propria (Priority: P1)

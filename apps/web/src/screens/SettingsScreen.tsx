@@ -45,7 +45,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
             onClick={handleBack}
             className="flex items-center gap-2 py-2 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer text-xs sm:text-sm font-semibold"
           >
-            <ChevronLeft className="w-4 h-4 text-[#00E676]" />
+            <ChevronLeft className="w-4 h-4 text-[#5FA780]" />
             <span>Voltar ao Perfil</span>
           </button>
 
@@ -57,10 +57,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
         </div>
 
         {/* Section 1: Preferências de Trabalho */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 shadow-sm space-y-6">
           <div>
             <div className="flex items-center gap-2.5 mb-1.5">
-              <Sliders className="w-4 h-4 text-[#00E676]" />
+              <Sliders className="w-4 h-4 text-[#5FA780]" />
               <h2 className="text-base sm:text-lg font-bold text-white">
                 Preferências de Trabalho
               </h2>
@@ -75,17 +75,17 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
             {/* Bartender Card */}
             <div
               onClick={() => setBartenderActive(!bartenderActive)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between select-none ${
+              className={`p-5 rounded-lg border transition-all cursor-pointer flex items-center justify-between select-none ${
                 bartenderActive
-                  ? 'bg-[#00E676]/10 border-[#00E676] shadow-[0_0_15px_rgba(0,230,118,0.15)]'
-                  : 'bg-[#181a20] border-white/5 opacity-70 hover:opacity-100'
+                  ? 'bg-[#5FA780]/10 border-[#5FA780] '
+                  : 'bg-[#202421] border-white/5 opacity-70 hover:opacity-100'
               }`}
             >
               <div className="flex items-center gap-3.5">
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                     bartenderActive
-                      ? 'bg-[#00E676] text-black font-bold'
+                      ? 'bg-[#5FA780] text-black font-bold'
                       : 'bg-white/5 text-zinc-400'
                   }`}
                 >
@@ -100,7 +100,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
               {/* iOS switch */}
               <div
                 className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                  bartenderActive ? 'bg-[#00E676]' : 'bg-zinc-700'
+                  bartenderActive ? 'bg-[#5FA780]' : 'bg-zinc-700'
                 }`}
               >
                 <span
@@ -114,16 +114,16 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
             {/* Garçom Card */}
             <div
               onClick={() => setGarcomActive(!garcomActive)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between select-none ${
+              className={`p-5 rounded-lg border transition-all cursor-pointer flex items-center justify-between select-none ${
                 garcomActive
-                  ? 'bg-[#00E676]/10 border-[#00E676] shadow-[0_0_15px_rgba(0,230,118,0.15)]'
-                  : 'bg-[#181a20] border-white/5 opacity-70 hover:opacity-100'
+                  ? 'bg-[#5FA780]/10 border-[#5FA780] '
+                  : 'bg-[#202421] border-white/5 opacity-70 hover:opacity-100'
               }`}
             >
               <div className="flex items-center gap-3.5">
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    garcomActive ? 'bg-[#00E676] text-black font-bold' : 'bg-white/5 text-zinc-400'
+                    garcomActive ? 'bg-[#5FA780] text-black font-bold' : 'bg-white/5 text-zinc-400'
                   }`}
                 >
                   <Utensils className="w-6 h-6" />
@@ -137,7 +137,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
               {/* iOS switch */}
               <div
                 className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                  garcomActive ? 'bg-[#00E676]' : 'bg-zinc-700'
+                  garcomActive ? 'bg-[#5FA780]' : 'bg-zinc-700'
                 }`}
               >
                 <span
@@ -151,10 +151,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
         </div>
 
         {/* Section 2: Raio de Distância */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 shadow-sm space-y-6">
           <div>
             <div className="flex items-center gap-2.5 mb-1.5">
-              <MapPin className="w-4 h-4 text-[#00E676]" />
+              <MapPin className="w-4 h-4 text-[#5FA780]" />
               <h2 className="text-base sm:text-lg font-bold text-white">
                 Raio de Distância Máxima
               </h2>
@@ -165,10 +165,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
             </p>
           </div>
 
-          <div className="bg-[#181a20] border border-white/5 rounded-2xl p-6 space-y-4">
+          <div className="bg-[#202421] border border-white/5 rounded-lg p-6 space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-zinc-300 font-medium">Distância configurada:</span>
-              <span className="text-base font-black text-[#00E676] bg-[#00E676]/10 px-3 py-1 rounded-full border border-[#00E676]/30">
+              <span className="text-base font-black text-[#5FA780] bg-[#5FA780]/10 px-3 py-1 rounded-full border border-[#5FA780]/30">
                 {maxDistanceKm} km
               </span>
             </div>
@@ -180,7 +180,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
               step="1"
               value={maxDistanceKm}
               onChange={handleSliderChange}
-              className="w-full h-2.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#00E676]"
+              className="w-full h-2.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#5FA780]"
             />
 
             <div className="flex justify-between text-xs text-zinc-500 font-bold px-1">
@@ -193,10 +193,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
         </div>
 
         {/* Section 3: Notificações em Tempo Real */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[#00E676]">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[#5FA780]">
                 <Bell className="w-5 h-5" />
               </div>
               <div>
@@ -210,7 +210,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack, onSave }
             <div
               onClick={() => setPushNotifications(!pushNotifications)}
               className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out cursor-pointer ${
-                pushNotifications ? 'bg-[#00E676]' : 'bg-zinc-700'
+                pushNotifications ? 'bg-[#5FA780]' : 'bg-zinc-700'
               }`}
             >
               <span

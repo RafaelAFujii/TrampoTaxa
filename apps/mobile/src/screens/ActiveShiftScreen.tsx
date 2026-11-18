@@ -182,7 +182,7 @@ export const ActiveShiftScreen: React.FC<ActiveShiftScreenProps> = ({ onBackToRa
         {isAwaitingAutoCheckout && (
           <View style={styles.actionSection}>
             <View style={styles.autoCheckoutBox}>
-              <ActivityIndicator color="#00E676" style={{ marginBottom: 12 }} />
+              <ActivityIndicator color="#5FA780" style={{ marginBottom: 12 }} />
               <Text style={styles.autoCheckoutTitle}>Janela de Contestação em Andamento (2 Horas)</Text>
               <Text style={styles.autoCheckoutDesc}>
                 O encerramento do turno foi registrado. Se a gerência não contestar no prazo de 2 horas (simulada em segundos neste teste), o sistema aprovará automaticamente e agendará seu PIX.
@@ -234,7 +234,7 @@ export const ActiveShiftScreen: React.FC<ActiveShiftScreenProps> = ({ onBackToRa
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   content: {
     padding: 16,
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   emptyIcon: {
     fontSize: 48,
@@ -256,6 +256,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '900',
     textAlign: 'center',
+    maxWidth: 280,
+    lineHeight: 24,
   },
   emptySubtitle: {
     color: '#8E95A5',
@@ -267,25 +269,25 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginTop: 20,
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
     borderWidth: 1,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 14,
   },
   backButtonText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontWeight: 'bold',
     fontSize: 13,
   },
   statusHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#12141C',
+    backgroundColor: '#202421',
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
     gap: 10,
@@ -295,7 +297,7 @@ const styles = StyleSheet.create({
     width: 14,
     height: 14,
     borderRadius: 7,
-    backgroundColor: 'rgba(0, 230, 118, 0.2)',
+    backgroundColor: 'rgba(95,167,128, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -303,13 +305,13 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   pulseIndicatorWarning: {
     backgroundColor: '#F59E0B',
   },
   pulseIndicatorPix: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   statusHeaderText: {
     color: '#FFFFFF',
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   shiftCard: {
-    backgroundColor: '#141722',
+    backgroundColor: '#202421',
     borderRadius: 22,
     padding: 20,
     borderWidth: 1,
@@ -331,7 +333,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   roleTag: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 11,
     fontWeight: '900',
     textTransform: 'uppercase',
@@ -356,7 +358,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   rateValue: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 20,
     fontWeight: '900',
     marginTop: 2,
@@ -378,7 +380,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#1E232E',
+    backgroundColor: '#202421',
     color: '#64748B',
     textAlign: 'center',
     lineHeight: 24,
@@ -387,14 +389,16 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   stepDotCompleted: {
-    backgroundColor: '#00E676',
-    color: '#0A0B0E',
+    backgroundColor: '#5FA780',
+    color: '#171B1A',
   },
   stepText: {
     color: '#8E95A5',
     fontSize: 10,
     textAlign: 'center',
     fontWeight: '600',
+    flexShrink: 1,
+    lineHeight: 14,
   },
   stepConnector: {
     height: 1,
@@ -406,8 +410,8 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   instructionBanner: {
-    backgroundColor: '#12141C',
-    borderRadius: 18,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 16,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.06)',
@@ -422,20 +426,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 4,
     lineHeight: 18,
+    flexShrink: 1,
   },
   primaryActionButton: {
-    backgroundColor: '#00E676',
-    borderRadius: 16,
+    backgroundColor: '#5FA780',
+    borderRadius: 12,
     paddingVertical: 18,
     alignItems: 'center',
-    shadowColor: '#00E676',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
     shadowRadius: 10,
     elevation: 6,
   },
   primaryActionText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 14,
     fontWeight: '900',
     letterSpacing: 0.5,
@@ -443,10 +448,10 @@ const styles = StyleSheet.create({
   activeShiftBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.08)',
+    backgroundColor: 'rgba(95,167,128, 0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.25)',
-    borderRadius: 16,
+    borderColor: 'rgba(95,167,128, 0.25)',
+    borderRadius: 12,
     padding: 16,
     gap: 12,
   },
@@ -454,10 +459,10 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   activeShiftTitle: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 14,
     fontWeight: '800',
   },
@@ -465,23 +470,24 @@ const styles = StyleSheet.create({
     color: '#CBD5E1',
     fontSize: 12,
     marginTop: 2,
+    flexShrink: 1,
   },
   checkoutButton: {
-    backgroundColor: '#181D2A',
+    backgroundColor: '#292E2A',
     borderWidth: 1.5,
-    borderColor: '#00E676',
-    borderRadius: 16,
+    borderColor: '#5FA780',
+    borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
   },
   checkoutButtonText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 13,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
   autoCheckoutBox: {
-    backgroundColor: '#12141C',
+    backgroundColor: '#202421',
     borderRadius: 20,
     padding: 20,
     borderWidth: 1,
@@ -516,15 +522,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   pixScheduledBox: {
-    backgroundColor: 'rgba(0, 230, 118, 0.1)',
+    backgroundColor: 'rgba(95,167,128, 0.1)',
     borderRadius: 20,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
     alignItems: 'center',
   },
   pixScheduledTitle: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 16,
     fontWeight: '900',
   },
@@ -536,18 +542,18 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   reviewLaunchButton: {
-    backgroundColor: '#00E676',
-    borderRadius: 16,
+    backgroundColor: '#5FA780',
+    borderRadius: 12,
     paddingVertical: 18,
     alignItems: 'center',
-    shadowColor: '#00E676',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
     shadowRadius: 10,
     elevation: 8,
   },
   reviewLaunchText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 13,
     fontWeight: '900',
     letterSpacing: 0.5,

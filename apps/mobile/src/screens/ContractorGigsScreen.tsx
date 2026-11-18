@@ -248,10 +248,10 @@ export const ContractorGigsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   filterBar: {
-    backgroundColor: '#0F1117',
+    backgroundColor: '#202421',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderBottomWidth: 1,
@@ -262,13 +262,15 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   filterChip: {
+    minHeight: 44,
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    justifyContent: 'center',
   },
   filterChipActive: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   filterChipText: {
     color: '#8E95A5',
@@ -276,19 +278,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   filterChipTextActive: {
-    color: '#0A0B0E',
+    color: '#171B1A',
   },
   syncBanner: {
     margin: 16,
     marginBottom: 8,
-    backgroundColor: 'rgba(0, 230, 118, 0.08)',
+    backgroundColor: 'rgba(95,167,128, 0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.25)',
-    borderRadius: 16,
+    borderColor: 'rgba(95,167,128, 0.25)',
+    borderRadius: 12,
     padding: 14,
   },
   syncBannerTitle: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 13,
     fontWeight: '900',
   },
@@ -305,7 +307,7 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   gigCard: {
-    backgroundColor: '#141722',
+    backgroundColor: '#202421',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
@@ -328,7 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   statusBadgeOpen: {
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
   },
   statusBadgeFilled: {
     backgroundColor: 'rgba(59, 130, 246, 0.15)',
@@ -338,7 +340,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   statusTextOpen: {
-    color: '#00E676',
+    color: '#5FA780',
   },
   statusTextFilled: {
     color: '#60A5FA',
@@ -349,7 +351,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   rateText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 16,
     fontWeight: '900',
   },
@@ -375,32 +377,32 @@ const styles = StyleSheet.create({
   },
   qrButton: {
     flex: 1,
-    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    backgroundColor: 'rgba(95,167,128, 0.12)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.3)',
+    borderColor: 'rgba(95,167,128, 0.3)',
     borderRadius: 12,
     paddingVertical: 10,
     alignItems: 'center',
   },
   qrButtonText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: '900',
   },
   pixApproveButton: {
     flex: 1,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
     borderRadius: 12,
     paddingVertical: 10,
     alignItems: 'center',
   },
   pixApproveButtonText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 12,
     fontWeight: '900',
   },
   applicantsSection: {
-    backgroundColor: '#0F1117',
+    backgroundColor: '#202421',
     borderRadius: 14,
     padding: 12,
     gap: 8,
@@ -449,13 +451,13 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   approveButton: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
   },
   approveButtonText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 11,
     fontWeight: '900',
   },
@@ -479,8 +481,8 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: '100%',
-    backgroundColor: '#12141C',
-    borderRadius: 24,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.12)',
@@ -506,7 +508,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   modalSubtitle: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     marginTop: 4,
     marginBottom: 16,
@@ -524,7 +526,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderWidth: 2,
-    borderColor: '#0A0B0E',
+    borderColor: '#171B1A',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -533,14 +535,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 18,
     height: 18,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   qrTopLeft: { top: 6, left: 6 },
   qrTopRight: { top: 6, right: 6 },
   qrBottomLeft: { bottom: 6, left: 6 },
   qrBottomRight: { bottom: 6, right: 6 },
   qrMockCodeText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontWeight: '900',
     fontSize: 11,
     letterSpacing: 1,
@@ -556,7 +558,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   modalSecretValue: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 13,
     fontWeight: '900',
     fontFamily: 'monospace',

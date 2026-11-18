@@ -92,7 +92,7 @@ export const MapScreen: React.FC = () => {
   if (isLoading) {
     return (
       <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#00E676" />
+        <ActivityIndicator size="large" color="#5FA780" />
         <Text style={styles.loadingText}>Sincronizando radar de taxas...</Text>
       </View>
     );
@@ -217,7 +217,7 @@ export const MapScreen: React.FC = () => {
                 onPress={() => setSelectedGig(gig)}
               >
                 <View style={styles.gigCardHeader}>
-                  <View>
+                  <View style={styles.gigDetails}>
                     <View style={styles.tagContainer}>
                       <Text style={styles.professionTag}>{gig.profession}</Text>
                       <Text style={styles.distanceText}>{gig.distance}</Text>
@@ -274,7 +274,7 @@ export const MapScreen: React.FC = () => {
       {viewMode === 'map' && selectedGig && (
         <View style={styles.floatingCard}>
           <View style={styles.floatingHeader}>
-            <View>
+            <View style={styles.floatingDetails}>
               <Text style={styles.professionTag}>{selectedGig.profession}</Text>
               <Text style={styles.floatingVenue}>{selectedGig.venueName}</Text>
               <Text style={styles.floatingNeighborhood}>{selectedGig.neighborhood} • {selectedGig.distance}</Text>
@@ -332,34 +332,45 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
     padding: 24,
   },
   loadingText: {
-    color: '#00E676',
+    color: '#5FA780',
     marginTop: 14,
     fontSize: 14,
     fontWeight: 'bold',
+    maxWidth: 280,
+    textAlign: 'center',
+    lineHeight: 20,
   },
   errorTitle: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+    maxWidth: 280,
+    textAlign: 'center',
+    lineHeight: 22,
   },
   errorSubtitle: {
     color: '#8E95A5',
     fontSize: 12,
     marginTop: 6,
+    maxWidth: 280,
+    textAlign: 'center',
+    lineHeight: 18,
   },
   retryButton: {
     marginTop: 16,
-    backgroundColor: '#00E676',
+    minHeight: 44,
+    backgroundColor: '#5FA780',
     paddingHorizontal: 18,
     paddingVertical: 10,
     borderRadius: 12,
+    justifyContent: 'center',
   },
   retryButtonText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontWeight: 'bold',
     fontSize: 13,
   },
@@ -368,7 +379,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
-    backgroundColor: '#0F1117',
+    backgroundColor: '#202421',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.08)',
   },
@@ -378,14 +389,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   filterChip: {
+    minHeight: 44,
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.06)',
     marginRight: 6,
+    justifyContent: 'center',
   },
   filterChipActive: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   filterChipText: {
     color: '#8E95A5',
@@ -393,19 +406,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   filterChipTextActive: {
-    color: '#0A0B0E',
+    color: '#171B1A',
   },
   toggleViewButton: {
     marginLeft: 'auto',
+    minHeight: 44,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.3)',
+    borderColor: 'rgba(95,167,128, 0.3)',
+    justifyContent: 'center',
   },
   toggleViewText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 11,
     fontWeight: 'bold',
   },
@@ -418,34 +433,34 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   customMarker: {
-    backgroundColor: '#12141C',
+    backgroundColor: '#202421',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: '#00E676',
-    shadowColor: '#00E676',
+    borderColor: '#5FA780',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 6,
     elevation: 4,
   },
   customMarkerSelected: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
     borderColor: '#FFFFFF',
     transform: [{ scale: 1.1 }],
   },
   markerRateText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: '900',
   },
   markerRateTextSelected: {
-    color: '#0A0B0E',
+    color: '#171B1A',
   },
   listContainer: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   listScrollContent: {
     padding: 16,
@@ -465,30 +480,36 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   gigCard: {
-    backgroundColor: '#141722',
-    borderRadius: 18,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
   },
   gigCardSelected: {
-    borderColor: '#00E676',
-    backgroundColor: '#181D2A',
+    borderColor: '#5FA780',
+    backgroundColor: '#292E2A',
   },
   gigCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    gap: 12,
+  },
+  gigDetails: {
+    flex: 1,
+    minWidth: 0,
   },
   tagContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
     gap: 6,
     marginBottom: 4,
   },
   professionTag: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 11,
     fontWeight: '800',
     textTransform: 'uppercase',
@@ -498,6 +519,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   venueName: {
+    flexShrink: 1,
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
@@ -507,12 +529,14 @@ const styles = StyleSheet.create({
     color: '#8E95A5',
     fontSize: 12,
     marginTop: 2,
+    flexShrink: 1,
   },
   rateContainer: {
     alignItems: 'flex-end',
+    flexShrink: 0,
   },
   rateFormatted: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 17,
     fontWeight: '900',
   },
@@ -523,8 +547,10 @@ const styles = StyleSheet.create({
   },
   gigCardFooter: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 8,
     marginTop: 14,
     paddingTop: 10,
     borderTopWidth: 1,
@@ -533,37 +559,43 @@ const styles = StyleSheet.create({
   shiftTimeText: {
     color: '#CBD5E1',
     fontSize: 12,
+    flexShrink: 1,
   },
   actionButton: {
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
+    minHeight: 44,
     paddingHorizontal: 14,
     paddingVertical: 7,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.4)',
+    borderColor: 'rgba(95,167,128, 0.4)',
+    justifyContent: 'center',
+    flexShrink: 1,
+    maxWidth: '100%',
   },
   actionButtonSuccess: {
-    backgroundColor: '#00E676',
-    borderColor: '#00E676',
+    backgroundColor: '#5FA780',
+    borderColor: '#5FA780',
   },
   actionButtonText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: 'bold',
+    flexShrink: 1,
   },
   actionButtonTextSuccess: {
-    color: '#0A0B0E',
+    color: '#171B1A',
   },
   floatingCard: {
     position: 'absolute',
     bottom: 16,
     left: 16,
     right: 16,
-    backgroundColor: '#141722',
+    backgroundColor: '#202421',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.4)',
+    borderColor: 'rgba(95,167,128, 0.4)',
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.6,
@@ -574,42 +606,56 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    gap: 12,
+  },
+  floatingDetails: {
+    flex: 1,
+    minWidth: 0,
   },
   floatingVenue: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 2,
+    flexShrink: 1,
   },
   floatingNeighborhood: {
     color: '#8E95A5',
     fontSize: 12,
     marginTop: 2,
+    flexShrink: 1,
   },
   floatingRate: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 18,
     fontWeight: '900',
   },
   floatingFooter: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 8,
     marginTop: 12,
     paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: 'rgba(255, 255, 255, 0.08)',
   },
   floatingApplyButton: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
+    minHeight: 44,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 12,
+    justifyContent: 'center',
+    flexShrink: 1,
+    maxWidth: '100%',
   },
   floatingApplyText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 12,
     fontWeight: 'bold',
+    flexShrink: 1,
   },
   overbookingRow: {
     flexDirection: 'row',
@@ -621,9 +667,9 @@ const styles = StyleSheet.create({
   overbookingPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    backgroundColor: 'rgba(95,167,128, 0.12)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 230, 118, 0.3)',
+    borderColor: 'rgba(95,167,128, 0.3)',
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -636,10 +682,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#64748B',
   },
   overbookingDotActive: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   overbookingPillText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 10,
     fontWeight: '900',
     letterSpacing: 0.3,
@@ -658,18 +704,18 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   gigCardConfirmed: {
-    borderColor: '#00E676',
-    backgroundColor: 'rgba(0, 230, 118, 0.05)',
+    borderColor: '#5FA780',
+    backgroundColor: 'rgba(95,167,128, 0.05)',
   },
   hiredBadge: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 2,
     marginLeft: 4,
   },
   hiredBadgeText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 9,
     fontWeight: '900',
   },

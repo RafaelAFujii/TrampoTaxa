@@ -82,12 +82,12 @@ packages/shared/src/
 **Color**:
 - Asfalto profundo: `#171B1A` para superfícies principais.
 - Concreto claro: `#E7ECE8` para superficies de leitura.
-- Verde trabalho: `#34745A` para estados positivos e confirmacoes.
+- Verde trabalho: `#5FA780` para estados positivos e confirmacoes, escolhido por manter contraste sobre o asfalto.
 - Sinal amarelo: `#E3B23C` para destaque moderado e atencao.
 - Vermelho telha: `#B85C3D` para erros e situacoes que exigem confirmacao.
 - Branco gelado: `#F7F9F7` para texto sobre superficies claras.
 
-**Type**: Familia `Archivo` para titulos e numeros curtos, com peso 600-800 e largura compacta; `Public Sans` para corpo, formulario e labels, com peso 400-600. Fallback seguro para sistema. Titulos ficam alinhados a esquerda e com linhas curtas; corpo usa largura contida.
+**Type**: `Arial Narrow` (com fallback `Roboto Condensed`/`Segoe UI`) para titulos e numeros curtos, com peso 600-800; `Segoe UI` e sans-serif de sistema para corpo, formulario e labels, com peso 400-600. Sem downloads de fontes externas. Titulos ficam alinhados a esquerda e com linhas curtas; corpo usa largura contida.
 
 **Layout**: Preservar a arquitetura atual, mas substituir superfícies em excesso por paineis, bordas e divisores com hierarquia funcional. No desktop, o mapa ou conteudo principal ocupa a area util e o painel contextual fica em coluna estreita quando necessario; a navegacao permanece previsivel. No mobile, as acoes de maior frequencia ficam no topo ou proximo da area de alcance sem esconder o conteudo. Nada sera centralizado por padrao.
 
@@ -115,7 +115,7 @@ Mobile:
 ```
 
 **Principles**:
-- Substituir o visual neon e as sombras luminosas por contraste material, bordas finas e superficies opacas.
+- Substituir o visual neon e as sombras luminosas por contraste material, bordas finas e superficies opacas; usar texto escuro em botoes preenchidos de verde.
 - Usar a paleta verde como sinal funcional, nao como filtro universal.
 - Aplicar tokens visuais consistentes a botoes, cards, estados e navegacao.
 - Remover decoracao que nao comunica hierarquia ou estado.

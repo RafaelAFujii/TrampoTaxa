@@ -34,9 +34,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0B0E] flex items-center justify-center">
+      <div className="min-h-screen bg-[#171B1A] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 rounded-full border-2 border-[#00E676] border-t-transparent animate-spin" />
+          <div className="w-8 h-8 rounded-full border-2 border-[#5FA780] border-t-transparent animate-spin" />
           <span className="text-xs font-semibold text-zinc-400">Carregando autenticação...</span>
         </div>
       </div>

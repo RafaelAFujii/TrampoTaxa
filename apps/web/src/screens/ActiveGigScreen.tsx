@@ -103,7 +103,7 @@ function RealRouteRenderer({
 
         const newPolylines = primaryRoute.createPolylines({
           polylineOptions: {
-            strokeColor: '#00E676',
+            strokeColor: '#5FA780',
             strokeWeight: 6,
             strokeOpacity: 0.95,
           },
@@ -146,12 +146,12 @@ function RealRouteRenderer({
     <>
       <AdvancedMarker position={USER_ORIGIN} title="Sua localização atual">
         <div className="flex items-center justify-center">
-          <span className="w-4 h-4 rounded-full bg-white border-2 border-[#00E676] shadow-[0_0_10px_#00E676]" />
+          <span className="w-4 h-4 rounded-full bg-white border-2 border-[#5FA780]" />
         </div>
       </AdvancedMarker>
 
       <AdvancedMarker position={destination} title={venueName}>
-        <div className="px-2.5 py-1 rounded-full bg-[#00E676] text-black text-[11px] font-black shadow-lg border border-black/20">
+        <div className="px-2.5 py-1 rounded-full bg-[#5FA780] text-black text-[11px] font-black shadow-lg border border-black/20">
           {venueName}
         </div>
       </AdvancedMarker>
@@ -159,7 +159,7 @@ function RealRouteRenderer({
       {routeInfo && (
         <>
           <div className="absolute top-4 left-4 z-20 bg-black/85 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 flex items-center gap-2 shadow-lg">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#00E676] animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#5FA780] animate-pulse" />
             <span className="text-xs font-bold text-white">
               ETA Google Maps: {routeInfo.distance}
             </span>
@@ -267,7 +267,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
 
   if (!gig) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#0d1017] text-white">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#171B1A] text-white">
         <p>{isLoading ? 'Carregando a vaga...' : 'Não foi possível carregar a vaga.'}</p>
         {isError && (
           <button className="underline" onClick={() => void refetch()}>
@@ -324,8 +324,8 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   const externalNavigationUrl = `https://www.google.com/maps/dir/?api=1&origin=${USER_ORIGIN.lat},${USER_ORIGIN.lng}&destination=${gigLocation.lat},${gigLocation.lng}&travelmode=driving`;
 
   const fallbackRouteVisual = (
-    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0d1017]">
-      <div className="w-12 h-12 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/20 flex items-center justify-center text-[#00E676] mb-3">
+    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#171B1A]">
+      <div className="w-12 h-12 rounded-lg bg-[#5FA780]/10 border border-[#5FA780]/20 flex items-center justify-center text-[#5FA780] mb-3">
         <Navigation className="w-6 h-6 animate-pulse" />
       </div>
       <h4 className="text-sm font-bold text-white mb-1">
@@ -334,7 +334,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
       <p className="text-xs text-zinc-400 max-w-xs mb-3">
         Distância estimada: {gig.distance} • Tempo aproximado: ~12 minutos
       </p>
-      <div className="flex items-center gap-2 text-[11px] font-bold text-[#00E676] bg-[#00E676]/10 px-3 py-1 rounded-full border border-[#00E676]/30">
+      <div className="flex items-center gap-2 text-[11px] font-bold text-[#5FA780] bg-[#5FA780]/10 px-3 py-1 rounded-full border border-[#5FA780]/30">
         <MapPin className="w-3.5 h-3.5" />
         <span>Destino: {gig.venueName}</span>
       </div>
@@ -342,7 +342,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
   );
 
   return (
-    <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-10 bg-[#0A0B0E]">
+    <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-10 bg-[#171B1A]">
       <div className="w-full max-w-4xl space-y-6">
         {/* Top Header & Breadcrumb */}
         <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -352,12 +352,12 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               onClick={handleBack}
               className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors cursor-pointer"
             >
-              <ChevronLeft className="w-4 h-4 text-[#00E676]" />
+              <ChevronLeft className="w-4 h-4 text-[#5FA780]" />
             </button>
             <div className="flex items-center gap-2">
               <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00E676]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5FA780] opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#5FA780]" />
               </span>
               <h1 className="text-lg sm:text-xl font-black uppercase tracking-wider text-white">
                 Turno em Andamento
@@ -365,7 +365,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
             </div>
           </div>
 
-          <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30">
+          <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-[#5FA780]/15 text-[#5FA780] border border-[#5FA780]/30">
             {currentPhase === 'heading'
               ? 'A Caminho (Check-in Pendente)'
               : currentPhase === 'in_shift'
@@ -377,18 +377,18 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
         </div>
 
         {isLoading && (
-          <div className="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] text-[#00E676]">
-            <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+          <div className="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] text-[#5FA780]">
+            <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse" />
             Carregando detalhes do turno (React Query)...
           </div>
         )}
         {isError && (
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
-            <span>Erro ao carregar detalhes do turno.</span>
+          <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
+            <span className="min-w-0 flex-1">Erro ao carregar detalhes do turno.</span>
             <button
               type="button"
               onClick={() => refetch()}
-              className="px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
+              className="shrink-0 px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
             >
               Tentar novamente
             </button>
@@ -400,10 +400,10 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
           {/* Left Column (5 cols): Gig Info & Presentation Rules */}
           <div className="lg:col-span-5 space-y-5">
             {/* Restaurant Card */}
-            <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 shadow-md space-y-4">
+            <div className="bg-[#202421] border border-white/10 rounded-xl p-6 shadow-md space-y-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-xs font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/10 px-2.5 py-0.5 rounded-full border border-[#00E676]/20">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/10 px-2.5 py-0.5 rounded-full border border-[#5FA780]/20">
                     {gig.profession}
                   </span>
                   <h2 className="text-2xl font-black text-white mt-2 tracking-tight">
@@ -419,7 +419,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
                     TAXA
                   </span>
-                  <span className="text-2xl font-black text-[#00E676] block">
+                  <span className="text-2xl font-black text-[#5FA780] block">
                     {gig.rateFormatted}
                   </span>
                 </div>
@@ -427,7 +427,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
 
               <div className="border-t border-white/5 pt-3 flex items-center justify-between text-xs text-zinc-300">
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-[#00E676]" />
+                  <Clock className="w-4 h-4 text-[#5FA780]" />
                   <span className="font-semibold">{gig.shiftTime}</span>
                 </div>
                 <span className="text-xs text-zinc-400 bg-white/5 px-2.5 py-1 rounded-md">
@@ -437,8 +437,8 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
             </div>
 
             {/* Regras de Apresentação Card */}
-            <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-black uppercase text-[#00E676]">
+            <div className="bg-[#202421] border border-white/10 rounded-xl p-5 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-black uppercase text-[#5FA780]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Regras de Apresentação</span>
               </div>
@@ -448,19 +448,19 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
             </div>
 
             {/* Establishment Contact & Chat com o Gerente */}
-            <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 space-y-3.5 shadow-md">
+            <div className="bg-[#202421] border border-white/10 rounded-xl p-5 space-y-3.5 shadow-md">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/30 flex items-center justify-center text-[#00E676]">
+                    <div className="w-10 h-10 rounded-lg bg-[#5FA780]/15 border border-[#5FA780]/30 flex items-center justify-center text-[#5FA780]">
                       <MessageSquare className="w-5 h-5" />
                     </div>
-                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00E676] border-2 border-[#121418]" />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#5FA780] border-2 border-[#202421]" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-white block">Gerência de Salão</span>
-                      <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30">
+                      <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded bg-[#5FA780]/15 text-[#5FA780] border border-[#5FA780]/30">
                         Online
                       </span>
                     </div>
@@ -473,7 +473,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                   title="Ligar para o estabelecimento"
                   className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 transition-colors cursor-pointer"
                 >
-                  <Phone className="w-4 h-4 text-[#00E676]" />
+                  <Phone className="w-4 h-4 text-[#5FA780]" />
                 </a>
               </div>
 
@@ -481,11 +481,11 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               <button
                 type="button"
                 onClick={() => setIsChatOpen(true)}
-                className="w-full py-3 px-4 rounded-2xl bg-[#00E676]/10 hover:bg-[#00E676]/20 border border-[#00E676]/30 hover:border-[#00E676]/60 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm group"
+                className="w-full py-3 px-4 rounded-lg bg-[#5FA780]/10 hover:bg-[#5FA780]/20 border border-[#5FA780]/30 hover:border-[#5FA780]/60 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm group"
               >
-                <MessageSquare className="w-4 h-4 text-[#00E676] transition-transform group-hover:scale-110" />
+                <MessageSquare className="w-4 h-4 text-[#5FA780] transition-transform group-hover:scale-110" />
                 <span>Chat com o Gerente</span>
-                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse ml-1" />
+                <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse ml-1" />
               </button>
             </div>
           </div>
@@ -493,17 +493,17 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
           {/* Right Column (7 cols): Real Google Maps Route & Actions */}
           <div className="lg:col-span-7 space-y-5">
             {/* Route Map Card with Real Google Maps API */}
-            <div className="bg-[#121418] border border-white/10 rounded-3xl p-5 shadow-lg space-y-4">
+            <div className="bg-[#202421] border border-white/10 rounded-xl p-5 shadow-lg space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                   Rota Real GPS no Google Maps
                 </span>
-                <span className="text-xs font-semibold text-[#00E676] bg-[#00E676]/10 px-2.5 py-0.5 rounded-full border border-[#00E676]/20">
+                <span className="text-xs font-semibold text-[#5FA780] bg-[#5FA780]/10 px-2.5 py-0.5 rounded-full border border-[#5FA780]/20">
                   Trânsito em Tempo Real
                 </span>
               </div>
 
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 h-72 w-full bg-[#0c0f14]">
+              <div className="relative rounded-lg overflow-hidden border border-white/10 h-72 w-full bg-[#0c0f14]">
                 {apiKey ? (
                   <ErrorBoundary fallback={fallbackRouteVisual}>
                     <Map
@@ -531,9 +531,9 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                 href={externalNavigationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-[#181a20] hover:bg-[#20222a] text-white border border-white/10 rounded-2xl font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm group"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-[#202421] hover:bg-[#20222a] text-white border border-white/10 rounded-lg font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm group"
               >
-                <Navigation className="w-4 h-4 text-[#00E676] transition-transform group-hover:scale-110" />
+                <Navigation className="w-4 h-4 text-[#5FA780] transition-transform group-hover:scale-110" />
                 <span>Abrir Rota Externa (Waze / Google Maps)</span>
                 <ExternalLink className="w-3.5 h-3.5 text-zinc-400 ml-1" />
               </a>
@@ -542,7 +542,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
             {/* Primary Action Button & Auto-Checkout Banner */}
             <div className="space-y-3">
               {currentPhase === 'awaiting_auto_checkout' && (
-                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2 text-center animate-pulse">
+                <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2 text-center animate-pulse">
                   <div className="font-extrabold flex items-center justify-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
                     <span>Janela de Auto-Checkout Iniciada (2 Horas)</span>
@@ -554,7 +554,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
               )}
 
               {currentPhase === 'pix_scheduled' && (
-                <div className="p-4 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] text-xs space-y-1.5 text-center shadow-lg">
+                <div className="p-4 rounded-lg bg-[#5FA780]/15 border border-[#5FA780]/40 text-[#5FA780] text-xs space-y-1.5 text-center shadow-lg">
                   <div className="font-black text-sm flex items-center justify-center gap-2">
                     <span>🎉 TAXA APROVADA - PIX AGENDADO!</span>
                   </div>

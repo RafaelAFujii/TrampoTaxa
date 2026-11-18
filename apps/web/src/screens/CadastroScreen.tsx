@@ -173,23 +173,22 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
         {/* Left Side: Onboarding banner */}
-        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between p-10 bg-gradient-to-br from-[#161920] to-[#0d0f12] border-r border-white/5 relative">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#00E676]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="hidden lg:flex lg:col-span-5 flex-col justify-between p-10 bg-[#202421] border-r border-white/5 relative">
 
           <div>
             <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-9 h-9 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-sm shadow-[0_0_20px_rgba(0,230,118,0.4)]">
+              <div className="w-9 h-9 rounded-xl bg-[#5FA780] text-black font-black flex items-center justify-center text-sm ">
                 T
               </div>
               <span className="text-xl font-black tracking-wider text-white">TRAMPO</span>
-              <span className="text-[10px] font-black uppercase bg-[#00E676]/15 text-[#00E676] px-2 py-0.5 rounded border border-[#00E676]/30">
+              <span className="text-[10px] font-black uppercase bg-[#5FA780]/15 text-[#5FA780] px-2 py-0.5 rounded border border-[#5FA780]/30">
                 CWB
               </span>
             </div>
 
-            <div className="inline-block bg-[#00E676]/15 border border-[#00E676]/30 text-[#00E676] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full mb-3">
+            <div className="inline-block bg-[#5FA780]/15 border border-[#5FA780]/30 text-[#5FA780] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full mb-3">
               {role === 'Contratante' ? 'Portal do Estabelecimento' : 'Primeiro Acesso Freelancer'}
             </div>
 
@@ -206,7 +205,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
 
             <div className="space-y-3.5">
               <div className="flex items-start gap-2.5 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676] shrink-0 mt-0.5" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780] shrink-0 mt-0.5" />
                 <span>
                   {role === 'Contratante'
                     ? 'Garçons e bartenders avaliados com notas de 1 a 5'
@@ -214,7 +213,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                 </span>
               </div>
               <div className="flex items-start gap-2.5 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676] shrink-0 mt-0.5" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780] shrink-0 mt-0.5" />
                 <span>
                   {role === 'Contratante'
                     ? 'Microtraining Speckit: dress code e regras comunicadas'
@@ -222,7 +221,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                 </span>
               </div>
               <div className="flex items-start gap-2.5 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676] shrink-0 mt-0.5" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780] shrink-0 mt-0.5" />
                 <span>
                   {role === 'Contratante'
                     ? 'Chat direto, relatórios financeiros e avaliação pós-turno'
@@ -233,13 +232,13 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
           </div>
 
           <div className="pt-6 border-t border-white/5 flex items-center gap-2 text-xs text-zinc-400">
-            <ShieldCheck className="w-4 h-4 text-[#00E676]" />
+            <ShieldCheck className="w-4 h-4 text-[#5FA780]" />
             <span>Cadastro verificado e seguro para gastronomia</span>
           </div>
         </div>
 
         {/* Right Side: Form */}
-        <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between bg-[#121418]">
+        <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between bg-[#202421]">
           <div>
             <div className="flex items-center justify-between mb-4">
               <button
@@ -251,7 +250,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                 <span>Voltar ao Login</span>
               </button>
 
-              <span className="text-[10px] font-black uppercase text-[#00E676] tracking-wider">
+              <span className="text-[10px] font-black uppercase text-[#5FA780] tracking-wider">
                 NOVA CONTA
               </span>
             </div>
@@ -262,13 +261,13 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
             <p className="text-xs text-zinc-400 mb-4">Escolha seu tipo de perfil para continuar:</p>
 
             {/* Alternar Perfil: Contratante vs Freelancer */}
-            <div className="grid grid-cols-2 gap-2 bg-[#171A22] p-1.5 rounded-2xl border border-white/5 mb-5">
+            <div className="grid grid-cols-2 gap-2 bg-[#202421] p-1.5 rounded-lg border border-white/5 mb-5">
               <button
                 type="button"
                 onClick={() => handleRoleToggle('Contratante')}
                 className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   role === 'Contratante'
-                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    ? 'bg-[#5FA780] text-black '
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -280,7 +279,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                 onClick={() => handleRoleToggle('Freelancer')}
                 className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   role === 'Freelancer'
-                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    ? 'bg-[#5FA780] text-black '
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -292,7 +291,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
             {errorMessage && (
               <div className="mb-4 p-3 bg-rose-500/15 border border-rose-500/30 rounded-xl text-xs text-rose-300 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                <span>{errorMessage}</span>
+                <span className="min-w-0 flex-1 break-words">{errorMessage}</span>
               </div>
             )}
 
@@ -329,10 +328,10 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                       <select
                         value={ramoAtuacao}
                         onChange={(e) => setRamoAtuacao(e.target.value)}
-                        className="w-full bg-[#171A22] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#00E676] transition-colors"
+                        className="w-full bg-[#202421] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#5FA780] transition-colors"
                       >
                         {BUSINESS_SEGMENTS.map((seg) => (
-                          <option key={seg} value={seg} className="bg-[#171A22] text-white">
+                          <option key={seg} value={seg} className="bg-[#202421] text-white">
                             {seg}
                           </option>
                         ))}
@@ -435,8 +434,8 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
                     w-5 h-5 rounded-md flex items-center justify-center transition-colors cursor-pointer shrink-0
                     ${
                       acceptTerms
-                        ? 'bg-[#00E676] text-black shadow-[0_0_8px_rgba(0,230,118,0.4)]'
-                        : 'border border-zinc-600 bg-[#18191D]'
+                        ? 'bg-[#5FA780] text-black '
+                        : 'border border-zinc-600 bg-[#202421]'
                     }
                   `}
                 >
@@ -474,7 +473,7 @@ export const CadastroScreen: React.FC<CadastroScreenProps> = ({
               <button
                 type="button"
                 onClick={handleGoToLogin}
-                className="text-[#00E676] hover:text-[#00FF77] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
+                className="text-[#5FA780] hover:text-[#72B58E] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
               >
                 <span>Entrar agora</span>
               </button>

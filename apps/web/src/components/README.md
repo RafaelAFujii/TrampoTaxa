@@ -16,7 +16,7 @@ Este diretório contém os componentes de interface da aplicação Web TrampoTax
 | **`map/GigMarker.tsx`** | Geoespacial | Marcador interativo no mapa exibindo chip de valor (`R$ 220,00`) e animação de seleção |
 | **`map/MapPlaceholder.tsx`** | Geoespacial | Fallback interativo vetorial (`MinimalVectorMap`) em SVG caso a API do Google Maps esteja indisponível |
 | **`navigation/BottomNavigation.tsx`** | Navegação | Barra de abas inferior adaptativa para telas mobile e PWA |
-| **`ui/PrimaryButton.tsx`** | Atômico | Botão principal estilizado com variantes neon verde e feedback de clique |
+| **`ui/PrimaryButton.tsx`** | Atômico | Botão principal em verde funcional, com variantes de superfície e feedback de clique |
 | **`ui/ProfessionToggle.tsx`** | Atômico | Seletor deslizante de profissão (*Bartender* / *Garçom*) |
 | **`ui/TextInput.tsx`** | Atômico | Campo de entrada com suporte a ícones, validação visual e foco customizado |
 | **`ui/SocialButton.tsx`** | Atômico | Botão para login social |

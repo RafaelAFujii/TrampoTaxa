@@ -10,6 +10,7 @@ import { ContractorGigsScreen } from '../src/screens/ContractorGigsScreen';
 import { CreateGigScreen } from '../src/screens/CreateGigScreen';
 import { ContractorReportsScreen } from '../src/screens/ContractorReportsScreen';
 import { ContractorChatScreen } from '../src/screens/ContractorChatScreen';
+import { theme } from '../src/theme';
 import type { AuthState } from '../src/context/session';
 import { getMobileRole, getRootNavigationState } from './authNavigation';
 import type { ContractorTabParamList, FreelancerTabParamList } from './types';
@@ -21,11 +22,11 @@ const DarkNavTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: '#171B1A',
-    card: '#171B1A',
-    text: '#F7F9F7',
+    background: theme.color.asphalt,
+    card: theme.color.asphalt,
+    text: theme.color.snow,
     border: 'rgba(231, 236, 232, 0.12)',
-    primary: '#34745A',
+    primary: theme.color.green,
   },
 };
 
@@ -41,7 +42,7 @@ function TabIcon({ name, focused }: { name: 'map' | 'shift' | 'earnings' | 'prof
 function SessionGate({ restoring }: { restoring: boolean }) {
   return (
     <View style={styles.gate}>
-      {restoring && <ActivityIndicator color="#34745A" />}
+      {restoring && <ActivityIndicator color={theme.color.green} />}
       <Text style={styles.gateText}>
         {restoring
           ? 'Restaurando sessão segura...'
@@ -58,7 +59,7 @@ function FreelancerTabs() {
       initialRouteName="Mapa"
       screenOptions={{
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#34745A',
+        tabBarActiveTintColor: theme.color.green,
         tabBarInactiveTintColor: '#8E95A5',
         tabBarLabelStyle: styles.tabLabel,
         headerStyle: styles.header,
@@ -114,7 +115,7 @@ function ContractorTabs() {
       initialRouteName="Vagas"
       screenOptions={{
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#34745A',
+        tabBarActiveTintColor: theme.color.green,
         tabBarInactiveTintColor: '#8E95A5',
         tabBarLabelStyle: styles.tabLabel,
         headerStyle: styles.header,
@@ -187,14 +188,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
     padding: 24,
-    backgroundColor: '#171B1A',
+    backgroundColor: theme.color.asphalt,
   },
   gateText: {
     color: '#FFFFFF',
     textAlign: 'center',
   },
   tabBar: {
-    backgroundColor: '#171B1A',
+    backgroundColor: theme.color.asphalt,
     borderTopColor: 'rgba(231, 236, 232, 0.12)',
     borderTopWidth: 1,
     height: 64,
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabIconWrapperFocused: {
-    backgroundColor: 'rgba(52, 116, 90, 0.18)',
+    backgroundColor: 'rgba(95, 167, 128, 0.18)',
   },
   tabIconText: {
     fontSize: 16,
@@ -222,11 +223,11 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   tabIconTextFocused: {
-    color: '#34745A',
+    color: theme.color.green,
   },
   header: {
-    backgroundColor: '#0F1117',
-    borderBottomColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: theme.color.asphalt,
+    borderBottomColor: 'rgba(231, 236, 232, 0.12)',
     borderBottomWidth: 1,
     elevation: 0,
     shadowOpacity: 0,

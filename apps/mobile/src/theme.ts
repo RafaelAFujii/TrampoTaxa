@@ -2,7 +2,7 @@ export const theme = {
   color: {
     asphalt: '#171B1A',
     concrete: '#E7ECE8',
-    green: '#34745A',
+    green: '#5FA780',
     yellow: '#E3B23C',
     clay: '#B85C3D',
     snow: '#F7F9F7',

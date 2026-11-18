@@ -75,14 +75,11 @@ export const ContractorDashboardScreen: React.FC = () => {
       {/* ======================================================== */}
       {/* 1. HEADER DE BOAS-VINDAS & AÇÕES RÁPIDAS                 */}
       {/* ======================================================== */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#12141A] border border-white/10 rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
-        {/* Glow de fundo */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#00E676]/5 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#202421] border border-white/10 rounded-xl p-5 sm:p-6 relative overflow-hidden">
         <div className="relative z-10 space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/15 px-2.5 py-0.5 rounded-full border border-[#00E676]/30 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00E676] animate-pulse" />
+            <span className="text-xs font-semibold text-[#5FA780] bg-[#5FA780]/15 px-2.5 py-1 rounded-md border border-[#5FA780]/30 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5FA780]" />
               Painel de Controle B2B
             </span>
             <span className="text-xs text-zinc-400">Curitiba & Região</span>
@@ -103,7 +100,7 @@ export const ContractorDashboardScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/contractor/create')}
-            className="flex items-center justify-center gap-2 bg-[#00E676] text-black font-extrabold text-xs sm:text-sm px-5 py-3.5 rounded-2xl shadow-[0_0_20px_rgba(0,230,118,0.35)] hover:shadow-[0_0_25px_rgba(0,230,118,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 bg-[#5FA780] text-black font-bold text-xs sm:text-sm px-5 py-3.5 rounded-lg hover:bg-[#72B58E] active:scale-[0.98] transition-colors cursor-pointer w-full sm:w-auto"
           >
             <PlusCircle className="w-4 h-4 stroke-[2.5]" />
             <span>Publicar Nova Taxa</span>
@@ -115,7 +112,7 @@ export const ContractorDashboardScreen: React.FC = () => {
       {/* 2. ALERTA OPERACIONAL DE ATENÇÃO (SE HOUVER VAGA URGENTE) */}
       {/* ======================================================== */}
       {urgentGig && (
-        <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+        <div className="bg-[#202421] border border-amber-500/30 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
               <AlertTriangle className="w-5 h-5" />
@@ -156,11 +153,11 @@ export const ContractorDashboardScreen: React.FC = () => {
         {/* KPI 1: Taxas Abertas */}
         <div
           onClick={() => navigate('/contractor/gigs')}
-          className="bg-[#12141A] border border-white/10 hover:border-[#00E676]/40 p-4 sm:p-5 rounded-2xl transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
+          className="bg-[#202421] border border-white/10 hover:border-[#5FA780]/40 p-4 sm:p-5 rounded-lg transition-colors cursor-pointer group flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-zinc-400 font-medium">Taxas Abertas</span>
-            <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 text-[#00E676] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 text-[#5FA780] flex items-center justify-center group-hover:scale-110 transition-transform">
               <Briefcase className="w-4 h-4" />
             </div>
           </div>
@@ -173,8 +170,8 @@ export const ContractorDashboardScreen: React.FC = () => {
                 ({totalOpenVacancies} {totalOpenVacancies === 1 ? 'vaga' : 'vagas'})
               </span>
             </div>
-            <span className="text-[11px] text-[#00E676] flex items-center gap-1 font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00E676]" />
+            <span className="text-[11px] text-[#5FA780] flex items-center gap-1 font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5FA780]" />
               Recebendo candidaturas
             </span>
           </div>
@@ -183,7 +180,7 @@ export const ContractorDashboardScreen: React.FC = () => {
         {/* KPI 2: Candidaturas Pendentes */}
         <div
           onClick={() => navigate('/contractor/gigs')}
-          className="bg-[#12141A] border border-white/10 hover:border-amber-500/40 p-4 sm:p-5 rounded-2xl transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
+          className="bg-[#202421] border border-white/10 hover:border-amber-500/40 p-4 sm:p-5 rounded-lg transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-zinc-400 font-medium">Candidaturas</span>
@@ -213,7 +210,7 @@ export const ContractorDashboardScreen: React.FC = () => {
         {/* KPI 3: Mensagens do Chat */}
         <div
           onClick={() => navigate('/contractor/chat')}
-          className="bg-[#12141A] border border-white/10 hover:border-blue-500/40 p-4 sm:p-5 rounded-2xl transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
+          className="bg-[#202421] border border-white/10 hover:border-blue-500/40 p-4 sm:p-5 rounded-lg transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-zinc-400 font-medium">Mensagens</span>
@@ -238,17 +235,17 @@ export const ContractorDashboardScreen: React.FC = () => {
         {/* KPI 4: Investimento da Semana */}
         <div
           onClick={() => navigate('/contractor/reports')}
-          className="bg-[#12141A] border border-white/10 hover:border-[#00E676]/40 p-4 sm:p-5 rounded-2xl transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
+          className="bg-[#202421] border border-white/10 hover:border-[#5FA780]/40 p-4 sm:p-5 rounded-lg transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-zinc-400 font-medium">Gasto Semanal</span>
-            <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 text-[#00E676] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 text-[#5FA780] flex items-center justify-center group-hover:scale-110 transition-transform">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
           <div className="space-y-1">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#00E676]">
+              <span className="text-2xl sm:text-3xl font-extrabold text-[#5FA780]">
                 {formatCurrency(weeklyTotal)}
               </span>
             </div>
@@ -264,11 +261,11 @@ export const ContractorDashboardScreen: React.FC = () => {
       {/* ======================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Coluna Esquerda: Relatório da Semana com Gráfico Diário */}
-        <div className="lg:col-span-2 bg-[#12141A] border border-white/10 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-2 bg-[#202421] border border-white/10 rounded-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded border border-[#00E676]/20">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded border border-[#5FA780]/20">
                   RELATÓRIO DA SEMANA
                 </span>
                 <span className="text-xs text-zinc-400">Últimos 7 dias</span>
@@ -281,7 +278,7 @@ export const ContractorDashboardScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/contractor/reports')}
-              className="text-xs font-semibold text-[#00E676] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs font-semibold text-[#5FA780] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>Ver Completo</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -289,7 +286,7 @@ export const ContractorDashboardScreen: React.FC = () => {
           </div>
 
           {/* Métricas Centrais da Semana */}
-          <div className="grid grid-cols-3 gap-3 p-4 bg-[#0A0C11] rounded-2xl border border-white/5">
+          <div className="grid grid-cols-3 gap-3 p-4 bg-[#171B1A] rounded-lg border border-white/5">
             <div>
               <span className="text-[11px] text-zinc-400 block mb-0.5">Total Investido</span>
               <span className="text-base sm:text-lg font-black text-white">
@@ -299,7 +296,7 @@ export const ContractorDashboardScreen: React.FC = () => {
 
             <div>
               <span className="text-[11px] text-zinc-400 block mb-0.5">Horas Cobertas</span>
-              <span className="text-base sm:text-lg font-black text-[#00E676]">
+              <span className="text-base sm:text-lg font-black text-[#5FA780]">
                 {weeklyHours}h
               </span>
             </div>
@@ -319,7 +316,7 @@ export const ContractorDashboardScreen: React.FC = () => {
               <span className="text-[11px] text-zinc-500">Pico: Sex e Sáb</span>
             </div>
 
-            <div className="h-36 flex items-end justify-between gap-2 pt-4 px-2 bg-[#0A0C11] rounded-2xl border border-white/5">
+            <div className="h-36 flex items-end justify-between gap-2 pt-4 px-2 bg-[#171B1A] rounded-lg border border-white/5">
               {weekDaysData.map((d, index) => {
                 const heightPercentage = Math.round((d.amount / maxDayAmount) * 100);
 
@@ -334,15 +331,15 @@ export const ContractorDashboardScreen: React.FC = () => {
                         style={{ height: `${heightPercentage}%` }}
                         className={`w-full rounded-t-lg transition-all duration-500 ${
                           d.peak
-                            ? 'bg-gradient-to-t from-[#00E676]/60 to-[#00E676] shadow-[0_0_12px_rgba(0,230,118,0.3)]'
-                            : 'bg-zinc-600 group-hover:bg-[#00E676]/50'
+                            ? 'bg-gradient-to-t from-[#5FA780]/60 to-[#5FA780] '
+                            : 'bg-zinc-600 group-hover:bg-[#5FA780]/50'
                         }`}
                       />
                     </div>
 
                     <span
                       className={`text-[11px] font-bold ${
-                        d.peak ? 'text-[#00E676]' : 'text-zinc-400'
+                        d.peak ? 'text-[#5FA780]' : 'text-zinc-400'
                       }`}
                     >
                       {d.day}
@@ -356,17 +353,17 @@ export const ContractorDashboardScreen: React.FC = () => {
           {/* Rodapé de Dica Operacional */}
           <div className="flex items-center justify-between text-xs text-zinc-400 bg-white/[0.02] p-3 rounded-xl border border-white/5">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#00E676]" />
+              <Sparkles className="w-4 h-4 text-[#5FA780]" />
               <span>Sexta e Sábado demandam 65% do seu orçamento operacional de taxas.</span>
             </div>
-            <span className="text-[11px] text-[#00E676] font-bold hidden sm:inline">
+            <span className="text-[11px] text-[#5FA780] font-bold hidden sm:inline">
               Previsão Saudável
             </span>
           </div>
         </div>
 
         {/* Coluna Direita: Próximos Turnos & Vagas Ativas */}
-        <div className="bg-[#12141A] border border-white/10 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[10px] font-black uppercase tracking-wider text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20 block mb-1">
@@ -380,7 +377,7 @@ export const ContractorDashboardScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/contractor/gigs')}
-              className="text-xs font-semibold text-[#00E676] hover:underline cursor-pointer"
+              className="text-xs font-semibold text-[#5FA780] hover:underline cursor-pointer"
             >
               Ver Todas
             </button>
@@ -399,7 +396,7 @@ export const ContractorDashboardScreen: React.FC = () => {
                 return (
                   <div
                     key={gig.id}
-                    className="p-3.5 bg-[#0A0C11] border border-white/5 hover:border-white/15 rounded-2xl transition-all space-y-2.5"
+                    className="p-3.5 bg-[#171B1A] border border-white/5 hover:border-white/15 rounded-lg transition-all space-y-2.5"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -409,7 +406,7 @@ export const ContractorDashboardScreen: React.FC = () => {
                         <span
                           className={`text-[9px] uppercase font-black px-1.5 py-0.2 rounded border ${
                             isFilled
-                              ? 'bg-[#00E676]/15 text-[#00E676] border-[#00E676]/30'
+                              ? 'bg-[#5FA780]/15 text-[#5FA780] border-[#5FA780]/30'
                               : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
                           }`}
                         >
@@ -417,7 +414,7 @@ export const ContractorDashboardScreen: React.FC = () => {
                         </span>
                       </div>
 
-                      <span className="text-xs font-black text-[#00E676]">
+                      <span className="text-xs font-black text-[#5FA780]">
                         {gig.rateFormatted}
                       </span>
                     </div>
@@ -437,7 +434,7 @@ export const ContractorDashboardScreen: React.FC = () => {
                           <img
                             src={approvedApplicant.avatarUrl}
                             alt={approvedApplicant.name}
-                            className="w-6 h-6 rounded-full object-cover border border-[#00E676]/40"
+                            className="w-6 h-6 rounded-full object-cover border border-[#5FA780]/40"
                           />
                           <span className="text-xs font-semibold text-zinc-200 truncate max-w-[120px]">
                             {approvedApplicant.name}
@@ -448,7 +445,7 @@ export const ContractorDashboardScreen: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => navigate('/contractor/chat')}
-                            className="text-[10px] font-bold text-[#00E676] hover:underline flex items-center gap-1 cursor-pointer"
+                            className="text-[10px] font-bold text-[#5FA780] hover:underline flex items-center gap-1 cursor-pointer"
                           >
                             <MessageSquare className="w-3 h-3" />
                             <span>Chat</span>
@@ -494,7 +491,7 @@ export const ContractorDashboardScreen: React.FC = () => {
       {/* ======================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Mensagens Recentes do Chat */}
-        <div className="lg:col-span-2 bg-[#12141A] border border-white/10 rounded-3xl p-5 sm:p-6 shadow-xl space-y-4">
+        <div className="lg:col-span-2 bg-[#202421] border border-white/10 rounded-xl p-5 sm:p-6 shadow-xl space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
@@ -513,7 +510,7 @@ export const ContractorDashboardScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/contractor/chat')}
-              className="text-xs font-semibold text-[#00E676] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs font-semibold text-[#5FA780] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>Abrir Chat</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -521,7 +518,7 @@ export const ContractorDashboardScreen: React.FC = () => {
           </div>
 
           {recentMessages.length === 0 ? (
-            <div className="p-6 text-center text-zinc-500 text-xs bg-[#0A0C11] rounded-2xl border border-white/5">
+            <div className="p-6 text-center text-zinc-500 text-xs bg-[#171B1A] rounded-lg border border-white/5">
               Nenhuma mensagem recente registrada.
             </div>
           ) : (
@@ -533,13 +530,13 @@ export const ContractorDashboardScreen: React.FC = () => {
                   <div
                     key={msg.id}
                     onClick={() => navigate('/contractor/chat')}
-                    className="p-3 bg-[#0A0C11] border border-white/5 hover:border-[#00E676]/30 rounded-2xl flex items-center justify-between gap-4 transition-all cursor-pointer group"
+                    className="p-3 bg-[#171B1A] border border-white/5 hover:border-[#5FA780]/30 rounded-lg flex items-center justify-between gap-4 transition-all cursor-pointer group"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
                         className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 ${
                           isFreelancer
-                            ? 'bg-[#00E676]/20 text-[#00E676] border border-[#00E676]/30'
+                            ? 'bg-[#5FA780]/20 text-[#5FA780] border border-[#5FA780]/30'
                             : 'bg-zinc-800 text-zinc-300'
                         }`}
                       >
@@ -548,7 +545,7 @@ export const ContractorDashboardScreen: React.FC = () => {
 
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors truncate">
+                          <span className="text-xs font-bold text-white group-hover:text-[#5FA780] transition-colors truncate">
                             {msg.senderName}
                           </span>
                           <span className="text-[10px] text-zinc-500">
@@ -563,7 +560,7 @@ export const ContractorDashboardScreen: React.FC = () => {
 
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="text-[10px] text-zinc-500">{msg.timestamp}</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#00E676] group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#5FA780] group-hover:translate-x-0.5 transition-all" />
                     </div>
                   </div>
                 );
@@ -573,9 +570,9 @@ export const ContractorDashboardScreen: React.FC = () => {
         </div>
 
         {/* Card de Atalhos Rápidos da Gestão */}
-        <div className="bg-[#12141A] border border-white/10 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded border border-[#00E676]/20 block mb-1">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded border border-[#5FA780]/20 block mb-1">
               ATALHOS DA GERÊNCIA
             </span>
             <h3 className="text-base sm:text-lg font-bold text-white">
@@ -587,83 +584,83 @@ export const ContractorDashboardScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/contractor/create')}
-              className="w-full p-3 rounded-2xl bg-[#0A0C11] border border-white/5 hover:border-[#00E676]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
+              className="w-full p-3 rounded-lg bg-[#171B1A] border border-white/5 hover:border-[#5FA780]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 text-[#00E676] flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 text-[#5FA780] flex items-center justify-center group-hover:scale-110 transition-transform">
                   <PlusCircle className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors block">
+                  <span className="text-xs font-bold text-white group-hover:text-[#5FA780] transition-colors block">
                     Criar Vaga de Taxa
                   </span>
                   <span className="text-[10px] text-zinc-500">Publicação imediata no radar CWB</span>
                 </div>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#00E676] transition-colors" />
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#5FA780] transition-colors" />
             </button>
 
             <button
               type="button"
               onClick={() => navigate('/contractor/gigs')}
-              className="w-full p-3 rounded-2xl bg-[#0A0C11] border border-white/5 hover:border-[#00E676]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
+              className="w-full p-3 rounded-lg bg-[#171B1A] border border-white/5 hover:border-[#5FA780]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Users className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors block">
+                  <span className="text-xs font-bold text-white group-hover:text-[#5FA780] transition-colors block">
                     Triagem & Minhas Vagas
                   </span>
                   <span className="text-[10px] text-zinc-500">Aprovar ou recusar candidatos</span>
                 </div>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#00E676] transition-colors" />
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#5FA780] transition-colors" />
             </button>
 
             <button
               type="button"
               onClick={() => navigate('/contractor/reports')}
-              className="w-full p-3 rounded-2xl bg-[#0A0C11] border border-white/5 hover:border-[#00E676]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
+              className="w-full p-3 rounded-lg bg-[#171B1A] border border-white/5 hover:border-[#5FA780]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <BarChart3 className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors block">
+                  <span className="text-xs font-bold text-white group-hover:text-[#5FA780] transition-colors block">
                     Relatório Financeiro & Recibos
                   </span>
                   <span className="text-[10px] text-zinc-500">Histórico de custos e recibos</span>
                 </div>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#00E676] transition-colors" />
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#5FA780] transition-colors" />
             </button>
 
             <button
               type="button"
               onClick={() => navigate('/profile')}
-              className="w-full p-3 rounded-2xl bg-[#0A0C11] border border-white/5 hover:border-[#00E676]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
+              className="w-full p-3 rounded-lg bg-[#171B1A] border border-white/5 hover:border-[#5FA780]/40 flex items-center justify-between text-left transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Building2 className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors block">
+                  <span className="text-xs font-bold text-white group-hover:text-[#5FA780] transition-colors block">
                     Dados do Estabelecimento
                   </span>
                   <span className="text-[10px] text-zinc-500">CNPJ, endereço e regras de salão</span>
                 </div>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#00E676] transition-colors" />
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-[#5FA780] transition-colors" />
             </button>
           </div>
 
           <div className="p-3 bg-white/[0.02] rounded-xl border border-white/5 flex items-center justify-between text-[11px] text-zinc-500">
             <span>Suporte TrampoTaxa B2B</span>
-            <span className="text-[#00E676] font-bold">24h Ativo</span>
+            <span className="text-[#5FA780] font-bold">24h Ativo</span>
           </div>
         </div>
       </div>

@@ -78,18 +78,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
   return (
     <div className="w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
         {/* Left Side: Brand Visual */}
-        <div className="hidden lg:flex flex-col justify-between p-10 bg-gradient-to-br from-[#161920] to-[#0d0f12] border-r border-white/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-[#00E676]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="hidden lg:flex flex-col justify-between p-10 bg-[#202421] border-r border-white/5 relative overflow-hidden">
 
           <div>
             <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-9 h-9 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-sm shadow-[0_0_20px_rgba(0,230,118,0.4)]">
+              <div className="w-9 h-9 rounded-xl bg-[#5FA780] text-black font-black flex items-center justify-center text-sm ">
                 T
               </div>
               <span className="text-xl font-black tracking-wider text-white">TRAMPO</span>
-              <span className="text-[10px] font-black uppercase bg-[#00E676]/15 text-[#00E676] px-2 py-0.5 rounded border border-[#00E676]/30">
+              <span className="text-[10px] font-black uppercase bg-[#5FA780]/15 text-[#5FA780] px-2 py-0.5 rounded border border-[#5FA780]/30">
                 CWB
               </span>
             </div>
@@ -107,7 +106,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676]" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780]" />
                 <span>
                   {role === 'Freelancer'
                     ? 'Taxas competitivas a partir de R$ 180 por turno'
@@ -115,28 +114,28 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 </span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676]" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780]" />
                 <span>Regras de apresentação e dress code detalhado de cada local</span>
               </div>
               <div className="flex items-center gap-3 text-xs text-zinc-300">
-                <CheckCircle className="w-4 h-4 text-[#00E676]" />
+                <CheckCircle className="w-4 h-4 text-[#5FA780]" />
                 <span>Histórico de turnos e repasses transparentes</span>
               </div>
             </div>
           </div>
 
           <div className="pt-6 border-t border-white/5 flex items-center gap-3 text-xs text-zinc-400">
-            <ShieldCheck className="w-4 h-4 text-[#00E676]" />
+            <ShieldCheck className="w-4 h-4 text-[#5FA780]" />
             <span>Ambiente seguro para o mercado gastronômico</span>
           </div>
         </div>
 
         {/* Right Side: Form */}
-        <div className="p-6 sm:p-10 flex flex-col justify-between bg-[#121418]">
+        <div className="p-6 sm:p-10 flex flex-col justify-between bg-[#202421]">
           <div>
             {/* Mobile Header Brand */}
             <div className="flex lg:hidden items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 border border-[#00E676] flex items-center justify-center text-[#00E676] shadow-[0_0_12px_rgba(0,230,118,0.3)]">
+              <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 border border-[#5FA780] flex items-center justify-center text-[#5FA780] ">
                 <Sparkles className="w-4 h-4" />
               </div>
               <span className="text-lg font-black tracking-wider text-white">TRAMPO</span>
@@ -153,13 +152,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             </p>
 
             {/* Alternador de Perfil: Freelancer vs Contratante */}
-            <div className="grid grid-cols-2 gap-2 bg-[#171A22] p-1.5 rounded-2xl border border-white/5 mb-5">
+            <div className="grid grid-cols-2 gap-2 bg-[#202421] p-1.5 rounded-lg border border-white/5 mb-5">
               <button
                 type="button"
                 onClick={() => handleRoleChange('Freelancer')}
                 className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   role === 'Freelancer'
-                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    ? 'bg-[#5FA780] text-black '
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -171,7 +170,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 onClick={() => handleRoleChange('Contratante')}
                 className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   role === 'Contratante'
-                    ? 'bg-[#00E676] text-black shadow-[0_0_15px_rgba(0,230,118,0.3)]'
+                    ? 'bg-[#5FA780] text-black '
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -181,9 +180,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             </div>
 
             {errorMessage && (
-              <div className="mb-4 p-3.5 bg-rose-500/15 border border-rose-500/30 rounded-xl text-xs text-rose-300 flex items-center gap-2">
-                <span className="font-bold">Aviso:</span>
-                <span>{errorMessage}</span>
+              <div className="mb-4 p-3.5 bg-rose-500/15 border border-rose-500/30 rounded-xl text-xs text-rose-300 flex flex-wrap items-center gap-2">
+                <span className="font-bold shrink-0">Aviso:</span>
+                <span className="min-w-0 flex-1 break-words">{errorMessage}</span>
               </div>
             )}
 
@@ -213,7 +212,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                           'Link de redefinição de senha enviado para o seu e-mail cadastrado.'
                         )
                       }
-                      className="text-xs text-[#00E676] hover:text-[#00FF77] hover:underline font-semibold transition-colors cursor-pointer"
+                      className="text-xs text-[#5FA780] hover:text-[#72B58E] hover:underline font-semibold transition-colors cursor-pointer"
                     >
                       Esqueceu a senha?
                     </button>
@@ -236,7 +235,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           <div className="mt-8 flex flex-col gap-5">
             <div className="relative flex items-center justify-center">
               <div className="border-t border-zinc-800 w-full" />
-              <span className="bg-[#121418] px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 shrink-0">
+              <span className="bg-[#202421] px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-500 shrink-0">
                 OU ENTRAR COM
               </span>
               <div className="border-t border-zinc-800 w-full" />
@@ -267,7 +266,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 <button
                   type="button"
                   onClick={handleGoToCadastro}
-                  className="text-[#00E676] hover:text-[#00FF77] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
+                  className="text-[#5FA780] hover:text-[#72B58E] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
                 >
                   <span>Cadastre-se (Primeiro Acesso)</span>
                   <ArrowRight className="w-3.5 h-3.5" />

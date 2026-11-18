@@ -158,7 +158,7 @@ export const ProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
   },
   scrollContent: {
     padding: 16,
@@ -177,19 +177,19 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#141722',
+    backgroundColor: '#202421',
     borderWidth: 2,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#00E676',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 6,
   },
   avatarText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 22,
     fontWeight: '900',
   },
@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
     height: 14,
     borderRadius: 7,
     borderWidth: 2,
-    borderColor: '#0A0B0E',
+    borderColor: '#171B1A',
   },
   statusOnline: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   statusOffline: {
     backgroundColor: '#64748B',
@@ -229,15 +229,15 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#141722',
-    borderRadius: 16,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 12,
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
   },
   statValue: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 16,
     fontWeight: '900',
   },
@@ -248,8 +248,8 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   card: {
-    backgroundColor: '#141722',
-    borderRadius: 18,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     padding: 16,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
@@ -276,9 +276,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   switchButtonActive: {
-    backgroundColor: 'rgba(0, 230, 118, 0.2)',
+    backgroundColor: 'rgba(95,167,128, 0.2)',
     borderWidth: 1,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
   },
   switchButtonText: {
     color: '#8E95A5',
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   switchButtonTextActive: {
-    color: '#00E676',
+    color: '#5FA780',
   },
   specialtiesWrap: {
     flexDirection: 'row',
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   infoValueVerified: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 12,
     fontWeight: '700',
   },

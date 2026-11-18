@@ -49,11 +49,11 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
       <div
-        className={`w-full max-w-md bg-[#12141C] border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center transition-all duration-300 ${
-          celebrating ? 'scale-105 opacity-90 border-[#00E676]' : 'scale-100 opacity-100'
+        className={`w-full max-w-md bg-[#202421] border border-white/10 rounded-xl p-6 shadow-2xl flex flex-col items-center text-center transition-all duration-300 ${
+          celebrating ? 'scale-105 opacity-90 border-[#5FA780]' : 'scale-100 opacity-100'
         }`}
       >
-        <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/15 px-3 py-1 rounded-full border border-[#00E676]/30 mb-3">
+        <span className="text-[10px] font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/15 px-3 py-1 rounded-full border border-[#5FA780]/30 mb-3">
           AVALIAÇÃO OBRIGATÓRIA DO TURNO
         </span>
 
@@ -74,7 +74,7 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
               <Star
                 className={`w-8 h-8 ${
                   star <= rating
-                    ? 'text-[#00E676] fill-[#00E676] drop-shadow-[0_0_8px_rgba(0,230,118,0.5)]'
+                    ? 'text-[#5FA780] fill-[#5FA780] drop-'
                     : 'text-zinc-600'
                 }`}
               />
@@ -93,8 +93,8 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
                 onClick={() => toggleTag(tag)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                   active
-                    ? 'bg-[#00E676]/15 border-[#00E676] text-[#00E676]'
-                    : 'bg-[#181a20] border-white/5 text-zinc-400 hover:text-white'
+                    ? 'bg-[#5FA780]/15 border-[#5FA780] text-[#5FA780]'
+                    : 'bg-[#202421] border-white/5 text-zinc-400 hover:text-white'
                 }`}
               >
                 {tag}
@@ -108,7 +108,7 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
           type="button"
           onClick={handleSubmit}
           disabled={rating === 0}
-          className="w-full py-4 rounded-2xl bg-[#00E676] hover:bg-[#00c965] text-[#0A0B0E] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,230,118,0.35)] transition-all cursor-pointer hover:shadow-[0_0_30px_rgba(0,230,118,0.6)]"
+          className="w-full py-4 rounded-lg bg-[#5FA780] hover:bg-[#00c965] text-[#171B1A] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2  transition-all cursor-pointer hover:"
         >
           {celebrating ? (
             <>

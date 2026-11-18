@@ -35,7 +35,7 @@ export const ContractorReportsScreen: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded border border-[#00E676]/20">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded border border-[#5FA780]/20">
               MÉTRICAS & GESTÃO
             </span>
             <span className="text-xs text-zinc-400">Contabilidade de Turnos</span>
@@ -50,7 +50,7 @@ export const ContractorReportsScreen: React.FC = () => {
         </div>
 
         {/* Seletor de período */}
-        <div className="flex items-center gap-1 bg-[#121418] p-1.5 rounded-2xl border border-white/5 self-start sm:self-auto">
+        <div className="flex items-center gap-1 bg-[#202421] p-1.5 rounded-lg border border-white/5 self-start sm:self-auto">
           {[
             { id: '7dias' as PeriodFilter, label: '7 Dias' },
             { id: 'esteMes' as PeriodFilter, label: 'Este Mês' },
@@ -63,7 +63,7 @@ export const ContractorReportsScreen: React.FC = () => {
               onClick={() => setPeriod(item.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                 period === item.id
-                  ? 'bg-[#00E676] text-black font-bold shadow-sm'
+                  ? 'bg-[#5FA780] text-black font-bold shadow-sm'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -76,24 +76,24 @@ export const ContractorReportsScreen: React.FC = () => {
       {/* 4 Cards de KPIs Rápidos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* KPI 1: Total Investido em Taxas */}
-        <div className="p-5 bg-[#121418] border border-white/10 rounded-3xl space-y-2 relative overflow-hidden shadow-lg">
+        <div className="p-5 bg-[#202421] border border-white/10 rounded-xl space-y-2 relative overflow-hidden shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-bold uppercase tracking-wider">Total em Taxas</span>
-            <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 text-[#00E676] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 text-[#5FA780] flex items-center justify-center">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
           <p className="text-2xl sm:text-3xl font-black text-white tabular-nums tracking-tight">
             {kpis.totalInvestedFormatted}
           </p>
-          <div className="flex items-center gap-1.5 text-[11px] text-[#00E676]">
+          <div className="flex items-center gap-1.5 text-[11px] text-[#5FA780]">
             <TrendingUp className="w-3.5 h-3.5" />
             <span>Repasses 100% via PIX autenticado</span>
           </div>
         </div>
 
         {/* KPI 2: Taxas Concluídas */}
-        <div className="p-5 bg-[#121418] border border-white/10 rounded-3xl space-y-2 relative overflow-hidden shadow-lg">
+        <div className="p-5 bg-[#202421] border border-white/10 rounded-xl space-y-2 relative overflow-hidden shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-bold uppercase tracking-wider">Taxas Concluídas</span>
             <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
@@ -110,7 +110,7 @@ export const ContractorReportsScreen: React.FC = () => {
         </div>
 
         {/* KPI 3: Freelancers Contratados */}
-        <div className="p-5 bg-[#121418] border border-white/10 rounded-3xl space-y-2 relative overflow-hidden shadow-lg">
+        <div className="p-5 bg-[#202421] border border-white/10 rounded-xl space-y-2 relative overflow-hidden shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-bold uppercase tracking-wider">Freelancers Ativos</span>
             <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
@@ -126,7 +126,7 @@ export const ContractorReportsScreen: React.FC = () => {
         </div>
 
         {/* KPI 4: Média por Turno */}
-        <div className="p-5 bg-[#121418] border border-white/10 rounded-3xl space-y-2 relative overflow-hidden shadow-lg">
+        <div className="p-5 bg-[#202421] border border-white/10 rounded-xl space-y-2 relative overflow-hidden shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-bold uppercase tracking-wider">Média por Turno</span>
             <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
@@ -143,7 +143,7 @@ export const ContractorReportsScreen: React.FC = () => {
       </div>
 
       {/* Gráfico de Investimento Semanal / Mensal */}
-      <div className="p-6 bg-[#121418] border border-white/10 rounded-3xl space-y-4">
+      <div className="p-6 bg-[#202421] border border-white/10 rounded-xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-sm font-extrabold text-white">
@@ -151,7 +151,7 @@ export const ContractorReportsScreen: React.FC = () => {
             </h3>
             <p className="text-xs text-zinc-400">Comparativo de despesas com escalas temporárias</p>
           </div>
-          <span className="text-xs text-[#00E676] font-bold">
+          <span className="text-xs text-[#5FA780] font-bold">
             Total: {kpis.totalInvestedFormatted}
           </span>
         </div>
@@ -170,10 +170,10 @@ export const ContractorReportsScreen: React.FC = () => {
               <span className="text-[10px] text-zinc-400 tabular-nums opacity-0 group-hover:opacity-100 transition-opacity">
                 {bar.amount}
               </span>
-              <div className="w-full bg-[#181a20] rounded-xl h-32 flex items-end p-1 overflow-hidden border border-white/5">
+              <div className="w-full bg-[#202421] rounded-xl h-32 flex items-end p-1 overflow-hidden border border-white/5">
                 <div
                   style={{ height: bar.height }}
-                  className="w-full bg-gradient-to-t from-[#00E676]/40 to-[#00E676] rounded-lg transition-all group-hover:brightness-110"
+                  className="w-full bg-gradient-to-t from-[#5FA780]/40 to-[#5FA780] rounded-lg transition-all group-hover:brightness-110"
                 />
               </div>
               <span className="text-xs font-semibold text-zinc-400">{bar.label}</span>
@@ -183,7 +183,7 @@ export const ContractorReportsScreen: React.FC = () => {
       </div>
 
       {/* Histórico Detalhado de Taxas */}
-      <div className="p-6 bg-[#121418] border border-white/10 rounded-3xl space-y-4">
+      <div className="p-6 bg-[#202421] border border-white/10 rounded-xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 className="text-base font-extrabold text-white">Histórico de Taxas & Recibos</h3>
@@ -193,7 +193,7 @@ export const ContractorReportsScreen: React.FC = () => {
           </div>
 
           {/* Filtro de Status na Tabela */}
-          <div className="flex items-center gap-1 bg-[#181a20] p-1 rounded-xl border border-white/5">
+          <div className="flex items-center gap-1 bg-[#202421] p-1 rounded-xl border border-white/5">
             {[
               { id: 'All' as StatusReportFilter, label: 'Todas' },
               { id: 'Finalizada' as StatusReportFilter, label: 'Concluídas' },
@@ -255,7 +255,7 @@ export const ContractorReportsScreen: React.FC = () => {
                           <img
                             src={approvedApplicant.avatarUrl}
                             alt={approvedApplicant.name}
-                            className="w-6 h-6 rounded-full object-cover border border-[#00E676]/40"
+                            className="w-6 h-6 rounded-full object-cover border border-[#5FA780]/40"
                           />
                           <div>
                             <span className="font-semibold text-white">
@@ -287,7 +287,7 @@ export const ContractorReportsScreen: React.FC = () => {
                       </span>
                     </td>
 
-                    <td className="py-3.5 px-3 text-right font-black text-[#00E676] tabular-nums">
+                    <td className="py-3.5 px-3 text-right font-black text-[#5FA780] tabular-nums">
                       {gig.rateFormatted}
                     </td>
 
@@ -295,9 +295,9 @@ export const ContractorReportsScreen: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setSelectedReceiptGig(gig)}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#181a20] hover:bg-[#20232c] border border-white/10 text-[11px] font-medium text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#202421] hover:bg-[#292E2A] border border-white/10 text-[11px] font-medium text-zinc-300 hover:text-white transition-colors cursor-pointer"
                       >
-                        <FileText className="w-3 h-3 text-[#00E676]" />
+                        <FileText className="w-3 h-3 text-[#5FA780]" />
                         <span>Recibo</span>
                       </button>
                     </td>
@@ -312,10 +312,10 @@ export const ContractorReportsScreen: React.FC = () => {
       {/* Modal de Comprovante de Pagamento / Recibo de Taxa */}
       {selectedReceiptGig && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
-            <div className="p-6 bg-gradient-to-br from-[#181a20] to-[#121418] border-b border-white/5 flex items-center justify-between">
+          <div className="w-full max-w-md bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl flex flex-col">
+            <div className="p-6 bg-[#202421] border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-[#00E676] text-black font-black flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-xl bg-[#5FA780] text-black font-black flex items-center justify-center text-xs">
                   T
                 </div>
                 <div>
@@ -338,7 +338,7 @@ export const ContractorReportsScreen: React.FC = () => {
                 <span className="text-[10px] uppercase font-bold text-zinc-400">
                   Valor Total Liquidado
                 </span>
-                <p className="text-3xl font-black text-[#00E676] tabular-nums">
+                <p className="text-3xl font-black text-[#5FA780] tabular-nums">
                   {selectedReceiptGig.rateFormatted}
                 </p>
                 <span className="inline-block text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-semibold">
@@ -380,12 +380,12 @@ export const ContractorReportsScreen: React.FC = () => {
               </div>
 
               <div className="pt-3 border-t border-white/5 flex items-center gap-2 text-[10px] text-zinc-400">
-                <ShieldCheck className="w-4 h-4 text-[#00E676]" />
+                <ShieldCheck className="w-4 h-4 text-[#5FA780]" />
                 <span>Documento com validade operacional e tributária em conformidade.</span>
               </div>
             </div>
 
-            <div className="p-4 bg-[#16181f] border-t border-white/5 flex gap-2">
+            <div className="p-4 bg-[#202421] border-t border-white/5 flex gap-2">
               <button
                 type="button"
                 onClick={() => setSelectedReceiptGig(null)}
@@ -398,7 +398,7 @@ export const ContractorReportsScreen: React.FC = () => {
                 onClick={() => {
                   window.print();
                 }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#00E676] text-black text-xs font-bold transition-all cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#5FA780] text-black text-xs font-bold transition-all cursor-pointer"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>Imprimir Recibo</span>

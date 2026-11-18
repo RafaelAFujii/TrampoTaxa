@@ -55,11 +55,11 @@ export const ClusterMarker: React.FC<ClusterMarkerProps> = ({
         title={`${count} taxas agrupadas nesta área. Clique para aproximar.`}
       >
         <div className="relative flex items-center justify-center">
-          <span className="w-10 h-10 rounded-full bg-[#00E676]/25 animate-ping absolute" />
-          <div className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1117] border-2 border-[#00E676] shadow-[0_0_18px_rgba(0,230,118,0.5)]">
-            <span className="w-2 h-2 rounded-full bg-[#00E676]" />
+          <span className="w-10 h-10 rounded-full bg-[#5FA780]/25 animate-ping absolute" />
+          <div className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1117] border-2 border-[#5FA780] ">
+            <span className="w-2 h-2 rounded-full bg-[#5FA780]" />
             <span className="text-xs font-black text-white">{count}</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#00E676]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#5FA780]">
               taxas
             </span>
           </div>
@@ -81,11 +81,11 @@ export const ClusterMarker: React.FC<ClusterMarkerProps> = ({
       title={`${count} taxas agrupadas nesta região. Clique para aproximar.`}
     >
       <div className="relative flex items-center justify-center group cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95 select-none">
-        <span className="w-11 h-11 rounded-full bg-[#00E676]/25 animate-ping absolute pointer-events-none" />
-        <div className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1117]/95 backdrop-blur-md border-2 border-[#00E676] shadow-[0_0_20px_rgba(0,230,118,0.45)] group-hover:border-white transition-colors">
-          <span className="w-2 h-2 rounded-full bg-[#00E676] group-hover:bg-white transition-colors" />
+        <span className="w-11 h-11 rounded-full bg-[#5FA780]/25 animate-ping absolute pointer-events-none" />
+        <div className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1117]/95 backdrop-blur-md border-2 border-[#5FA780]  group-hover:border-white transition-colors">
+          <span className="w-2 h-2 rounded-full bg-[#5FA780] group-hover:bg-white transition-colors" />
           <span className="text-xs font-black text-white">{count}</span>
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#00E676] group-hover:text-white transition-colors">
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#5FA780] group-hover:text-white transition-colors">
             taxas
           </span>
         </div>
@@ -125,12 +125,12 @@ export const GigMarker: React.FC<GigMarkerProps> = ({
         <div
           className={`px-3 py-1 rounded-full text-xs font-black tracking-tight transition-all flex items-center gap-1.5 shadow-lg ${
             isSelected
-              ? 'bg-[#00E676] text-black ring-2 ring-white shadow-[0_0_20px_rgba(0,230,118,0.6)]'
-              : 'bg-[#12141C]/90 backdrop-blur-md text-white border border-white/20 hover:border-[#00E676]/80'
+              ? 'bg-[#5FA780] text-black ring-2 ring-white '
+              : 'bg-[#202421]/90 backdrop-blur-md text-white border border-white/20 hover:border-[#5FA780]/80'
           }`}
         >
           <span
-            className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#00E676]'}`}
+            className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#5FA780]'}`}
           />
           <span>{gig.rateFormatted}</span>
         </div>
@@ -159,11 +159,11 @@ export const GigMarker: React.FC<GigMarkerProps> = ({
       <div
         className={`px-3 py-1 rounded-full text-xs font-black tracking-tight transition-all duration-200 flex items-center gap-1.5 shadow-lg select-none cursor-pointer ${
           isSelected
-            ? 'bg-[#00E676] text-black ring-2 ring-white shadow-[0_0_20px_rgba(0,230,118,0.6)] scale-110'
-            : 'bg-[#12141C]/90 backdrop-blur-md text-white border border-white/20 hover:border-[#00E676]/80 hover:scale-105'
+            ? 'bg-[#5FA780] text-black ring-2 ring-white  scale-110'
+            : 'bg-[#202421]/90 backdrop-blur-md text-white border border-white/20 hover:border-[#5FA780]/80 hover:scale-105'
         }`}
       >
-        <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#00E676]'}`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-black' : 'bg-[#5FA780]'}`} />
         <span>{gig.rateFormatted}</span>
       </div>
     </AdvancedMarker>

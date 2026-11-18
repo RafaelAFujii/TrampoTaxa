@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Modal,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Animated,
+  AccessibilityInfo,
   Dimensions,
 } from 'react-native';
 
@@ -28,10 +29,24 @@ export const MasterQrScannerModal: React.FC<MasterQrScannerModalProps> = ({
   subtitle = 'Aponte para o visor do gerente para registrar o ponto',
 }) => {
   const laserAnim = useRef(new Animated.Value(0)).current;
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+
+    return () => {
+      active = false;
+      subscription.remove();
+    };
+  }, []);
 
   // Animação contínua do feixe de laser da câmera (ida e volta)
   useEffect(() => {
-    if (visible) {
+    if (visible && !reduceMotion) {
       const loop = Animated.loop(
         Animated.sequence([
           Animated.timing(laserAnim, {
@@ -55,7 +70,7 @@ export const MasterQrScannerModal: React.FC<MasterQrScannerModalProps> = ({
     } else {
       laserAnim.setValue(0);
     }
-  }, [visible, laserAnim]);
+  }, [visible, laserAnim, reduceMotion]);
 
   const handleSimulateScan = () => {
     onScanSuccess('QR_MESTRE_123');
@@ -140,7 +155,7 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -160,8 +175,8 @@ const styles = StyleSheet.create({
   cameraViewport: {
     width: SCAN_BOX_SIZE,
     height: SCAN_BOX_SIZE,
-    backgroundColor: '#0F1117',
-    borderRadius: 24,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.12)',
     overflow: 'hidden',
@@ -177,7 +192,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 28,
     height: 28,
-    borderColor: '#00E676',
+    borderColor: '#5FA780',
   },
   topLeft: {
     top: 12,
@@ -206,8 +221,8 @@ const styles = StyleSheet.create({
   laserLine: {
     width: '100%',
     height: 3,
-    backgroundColor: '#00E676',
-    shadowColor: '#00E676',
+    backgroundColor: '#5FA780',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.9,
     shadowRadius: 8,
@@ -223,10 +238,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 230, 118, 0.12)',
+    backgroundColor: 'rgba(95,167,128, 0.12)',
     borderWidth: 1.5,
-    borderColor: '#00E676',
-    borderRadius: 16,
+    borderColor: '#5FA780',
+    borderRadius: 12,
     paddingVertical: 14,
     gap: 10,
   },
@@ -234,10 +249,10 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#00E676',
+    backgroundColor: '#5FA780',
   },
   debugButtonText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 13,
     fontWeight: '900',
     letterSpacing: 0.3,

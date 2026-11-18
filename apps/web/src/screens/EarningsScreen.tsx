@@ -214,18 +214,17 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-12 bg-[#0A0B0E]">
+    <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-12 bg-[#171B1A]">
       <div className="w-full max-w-5xl space-y-6">
         {/* ======================================================== */}
         {/* PILAR 3: UX DOPAMINA CATIVADA (FLUXO DE RECOMPENSA)      */}
         {/* ======================================================== */}
         {isShiftCelebrationActive && (
-          <div className="relative rounded-3xl bg-gradient-to-b from-[#0F141A] to-[#0A0D12] border-2 border-[#00E676] p-6 sm:p-8 shadow-[0_0_35px_rgba(0,230,118,0.25)] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="relative rounded-xl bg-[#202421] border border-[#5FA780]/40 p-6 sm:p-8 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500">
             {/* Efeito Glow de Fundo Radial Verde Neon */}
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#00E676]/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-              <div className="inline-flex items-center gap-2 bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(0,230,118,0.2)]">
+              <div className="inline-flex items-center gap-2 bg-[#5FA780]/15 border border-[#5FA780]/40 text-[#5FA780] px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider ">
                 <Sparkles className="w-3.5 h-3.5 animate-spin" />
                 <span>⚡️ Turno Concluído com Sucesso!</span>
               </div>
@@ -235,18 +234,18 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               </h2>
 
               {/* Card Central de Dopamina: Valor em Verde Neon Gigante */}
-              <div className="w-full max-w-xl bg-[#090C10]/90 border border-[#00E676]/50 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-3">
+              <div className="w-full max-w-xl bg-[#090C10]/90 border border-[#5FA780]/50 rounded-lg p-6 sm:p-8 shadow-2xl space-y-3">
                 <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">
                   TAXA LÍQUIDA GANHA HOJE
                 </span>
 
-                <div className="text-4xl sm:text-6xl font-black text-[#00E676] tracking-tight drop-shadow-[0_0_25px_rgba(0,230,118,0.5)]">
+                <div className="text-4xl sm:text-6xl font-black text-[#5FA780] tracking-tight drop-">
                   {celebrationData.amount}
                 </div>
 
-                <div className="inline-flex items-center gap-2 bg-[#00E676]/20 border border-[#00E676] px-4 py-1.5 rounded-full">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#00E676] animate-ping" />
-                  <span className="text-xs font-black text-[#00E676] tracking-wider uppercase">
+                <div className="inline-flex items-center gap-2 bg-[#5FA780]/20 border border-[#5FA780] px-4 py-1.5 rounded-full">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#5FA780] animate-ping" />
+                  <span className="text-xs font-black text-[#5FA780] tracking-wider uppercase">
                     PIX AGENDADO / LIBERADO
                   </span>
                 </div>
@@ -257,7 +256,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               </div>
 
               {/* Detalhes de Fechamento Operacional */}
-              <div className="w-full max-w-xl bg-white/[0.03] border border-white/10 rounded-2xl p-4 sm:p-5 text-left space-y-2.5">
+              <div className="w-full max-w-xl bg-white/[0.03] border border-white/10 rounded-lg p-4 sm:p-5 text-left space-y-2.5">
                 <h4 className="text-xs font-black uppercase tracking-wider text-zinc-300">
                   Resumo da Auditoria Operacional
                 </h4>
@@ -265,14 +264,14 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
                     <span className="text-zinc-400">Check-in Presencial:</span>
-                    <span className="font-bold text-[#00E676] flex items-center gap-1">
+                    <span className="font-bold text-[#5FA780] flex items-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5" /> Validado (QR Mestre)
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between p-2 rounded-xl bg-black/30 border border-white/5">
                     <span className="text-zinc-400">Janela Auto-Checkout:</span>
-                    <span className="font-bold text-[#00E676] flex items-center gap-1">
+                    <span className="font-bold text-[#5FA780] flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5" /> 2h Encerradas ✓
                     </span>
                   </div>
@@ -295,7 +294,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               <button
                 type="button"
                 onClick={handleReturnToRadar}
-                className="w-full max-w-xl py-4 rounded-2xl bg-[#00E676] hover:bg-[#00c864] text-black font-black text-sm uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,230,118,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full max-w-xl py-4 rounded-lg bg-[#5FA780] hover:bg-[#5FA780] text-black font-black text-sm uppercase tracking-wider transition-all  flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>VOLTAR AO RADAR DE TAXAS</span>
                 <ArrowRight className="w-4 h-4" />
@@ -308,7 +307,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 border border-[#00E676]/30 flex items-center justify-center text-[#00E676]">
+              <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 border border-[#5FA780]/30 flex items-center justify-center text-[#5FA780]">
                 <Wallet className="w-4 h-4" />
               </div>
               <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
@@ -319,18 +318,18 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               Acompanhe sua receita bruta por turnos realizados em Curitiba
             </p>
             {isLoading && (
-              <div className="flex items-center gap-1.5 mt-2 text-[11px] text-[#00E676]">
-                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+              <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 mt-2 text-[11px] text-[#5FA780]">
+                <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse" />
                 Atualizando extrato de pagamentos via React Query...
               </div>
             )}
             {isError && (
-              <div className="flex items-center justify-between mt-2 p-2 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
-                <span>Falha ao sincronizar extrato.</span>
+              <div className="flex flex-wrap items-center gap-2 mt-2 p-2 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
+                <span className="min-w-0 flex-1">Falha ao sincronizar extrato.</span>
                 <button
                   type="button"
                   onClick={() => refetch()}
-                  className="px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
+                  className="shrink-0 px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
                 >
                   Tentar novamente
                 </button>
@@ -339,12 +338,12 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
           </div>
 
           {/* Period Toggle Controls */}
-          <div className="flex items-center bg-[#14161C] p-1.5 rounded-2xl border border-white/10 self-start sm:self-auto shadow-inner">
+          <div className="flex items-center bg-[#14161C] p-1.5 rounded-lg border border-white/10 self-start sm:self-auto shadow-inner">
             <button
               onClick={() => setPeriod('diario')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 period === 'diario'
-                  ? 'bg-[#00E676] text-black shadow-[0_0_12px_rgba(0,230,118,0.4)]'
+                  ? 'bg-[#5FA780] text-black '
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -354,7 +353,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               onClick={() => setPeriod('semanal')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 period === 'semanal'
-                  ? 'bg-[#00E676] text-black shadow-[0_0_12px_rgba(0,230,118,0.4)]'
+                  ? 'bg-[#5FA780] text-black '
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -364,7 +363,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
               onClick={() => setPeriod('mensal')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 period === 'mensal'
-                  ? 'bg-[#00E676] text-black shadow-[0_0_12px_rgba(0,230,118,0.4)]'
+                  ? 'bg-[#5FA780] text-black '
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -374,8 +373,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         </div>
 
         {/* Hero Revenue Card */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#00E676]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
 
           <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -386,7 +384,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                 <span className="text-3xl sm:text-5xl font-black text-white tracking-tight">
                   {current.total}
                 </span>
-                <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#00E676] bg-[#00E676]/10 px-2.5 py-1 rounded-full border border-[#00E676]/30">
+                <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#5FA780] bg-[#5FA780]/10 px-2.5 py-1 rounded-full border border-[#5FA780]/30">
                   <TrendingUp className="w-3.5 h-3.5" />
                   {current.change}
                 </span>
@@ -411,7 +409,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                 <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block">
                   Média por Turno
                 </span>
-                <span className="text-xl sm:text-2xl font-black text-[#00E676] mt-0.5 block">
+                <span className="text-xl sm:text-2xl font-black text-[#5FA780] mt-0.5 block">
                   {current.averagePerShift}
                 </span>
               </div>
@@ -420,7 +418,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         </div>
 
         {/* Dynamic Chart Container */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 shadow-xl space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
@@ -443,12 +441,12 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
             >
               {exported ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-[#00E676]" />
-                  <span className="text-[#00E676]">PDF Exportado!</span>
+                  <Check className="w-3.5 h-3.5 text-[#5FA780]" />
+                  <span className="text-[#5FA780]">PDF Exportado!</span>
                 </>
               ) : (
                 <>
-                  <Download className="w-3.5 h-3.5 text-[#00E676]" />
+                  <Download className="w-3.5 h-3.5 text-[#5FA780]" />
                   <span className="hidden sm:inline">Exportar Relatório</span>
                 </>
               )}
@@ -478,16 +476,16 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                     <div className="w-full max-w-[54px] flex flex-col items-center justify-end h-full">
                       <div
                         style={{ height: `${heightPercent}%` }}
-                        className={`w-full rounded-2xl transition-all duration-500 relative flex items-center justify-center ${
+                        className={`w-full rounded-lg transition-all duration-500 relative flex items-center justify-center ${
                           bar.value === 0
                             ? 'bg-zinc-800/40 border border-dashed border-zinc-700/50'
                             : isMax
-                              ? 'bg-[#00E676] shadow-[0_0_20px_rgba(0,230,118,0.5)] border border-[#00FF77]/40'
-                              : 'bg-[#18231c] hover:bg-[#00E676]/30 border border-[#00E676]/30'
+                              ? 'bg-[#5FA780]  border border-[#72B58E]/40'
+                              : 'bg-[#18231c] hover:bg-[#5FA780]/30 border border-[#5FA780]/30'
                         }`}
                       >
                         {isMax && (
-                          <span className="absolute -top-6 text-[10px] font-extrabold text-[#00E676] hidden sm:block">
+                          <span className="absolute -top-6 text-[10px] font-extrabold text-[#5FA780] hidden sm:block">
                             Top
                           </span>
                         )}
@@ -497,7 +495,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                     {/* Bottom Label */}
                     <div className="text-center mt-3">
                       <span
-                        className={`text-xs font-bold block ${isMax ? 'text-[#00E676]' : 'text-zinc-300'}`}
+                        className={`text-xs font-bold block ${isMax ? 'text-[#5FA780]' : 'text-zinc-300'}`}
                       >
                         {bar.label}
                       </span>
@@ -513,13 +511,13 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
         </div>
 
         {/* Detailed Breakdown List */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-4">
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 shadow-xl space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-white/5">
             <div>
               <h3 className="text-base font-bold text-white">Histórico de Turnos e Repasses</h3>
               <p className="text-xs text-zinc-400">Registros auditados dos locais contratantes</p>
             </div>
-            <span className="text-xs font-semibold text-[#00E676] bg-[#00E676]/10 px-2.5 py-1 rounded-full border border-[#00E676]/20">
+            <span className="text-xs font-semibold text-[#5FA780] bg-[#5FA780]/10 px-2.5 py-1 rounded-full border border-[#5FA780]/20">
               PIX Instantâneo
             </span>
           </div>
@@ -531,13 +529,13 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                 className="py-3.5 flex items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors rounded-xl px-2"
               >
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/20 flex items-center justify-center text-[#00E676] shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-[#5FA780]/10 border border-[#5FA780]/20 flex items-center justify-center text-[#5FA780] shrink-0">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-white tracking-tight">{shift.venue}</h4>
                     <div className="flex items-center gap-2 text-xs text-zinc-400 mt-0.5">
-                      <span className="text-[#00E676] font-semibold">{shift.role}</span>
+                      <span className="text-[#5FA780] font-semibold">{shift.role}</span>
                       <span>•</span>
                       <span>{shift.time}</span>
                       <span className="hidden sm:inline">•</span>
@@ -550,7 +548,7 @@ export const EarningsScreen: React.FC<EarningsScreenProps> = ({ onBackToMap }) =
                   <span className="text-sm sm:text-base font-black text-white block">
                     {shift.amount}
                   </span>
-                  <span className="text-[10px] font-bold text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded-full inline-block mt-0.5">
+                  <span className="text-[10px] font-bold text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded-full inline-block mt-0.5">
                     {shift.status}
                   </span>
                 </div>

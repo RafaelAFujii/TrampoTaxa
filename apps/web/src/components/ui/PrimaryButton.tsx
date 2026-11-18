@@ -24,7 +24,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     dark: 'bg-[#202421] hover:bg-[#292E2A] text-white border border-[#E7ECE8]/10 rounded-lg py-3.5 px-5',
     ghost: 'bg-transparent hover:bg-[#E7ECE8]/5 text-[#AAB5AE] hover:text-[#F7F9F7] rounded-lg py-3 px-5',
     danger:
-      'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-2xl py-4 px-6',
+      'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg py-4 px-6',
   };
 
   return (

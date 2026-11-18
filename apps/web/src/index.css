@@ -3,7 +3,7 @@
 :root {
   --work-asphalt: #171b1a;
   --work-concrete: #e7ece8;
-  --work-green: #34745a;
+  --work-green: #5fa780;
   --work-yellow: #e3b23c;
   --work-clay: #b85c3d;
   --work-snow: #f7f9f7;
@@ -19,8 +19,13 @@ html, body, #root {
   padding: 0;
   background-color: var(--work-asphalt);
   color: var(--work-snow);
-  font-family: "Public Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Arial Narrow", "Roboto Condensed", "Segoe UI", sans-serif;
+  letter-spacing: -0.02em;
 }
 
 button, a, input, select, textarea {
@@ -38,6 +43,17 @@ textarea:focus-visible {
 ::selection {
   background: var(--work-green);
   color: var(--work-snow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Garante que containers do Google Maps tenham altura explícita em mobile */

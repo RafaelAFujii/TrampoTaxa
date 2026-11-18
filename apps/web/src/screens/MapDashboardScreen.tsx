@@ -134,11 +134,11 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col lg:flex-row relative bg-[#0A0B0E] h-full min-h-0 overflow-hidden">
+    <div className="w-full flex-1 flex flex-col lg:flex-row relative bg-[#171B1A] h-full min-h-0 overflow-hidden">
       {/* ======================================================== */}
       {/* SIDEBAR DESKTOP: Painel de Vagas & Status do Radar       */}
       {/* ======================================================== */}
-      <aside className="hidden lg:flex w-96 flex-col justify-between border-r border-white/5 bg-[#0F1117] z-20 shrink-0 h-full min-h-0 overflow-hidden">
+      <aside className="hidden lg:flex w-96 flex-col justify-between border-r border-white/5 bg-[#202421] z-20 shrink-0 h-full min-h-0 overflow-hidden">
         <div className="p-5 flex flex-col h-full min-h-0 overflow-hidden">
           {/* Header do Perfil & Ganhos do Dia */}
           <div className="flex items-center justify-between pb-4 border-b border-white/5">
@@ -150,11 +150,11 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80'
                   }
                   alt="Perfil"
-                  className="w-10 h-10 rounded-full object-cover border border-[#00E676]/60 shadow-[0_0_10px_rgba(0,230,118,0.2)]"
+                  className="w-10 h-10 rounded-full object-cover border border-[#5FA780]/60 "
                 />
                 <span
-                  className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#0F1117] ${
-                    isOnline ? 'bg-[#00E676]' : 'bg-zinc-600'
+                  className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#202421] ${
+                    isOnline ? 'bg-[#5FA780]' : 'bg-zinc-600'
                   }`}
                 />
               </div>
@@ -166,7 +166,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   </span>
                 </div>
                 <span
-                  className={`text-[11px] font-medium ${isOnline ? 'text-[#00E676]' : 'text-zinc-500'}`}
+                  className={`text-[11px] font-medium ${isOnline ? 'text-[#5FA780]' : 'text-zinc-500'}`}
                 >
                   {isOnline ? 'Radar Ativo em Curitiba' : 'Desconectado'}
                 </span>
@@ -179,7 +179,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               className="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
               title="Ver Extrato de Ganhos"
             >
-              <Wallet className="w-3.5 h-3.5 text-[#00E676]" />
+              <Wallet className="w-3.5 h-3.5 text-[#5FA780]" />
               <span className="text-xs font-black text-white">{earningsToday}</span>
             </button>
           </div>
@@ -188,12 +188,12 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
           <div className="py-2.5 space-y-2 border-b border-white/5">
             <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 border border-white/5 text-xs">
               <div className="flex items-center gap-2">
-                <Zap className="w-3.5 h-3.5 text-[#00E676]" />
+                <Zap className="w-3.5 h-3.5 text-[#5FA780]" />
                 <span className="font-bold text-zinc-300">Overbooking:</span>
               </div>
               <span
                 className={`font-mono font-black ${
-                  maxApplicationsReached ? 'text-amber-400' : 'text-[#00E676]'
+                  maxApplicationsReached ? 'text-amber-400' : 'text-[#5FA780]'
                 }`}
               >
                 {activeApplicationsCount}/3 vagas ativas
@@ -204,10 +204,10 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               <button
                 type="button"
                 onClick={() => navigate('/active-gig')}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#00E676]/15 hover:bg-[#00E676]/25 border border-[#00E676]/40 text-xs font-bold text-[#00E676] transition-all cursor-pointer group"
+                className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#5FA780]/15 hover:bg-[#5FA780]/25 border border-[#5FA780]/40 text-xs font-bold text-[#5FA780] transition-all cursor-pointer group"
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse" />
                   <span className="truncate">Turno Confirmado: {activeShift.venueName}</span>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
@@ -231,7 +231,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   onClick={() => setFilterProfession('All')}
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     filterProfession === 'All'
-                      ? 'bg-[#00E676] text-black shadow-sm'
+                      ? 'bg-[#5FA780] text-black shadow-sm'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -242,7 +242,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   onClick={() => setFilterProfession('Bartender')}
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     filterProfession === 'Bartender'
-                      ? 'bg-[#00E676] text-black shadow-sm'
+                      ? 'bg-[#5FA780] text-black shadow-sm'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -253,7 +253,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   onClick={() => setFilterProfession('Garçom')}
                   className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     filterProfession === 'Garçom'
-                      ? 'bg-[#00E676] text-black shadow-sm'
+                      ? 'bg-[#5FA780] text-black shadow-sm'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -266,20 +266,20 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
           {/* Lista de Vagas na Sidebar */}
           <div className="flex-1 overflow-y-auto pr-1 space-y-2.5 custom-scrollbar">
             {isLoading && (
-              <div className="flex items-center justify-between p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] text-zinc-400">
-                <span className="flex items-center gap-1.5 text-[#00E676]">
-                  <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
+              <div className="flex items-center p-2 rounded-xl bg-white/5 border border-white/5 text-[11px] text-zinc-400">
+                <span className="flex flex-wrap items-center gap-1.5 text-[#5FA780] min-w-0 flex-1">
+                  <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse" />
                   Sincronizando taxas via React Query...
                 </span>
               </div>
             )}
             {isError && (
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
-                <span>Falha ao atualizar vagas.</span>
+              <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] text-red-300">
+                <span className="min-w-0 flex-1">Falha ao atualizar vagas.</span>
                 <button
                   type="button"
                   onClick={() => refetch()}
-                  className="px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
+                  className="shrink-0 px-2 py-0.5 rounded bg-red-500/20 hover:bg-red-500/30 font-bold text-white transition-colors"
                 >
                   Tentar novamente
                 </button>
@@ -293,16 +293,16 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                     <div
                       key={gig.id}
                       onClick={() => handleMarkerClick(gig)}
-                      className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                      className={`p-3.5 rounded-lg border transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#18201C] border-[#00E676]/60 shadow-[0_0_15px_rgba(0,230,118,0.15)]'
+                          ? 'bg-[#18201C] border-[#5FA780]/60 '
                           : 'bg-[#13161F] border-white/5 hover:border-white/20 hover:bg-[#181C26]'
                       }`}
                     >
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="bg-[#00E676]/15 text-[#00E676] text-[10px] font-black uppercase px-2 py-0.5 rounded">
+                            <span className="bg-[#5FA780]/15 text-[#5FA780] text-[10px] font-black uppercase px-2 py-0.5 rounded">
                               {gig.profession}
                             </span>
                             <span className="text-[11px] text-zinc-400 font-medium">
@@ -317,7 +317,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm font-black text-[#00E676]">
+                          <span className="text-sm font-black text-[#5FA780]">
                             {gig.rateFormatted}
                           </span>
                           <span className="block text-[10px] text-zinc-400 mt-0.5">
@@ -332,7 +332,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                           <Clock className="w-3 h-3 text-zinc-500" />
                           {gig.shiftTime}
                         </span>
-                        <span className="text-[#00E676] font-bold flex items-center gap-1 hover:underline">
+                        <span className="text-[#5FA780] font-bold flex items-center gap-1 hover:underline">
                           Ver taxa <ArrowRight className="w-3 h-3" />
                         </span>
                       </div>
@@ -364,7 +364,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               className={`w-full py-3 px-4 rounded-xl font-extrabold text-xs tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 isOnline
                   ? 'bg-rose-500/15 border border-rose-500/30 text-rose-400 hover:bg-rose-500/25'
-                  : 'bg-[#00E676] text-black hover:bg-[#00c864] shadow-[0_0_15px_rgba(0,230,118,0.4)]'
+                  : 'bg-[#5FA780] text-black hover:bg-[#5FA780] '
               }`}
             >
               <Power className="w-4 h-4" />
@@ -395,13 +395,13 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
               onClick={handleToggleOnline}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-full backdrop-blur-md border text-xs font-black shadow-xl transition-all cursor-pointer ${
                 isOnline
-                  ? 'bg-[#121620]/90 border-[#00E676]/40 text-[#00E676] shadow-[0_0_15px_rgba(0,230,118,0.2)]'
+                  ? 'bg-[#202421]/90 border-[#5FA780]/40 text-[#5FA780] '
                   : 'bg-[#181A20]/90 border-white/10 text-zinc-400'
               }`}
             >
               <span
                 className={`w-2 h-2 rounded-full ${
-                  isOnline ? 'bg-[#00E676] animate-pulse' : 'bg-zinc-600'
+                  isOnline ? 'bg-[#5FA780] animate-pulse' : 'bg-zinc-600'
                 }`}
               />
               <span>{isOnline ? 'ONLINE' : 'OFFLINE'}</span>
@@ -411,16 +411,16 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
             <button
               type="button"
               onClick={() => setMobileViewMode(mobileViewMode === 'map' ? 'list' : 'map')}
-              className="lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-full backdrop-blur-md border border-white/10 bg-[#121620]/90 text-xs font-bold text-white shadow-xl hover:bg-[#1A1F2D] cursor-pointer"
+              className="lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-full backdrop-blur-md border border-white/10 bg-[#202421]/90 text-xs font-bold text-white shadow-xl hover:bg-[#1A1F2D] cursor-pointer"
             >
               {mobileViewMode === 'map' ? (
                 <>
-                  <List className="w-3.5 h-3.5 text-[#00E676]" />
+                  <List className="w-3.5 h-3.5 text-[#5FA780]" />
                   <span>Ver Lista ({displayedGigs.length})</span>
                 </>
               ) : (
                 <>
-                  <MapIcon className="w-3.5 h-3.5 text-[#00E676]" />
+                  <MapIcon className="w-3.5 h-3.5 text-[#5FA780]" />
                   <span>Ver Mapa</span>
                 </>
               )}
@@ -450,7 +450,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar por bar, bairro ou cargo..."
-                    className="w-full bg-[#161922] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00E676]"
+                    className="w-full bg-[#161922] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#5FA780]"
                   />
                 </div>
 
@@ -462,7 +462,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                       onClick={() => setFilterProfession(prof)}
                       className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                         filterProfession === prof
-                          ? 'bg-[#00E676] text-black'
+                          ? 'bg-[#5FA780] text-black'
                           : 'bg-white/5 text-zinc-400 hover:text-white'
                       }`}
                     >
@@ -482,12 +482,12 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                         handleMarkerClick(gig);
                         setMobileViewMode('map');
                       }}
-                      className="p-4 rounded-2xl bg-[#141722] border border-white/10 hover:border-[#00E676]/40 transition-all cursor-pointer shadow-lg"
+                      className="p-4 rounded-lg bg-[#202421] border border-white/10 hover:border-[#5FA780]/40 transition-all cursor-pointer shadow-lg"
                     >
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="bg-[#00E676]/15 text-[#00E676] text-[10px] font-black uppercase px-2 py-0.5 rounded">
+                            <span className="bg-[#5FA780]/15 text-[#5FA780] text-[10px] font-black uppercase px-2 py-0.5 rounded">
                               {gig.profession}
                             </span>
                             <span className="text-[11px] text-zinc-400 font-medium">
@@ -502,7 +502,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                         </div>
 
                         <div className="text-right">
-                          <span className="text-base font-black text-[#00E676]">
+                          <span className="text-base font-black text-[#5FA780]">
                             {gig.rateFormatted}
                           </span>
                           <span className="block text-[10px] text-zinc-400 mt-0.5">
@@ -516,7 +516,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                           <Clock className="w-3 h-3 text-zinc-500" />
                           {gig.shiftTime}
                         </span>
-                        <span className="text-[#00E676] font-bold flex items-center gap-1">
+                        <span className="text-[#5FA780] font-bold flex items-center gap-1">
                           Ver Detalhes & Candidatar <ArrowRight className="w-3.5 h-3.5" />
                         </span>
                       </div>
@@ -537,12 +537,12 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
           <div className="lg:hidden absolute bottom-20 left-4 right-4 z-30 animate-fadeIn pointer-events-auto">
             <div
               onClick={() => setIsBottomSheetOpen(true)}
-              className="bg-[#141722]/95 backdrop-blur-xl border border-[#00E676]/40 p-4 rounded-2xl shadow-2xl cursor-pointer"
+              className="bg-[#202421]/95 backdrop-blur-xl border border-[#5FA780]/40 p-4 rounded-lg shadow-2xl cursor-pointer"
             >
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="bg-[#00E676]/20 text-[#00E676] text-[10px] font-black uppercase px-2 py-0.5 rounded">
+                    <span className="bg-[#5FA780]/20 text-[#5FA780] text-[10px] font-black uppercase px-2 py-0.5 rounded">
                       {selectedGig.profession}
                     </span>
                     <span className="text-[11px] text-zinc-400">{selectedGig.distance}</span>
@@ -552,7 +552,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                 </div>
 
                 <div className="text-right">
-                  <span className="text-lg font-black text-[#00E676]">
+                  <span className="text-lg font-black text-[#5FA780]">
                     {selectedGig.rateFormatted}
                   </span>
                   <button
@@ -570,7 +570,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
 
               <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs">
                 <span className="text-zinc-400">{selectedGig.shiftTime}</span>
-                <span className="text-[#00E676] font-bold flex items-center gap-1">
+                <span className="text-[#5FA780] font-bold flex items-center gap-1">
                   Ver detalhes & Aceitar <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
@@ -603,9 +603,9 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
 
       {/* Floating Toast de Notificação de Contratação */}
       {toastMessage && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] p-4 rounded-2xl bg-[#12141C] border border-[#00E676]/60 shadow-[0_0_30px_rgba(0,230,118,0.25)] flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] p-4 rounded-lg bg-[#202421] border border-[#5FA780]/60  flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#00E676]/20 border border-[#00E676]/40 flex items-center justify-center text-[#00E676] shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[#5FA780]/20 border border-[#5FA780]/40 flex items-center justify-center text-[#5FA780] shrink-0">
               <Zap className="w-4 h-4" />
             </div>
             <p className="text-xs font-bold text-white">{toastMessage}</p>
@@ -618,7 +618,7 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
                   clearToast();
                   navigate('/active-gig');
                 }}
-                className="px-3 py-1.5 rounded-xl bg-[#00E676] hover:bg-[#00c965] text-black text-xs font-extrabold uppercase transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-[#5FA780] hover:bg-[#00c965] text-black text-xs font-extrabold uppercase transition-colors cursor-pointer"
               >
                 Ver Turno
               </button>

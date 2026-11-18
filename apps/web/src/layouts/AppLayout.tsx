@@ -83,9 +83,10 @@ export const AppLayout: React.FC = () => {
       <header className="sticky top-0 z-40 bg-[#171B1A]/95 border-b border-[#E7ECE8]/10 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
-          <div
+          <button
+            type="button"
             onClick={() => navigate(isContractor ? '/contractor/dashboard' : '/map')}
-            className="flex items-center gap-2.5 cursor-pointer select-none group"
+            className="flex items-center gap-2.5 cursor-pointer select-none group border-0 bg-transparent p-0 text-left"
           >
             <div className="w-8 h-8 rounded-md border border-[#34745A] bg-[#34745A] text-white font-black flex items-center justify-center text-sm transition-colors group-hover:bg-[#3F8266]">
               T
@@ -103,7 +104,7 @@ export const AppLayout: React.FC = () => {
                   : 'Plataforma de Turnos para Restaurantes'}
               </p>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Center: Desktop Top Navigation Links */}
@@ -114,7 +115,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/contractor/dashboard')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/contractor/dashboard' || currentPath === '/contractor'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -127,7 +128,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/contractor/gigs')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/contractor/gigs'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -140,7 +141,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/contractor/create')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/contractor/create'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -153,7 +154,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/contractor/reports')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/contractor/reports'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -166,7 +167,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/contractor/chat')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/contractor/chat'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -179,7 +180,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/profile')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/profile'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -195,7 +196,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/map')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/map'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -208,7 +209,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/earnings')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/earnings'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -221,7 +222,7 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/profile')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/profile'
                     ? 'bg-[#34745A] text-[#F7F9F7] border border-[#34745A]'
                     : 'text-zinc-400 hover:text-white'
@@ -234,9 +235,9 @@ export const AppLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/settings')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   currentPath === '/settings'
-                    ? 'bg-[#00E676] text-black shadow-sm'
+                    ? 'bg-[#34745A] text-white'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -250,10 +251,12 @@ export const AppLayout: React.FC = () => {
         {/* Right: Online Status & Profile */}
         <div className="flex items-center gap-2.5">
           {/* User profile dropdown trigger */}
-          <div
+          <button
+            type="button"
             onClick={() => navigate('/profile')}
-            className="flex items-center gap-2 pl-1 cursor-pointer group"
+            className="flex items-center gap-2 pl-1 cursor-pointer group border-0 bg-transparent p-0"
             title="Ver e Editar Perfil"
+            aria-label="Ver e editar perfil"
           >
             <img
               src={
@@ -263,14 +266,14 @@ export const AppLayout: React.FC = () => {
               alt={user?.name || 'Perfil'}
               className="w-9 h-9 rounded-md object-cover border border-[#34745A]"
             />
-          </div>
+          </button>
 
           {/* Logout button */}
           <button
             type="button"
             onClick={handleLogout}
             title="Sair da Conta"
-            className="flex p-2 rounded-xl text-zinc-400 hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
+            className="flex p-2 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>

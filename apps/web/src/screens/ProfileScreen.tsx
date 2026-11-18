@@ -130,21 +130,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     <div className="w-full min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 flex justify-center pb-24 lg:pb-10">
       <div className="w-full max-w-5xl space-y-6">
         {/* Profile Hero Header Card */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-xl">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#00E676]/10 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="bg-[#202421] border border-white/10 rounded-xl p-6 sm:p-8 relative overflow-hidden shadow-xl">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10 text-center sm:text-left">
             {/* Avatar */}
             <div className="relative group">
               <img
                 src={avatarUrl}
                 alt={name}
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover border-2 border-[#00E676] shadow-[0_0_20px_rgba(0,230,118,0.3)] transition-transform group-hover:scale-105"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl object-cover border-2 border-[#5FA780]  transition-transform group-hover:scale-105"
               />
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="absolute -bottom-2 -right-2 p-2 bg-[#1B1E26] border border-white/20 text-[#00E676] rounded-xl hover:bg-[#00E676] hover:text-black transition-colors cursor-pointer shadow-lg"
+                className="absolute -bottom-2 -right-2 p-2 bg-[#1B1E26] border border-white/20 text-[#5FA780] rounded-xl hover:bg-[#5FA780] hover:text-black transition-colors cursor-pointer shadow-lg"
                 title="Editar Perfil"
               >
                 <Edit3 className="w-4 h-4" />
@@ -155,7 +153,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             <div className="flex-1 space-y-2">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">{name}</h2>
-                <div className="inline-flex items-center gap-1 bg-[#00E676]/15 border border-[#00E676]/30 px-2 py-0.5 rounded-full text-[10px] font-black uppercase text-[#00E676]">
+                <div className="inline-flex items-center gap-1 bg-[#5FA780]/15 border border-[#5FA780]/30 px-2 py-0.5 rounded-full text-[10px] font-black uppercase text-[#5FA780]">
                   <ShieldCheck className="w-3 h-3" />
                   <span>{isContractor ? 'Estabelecimento Verificado' : 'Verificado CWB'}</span>
                 </div>
@@ -175,11 +173,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1 text-xs text-zinc-400">
                 <span className="flex items-center gap-1 bg-white/5 px-2.5 py-1 rounded-lg">
-                  <Mail className="w-3.5 h-3.5 text-[#00E676]" />
+                  <Mail className="w-3.5 h-3.5 text-[#5FA780]" />
                   <span>{email}</span>
                 </span>
                 <span className="flex items-center gap-1 bg-white/5 px-2.5 py-1 rounded-lg">
-                  <Phone className="w-3.5 h-3.5 text-[#00E676]" />
+                  <Phone className="w-3.5 h-3.5 text-[#5FA780]" />
                   <span>{phone}</span>
                 </span>
               </div>
@@ -191,12 +189,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isContractor ? (
             <>
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Vagas Publicadas
                   </span>
-                  <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 flex items-center justify-center text-[#00E676]">
+                  <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 flex items-center justify-center text-[#5FA780]">
                     <Briefcase className="w-4 h-4" />
                   </div>
                 </div>
@@ -204,30 +202,30 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   <span className="text-3xl font-black text-white tracking-tight tabular-nums">
                     {gigs.length}
                   </span>
-                  <span className="text-xs text-[#00E676] font-semibold block mt-1">
+                  <span className="text-xs text-[#5FA780] font-semibold block mt-1">
                     {gigs.filter((g) => g.status === 'Aberta').length} abertas no radar
                   </span>
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Total em Taxas
                   </span>
-                  <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 flex items-center justify-center text-[#00E676]">
+                  <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 flex items-center justify-center text-[#5FA780]">
                     <TrendingUp className="w-4 h-4" />
                   </div>
                 </div>
                 <div>
-                  <span className="text-3xl font-black text-[#00E676] tracking-tight tabular-nums">
+                  <span className="text-3xl font-black text-[#5FA780] tracking-tight tabular-nums">
                     {kpis.totalInvestedFormatted}
                   </span>
                   <span className="text-xs text-zinc-400 font-medium block mt-1">Repasses PIX</span>
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Taxistas Contratados
@@ -246,7 +244,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Avaliação do Local
@@ -259,7 +257,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   <span className="text-3xl font-black text-amber-400 tracking-tight tabular-nums">
                     4.9 ★
                   </span>
-                  <span className="text-xs text-[#00E676] font-medium block mt-1">
+                  <span className="text-xs text-[#5FA780] font-medium block mt-1">
                     Excelente pagador
                   </span>
                 </div>
@@ -267,34 +265,34 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </>
           ) : (
             <>
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Taxas Concluídas
                   </span>
-                  <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 flex items-center justify-center text-[#00E676]">
+                  <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 flex items-center justify-center text-[#5FA780]">
                     <Award className="w-4 h-4" />
                   </div>
                 </div>
                 <div>
                   <span className="text-3xl font-black text-white tracking-tight">84</span>
-                  <span className="text-xs text-[#00E676] font-semibold block mt-1">
+                  <span className="text-xs text-[#5FA780] font-semibold block mt-1">
                     +6 nesta semana
                   </span>
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Ganhos da Semana
                   </span>
-                  <div className="w-8 h-8 rounded-xl bg-[#00E676]/10 flex items-center justify-center text-[#00E676]">
+                  <div className="w-8 h-8 rounded-xl bg-[#5FA780]/10 flex items-center justify-center text-[#5FA780]">
                     <TrendingUp className="w-4 h-4" />
                   </div>
                 </div>
                 <div>
-                  <span className="text-3xl font-black text-[#00E676] tracking-tight">
+                  <span className="text-3xl font-black text-[#5FA780] tracking-tight">
                     R$ 1.280
                   </span>
                   <span className="text-xs text-zinc-400 font-medium block mt-1">
@@ -303,7 +301,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Comparecimento
@@ -320,7 +318,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
               </div>
 
-              <div className="bg-[#121418] border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+              <div className="bg-[#202421] border border-white/10 rounded-lg p-5 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Próximo Fechamento
@@ -331,7 +329,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </div>
                 <div>
                   <span className="text-2xl font-black text-white tracking-tight">Hoje, 23:59</span>
-                  <span className="text-xs text-[#00E676] font-medium block mt-1">
+                  <span className="text-xs text-[#5FA780] font-medium block mt-1">
                     Transferência PIX
                   </span>
                 </div>
@@ -341,7 +339,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </div>
 
         {/* Action Center & Navigation Options */}
-        <div className="bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-sm divide-y divide-white/5">
+        <div className="bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-sm divide-y divide-white/5">
           {isContractor ? (
             <>
               <button
@@ -350,7 +348,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#00E676] group-hover:bg-[#00E676]/10 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#5FA780] group-hover:bg-[#5FA780]/10 transition-colors">
                     <Briefcase className="w-5 h-5" />
                   </div>
                   <div>
@@ -371,7 +369,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#00E676] group-hover:bg-[#00E676]/10 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#5FA780] group-hover:bg-[#5FA780]/10 transition-colors">
                     <BarChart3 className="w-5 h-5" />
                   </div>
                   <div>
@@ -392,7 +390,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#00E676] group-hover:bg-[#00E676]/10 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#5FA780] group-hover:bg-[#5FA780]/10 transition-colors">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
@@ -415,7 +413,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#00E676] group-hover:bg-[#00E676]/10 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#5FA780] group-hover:bg-[#5FA780]/10 transition-colors">
                     <Settings className="w-5 h-5" />
                   </div>
                   <div>
@@ -436,7 +434,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 className="w-full flex items-center justify-between p-5 hover:bg-white/[0.03] transition-colors cursor-pointer text-left group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#00E676] group-hover:bg-[#00E676]/10 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-zinc-300 group-hover:text-[#5FA780] group-hover:bg-[#5FA780]/10 transition-colors">
                     <History className="w-5 h-5" />
                   </div>
                   <div>
@@ -459,7 +457,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             className="w-full flex items-center justify-between p-5 hover:bg-red-500/10 transition-colors cursor-pointer text-left group"
           >
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500">
+              <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500">
                 <LogOut className="w-5 h-5" />
               </div>
               <div>
@@ -479,7 +477,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       {/* Edit Profile Modal */}
       {isEditing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#121418] border border-white/10 rounded-3xl w-full max-w-lg p-6 space-y-4 shadow-2xl animate-in fade-in">
+          <div className="bg-[#202421] border border-white/10 rounded-xl w-full max-w-lg p-6 space-y-4 shadow-2xl animate-in fade-in">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h3 className="text-lg font-bold text-white">Editar Perfil</h3>
               <button
@@ -500,7 +498,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  className="w-full bg-[#202421] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#5FA780]"
                   required
                 />
               </div>
@@ -513,7 +511,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   type="text"
                   value={roleDescription}
                   onChange={(e) => setRoleDescription(e.target.value)}
-                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  className="w-full bg-[#202421] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#5FA780]"
                 />
               </div>
 
@@ -526,7 +524,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                    className="w-full bg-[#202421] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#5FA780]"
                   />
                 </div>
                 <div>
@@ -535,7 +533,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                    className="w-full bg-[#202421] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#5FA780]"
                   />
                 </div>
               </div>
@@ -548,7 +546,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                   type="url"
                   value={avatarUrl}
                   onChange={(e) => setAvatarUrl(e.target.value)}
-                  className="w-full bg-[#181a20] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00E676]"
+                  className="w-full bg-[#202421] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#5FA780]"
                 />
               </div>
 
@@ -562,7 +560,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#00E676] text-black hover:bg-[#00c853] transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#5FA780] text-black hover:bg-[#00c853] transition-colors"
                 >
                   <SaveIcon className="w-4 h-4" />
                   <span>Salvar Alterações</span>

@@ -42,19 +42,19 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-lg bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
         {/* Header com foto e ações de topo */}
-        <div className="relative p-6 bg-gradient-to-br from-[#181a20] to-[#121418] border-b border-white/5">
+        <div className="relative p-6 bg-[#202421] border-b border-white/5">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="relative">
                 <img
                   src={applicant.avatarUrl}
                   alt={applicant.name}
-                  className="w-16 h-16 rounded-2xl object-cover border-2 border-[#00E676]/60 shadow-[0_0_15px_rgba(0,230,118,0.2)]"
+                  className="w-16 h-16 rounded-lg object-cover border-2 border-[#5FA780]/60 "
                 />
-                <span className="absolute -bottom-1 -right-1 p-1 bg-[#121418] rounded-full border border-white/10">
-                  <ShieldCheck className="w-4 h-4 text-[#00E676]" />
+                <span className="absolute -bottom-1 -right-1 p-1 bg-[#202421] rounded-full border border-white/10">
+                  <ShieldCheck className="w-4 h-4 text-[#5FA780]" />
                 </span>
               </div>
               <div>
@@ -66,7 +66,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-[#00E676] font-semibold">{applicant.profession}</p>
+                <p className="text-xs text-[#5FA780] font-semibold">{applicant.profession}</p>
                 <div className="flex items-center gap-2 mt-1 text-xs text-zinc-400">
                   <div className="flex items-center text-amber-400">
                     <Star className="w-3.5 h-3.5 fill-current" />
@@ -115,7 +115,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
         <div className="p-6 overflow-y-auto space-y-5 flex-1">
           {/* Banner de Overbooking Controlado */}
           {applicant.isOverbooking && (
-            <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-3 text-xs">
+            <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-start gap-3 text-xs">
               <Zap className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <span className="font-bold text-amber-300 block">
@@ -132,9 +132,9 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
 
           {/* Métricas operacionais */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 bg-[#181a20] rounded-2xl border border-white/5">
+            <div className="p-3 bg-[#202421] rounded-lg border border-white/5">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
-                <Clock className="w-3.5 h-3.5 text-[#00E676]" />
+                <Clock className="w-3.5 h-3.5 text-[#5FA780]" />
                 <span>Pontualidade</span>
               </div>
               <p className="text-base font-bold text-white tabular-nums">
@@ -143,9 +143,9 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
               <p className="text-[10px] text-zinc-400 mt-0.5">Sem registros de atrasos graves</p>
             </div>
 
-            <div className="p-3 bg-[#181a20] rounded-2xl border border-white/5">
+            <div className="p-3 bg-[#202421] rounded-lg border border-white/5">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
-                <Award className="w-3.5 h-3.5 text-[#00E676]" />
+                <Award className="w-3.5 h-3.5 text-[#5FA780]" />
                 <span>Nível no Trampo</span>
               </div>
               <p className="text-base font-bold text-white">Taxista Pro</p>
@@ -159,7 +159,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
               <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
                 Sobre o Profissional
               </h4>
-              <p className="text-xs text-zinc-300 leading-relaxed bg-[#181a20] p-3.5 rounded-2xl border border-white/5">
+              <p className="text-xs text-zinc-300 leading-relaxed bg-[#202421] p-3.5 rounded-lg border border-white/5">
                 {applicant.bio}
               </p>
             </div>
@@ -183,9 +183,9 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
           </div>
 
           {/* Contato */}
-          <div className="p-3.5 bg-[#181a20] rounded-2xl border border-white/5 flex items-center justify-between">
+          <div className="p-3.5 bg-[#202421] rounded-lg border border-white/5 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-zinc-300">
-              <Phone className="w-4 h-4 text-[#00E676]" />
+              <Phone className="w-4 h-4 text-[#5FA780]" />
               <span className="font-mono">{applicant.phone}</span>
             </div>
             <span className="text-[11px] text-zinc-400">Inscrito: {applicant.appliedAt}</span>
@@ -197,7 +197,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
             <span
               className={`font-bold uppercase tracking-wider text-[11px] px-2.5 py-1 rounded-lg ${
                 isApproved
-                  ? 'bg-[#00E676]/15 text-[#00E676] border border-[#00E676]/30'
+                  ? 'bg-[#5FA780]/15 text-[#5FA780] border border-[#5FA780]/30'
                   : isRejected
                     ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                     : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
@@ -209,10 +209,10 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
         </div>
 
         {/* Footer com botões de ação */}
-        <div className="p-5 bg-[#16181f] border-t border-white/5 flex items-center gap-3">
+        <div className="p-5 bg-[#202421] border-t border-white/5 flex items-center gap-3">
           {isApproved ? (
             <div className="w-full flex items-center gap-3">
-              <div className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#00E676]/15 text-[#00E676] rounded-2xl border border-[#00E676]/30 font-bold text-xs">
+              <div className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#5FA780]/15 text-[#5FA780] rounded-lg border border-[#5FA780]/30 font-bold text-xs">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Freelancer Aprovado para esta Taxa</span>
               </div>
@@ -223,7 +223,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
                     onClose();
                     onOpenChat(applicant.id);
                   }}
-                  className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#00E676] text-black font-extrabold text-xs shadow-[0_0_15px_rgba(0,230,118,0.3)] hover:brightness-110 transition-all cursor-pointer whitespace-nowrap"
+                  className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#5FA780] text-black font-extrabold text-xs  hover:brightness-110 transition-all cursor-pointer whitespace-nowrap"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Abrir Chat</span>
@@ -238,7 +238,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
                   onReject(applicant.id);
                   onClose();
                 }}
-                className="flex-1 py-3 px-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs transition-colors cursor-pointer"
+                className="flex-1 py-3 px-4 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs transition-colors cursor-pointer"
               >
                 Recusar
               </button>
@@ -249,7 +249,7 @@ export const FreelancerProfileModal: React.FC<FreelancerProfileModalProps> = ({
                   onApprove(applicant.id);
                   onClose();
                 }}
-                className="flex-2 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-[#00E676] hover:brightness-110 text-black font-extrabold text-xs shadow-[0_0_20px_rgba(0,230,118,0.4)] transition-all cursor-pointer"
+                className="flex-2 flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-[#5FA780] hover:brightness-110 text-black font-extrabold text-xs  transition-all cursor-pointer"
               >
                 <Check className="w-4 h-4 stroke-[2.5]" />
                 <span>Aprovar Freelancer</span>

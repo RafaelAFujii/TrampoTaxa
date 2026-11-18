@@ -60,15 +60,15 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
       <div className="absolute inset-0 cursor-pointer" onClick={handleClose} />
 
       {/* Modal / Bottom Sheet Container */}
-      <div className="relative z-10 w-full sm:max-w-lg bg-[#12141A] border border-white/10 sm:rounded-3xl rounded-t-[32px] p-6 shadow-2xl overflow-hidden flex flex-col gap-4 max-h-[92vh] overflow-y-auto">
+      <div className="relative z-10 w-full sm:max-w-lg bg-[#202421] border border-white/10 sm:rounded-xl rounded-t-[32px] p-6 shadow-2xl overflow-hidden flex flex-col gap-4 max-h-[92vh] overflow-y-auto">
         {/* Mobile drag handle */}
         <div className="sm:hidden w-12 h-1 bg-zinc-700/80 rounded-full mx-auto -mt-2 mb-1" />
 
         {/* Header: Categoria e Botão Fechar */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00E676] animate-pulse" />
+            <span className="bg-[#5FA780]/15 border border-[#5FA780]/40 text-[#5FA780] text-xs font-black uppercase px-3 py-1 rounded-full tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5FA780] animate-pulse" />
               Taxa de {gig.profession}
             </span>
             <span className="bg-[#1C2029] text-zinc-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-white/5">
@@ -93,14 +93,14 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
               {gig.venueName}
             </h2>
             <div className="flex items-center gap-1 bg-[#1A1E27] px-2 py-1 rounded-lg border border-white/5">
-              <Star className="w-3.5 h-3.5 fill-[#00E676] text-[#00E676]" />
+              <Star className="w-3.5 h-3.5 fill-[#5FA780] text-[#5FA780]" />
               <span className="text-xs font-bold text-white">{gig.rating.toFixed(1)}</span>
             </div>
           </div>
 
           {/* Local detalhado */}
           <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-            <MapPin className="w-3.5 h-3.5 text-[#00E676] shrink-0" />
+            <MapPin className="w-3.5 h-3.5 text-[#5FA780] shrink-0" />
             <span className="text-zinc-200 font-medium">Local:</span>
             <span>{gig.neighborhood}, Curitiba - PR</span>
             <span className="text-zinc-600">•</span>
@@ -109,13 +109,13 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
         </div>
 
         {/* 2. VALOR DO TURNO & HORÁRIOS */}
-        <div className="bg-[#171A22] border border-white/10 rounded-2xl p-4 flex items-center justify-between shadow-inner">
+        <div className="bg-[#202421] border border-white/10 rounded-lg p-4 flex items-center justify-between shadow-inner">
           <div className="flex flex-col">
             <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1">
-              <DollarSign className="w-3 h-3 text-[#00E676]" />
+              <DollarSign className="w-3 h-3 text-[#5FA780]" />
               VALOR DA TAXA
             </span>
-            <span className="text-3xl font-black text-[#00E676] tracking-tight mt-0.5 drop-shadow-[0_0_12px_rgba(0,230,118,0.3)]">
+            <span className="text-3xl font-black text-[#5FA780] tracking-tight mt-0.5 drop-">
               {gig.rateFormatted}
             </span>
             <span className="text-[10px] text-zinc-400 font-medium mt-0.5">
@@ -137,9 +137,9 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
 
         {/* 3. REGRAS DE APRESENTAÇÃO */}
         {/* Posicionado diretamente acima do botão principal de 'Aceitar Taxa' */}
-        <div className="bg-[#171A22] border border-white/10 rounded-2xl p-4 text-left flex flex-col gap-2.5">
+        <div className="bg-[#202421] border border-white/10 rounded-lg p-4 text-left flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-black uppercase tracking-wider text-[#00E676]">
+            <h3 className="text-xs font-black uppercase tracking-wider text-[#5FA780]">
               Regras de Apresentação
             </h3>
           </div>
@@ -156,7 +156,7 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
             onClick={() => setAcknowledgedDressCode(!acknowledgedDressCode)}
             className={`flex items-center gap-3 cursor-pointer p-2.5 rounded-xl border transition-all select-none ${
               acknowledgedDressCode
-                ? 'bg-[#00E676]/10 border-[#00E676]/40 text-white shadow-[0_0_12px_rgba(0,230,118,0.1)]'
+                ? 'bg-[#5FA780]/10 border-[#5FA780]/40 text-white '
                 : 'bg-black/30 border-white/10 hover:border-white/20 text-zinc-300 hover:bg-white/[0.02]'
             }`}
             role="checkbox"
@@ -172,8 +172,8 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
             <div
               className={`w-5 h-5 rounded-md flex items-center justify-center transition-all shrink-0 ${
                 acknowledgedDressCode
-                  ? 'bg-[#00E676] text-black shadow-[0_0_8px_#00E676]'
-                  : 'border-2 border-zinc-500 bg-black/50 hover:border-[#00E676]/60'
+                  ? 'bg-[#5FA780] text-black'
+                  : 'border-2 border-zinc-500 bg-black/50 hover:border-[#5FA780]/60'
               }`}
             >
               {acknowledgedDressCode && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -199,7 +199,7 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           <button
             type="button"
             onClick={() => setIsChatOpen(true)}
-            className="flex items-center gap-1.5 text-xs font-bold text-[#00E676] hover:text-[#00E676]/80 hover:underline transition-all cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-bold text-[#5FA780] hover:text-[#5FA780]/80 hover:underline transition-all cursor-pointer"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             <span>Chat com o Gerente</span>
@@ -211,21 +211,21 @@ export const GigOfferBottomSheet: React.FC<GigOfferBottomSheetProps> = ({
           <button
             type="button"
             onClick={handleDecline}
-            className="sm:order-1 order-2 flex-1 py-3.5 px-4 rounded-2xl border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
+            className="sm:order-1 order-2 flex-1 py-3.5 px-4 rounded-lg border border-white/10 hover:bg-white/5 text-zinc-400 hover:text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
           >
             {isApplied ? 'Fechar Detalhes' : 'Recusar Proposta'}
           </button>
 
           <div className="sm:order-2 order-1 flex-1 flex flex-col">
             {isApplied ? (
-              <div className="w-full py-3.5 px-4 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/40 flex items-center justify-center gap-2 text-center">
-                <span className="w-2 h-2 rounded-full bg-[#00E676] animate-pulse" />
-                <span className="text-xs font-black text-[#00E676] uppercase tracking-wider">
+              <div className="w-full py-3.5 px-4 rounded-lg bg-[#5FA780]/15 border border-[#5FA780]/40 flex items-center justify-center gap-2 text-center">
+                <span className="w-2 h-2 rounded-full bg-[#5FA780] animate-pulse" />
+                <span className="text-xs font-black text-[#5FA780] uppercase tracking-wider">
                   Candidatura Ativa ({activeApplicationsCount}/3)
                 </span>
               </div>
             ) : maxApplicationsReached ? (
-              <div className="w-full py-3.5 px-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center gap-2 text-center text-amber-300">
+              <div className="w-full py-3.5 px-4 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center gap-2 text-center text-amber-300">
                 <span className="text-xs font-bold">Limite de 3 Vagas Atingido</span>
               </div>
             ) : (

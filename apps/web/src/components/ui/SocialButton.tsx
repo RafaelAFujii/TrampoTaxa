@@ -10,7 +10,7 @@ export const SocialButton: React.FC<SocialButtonProps> = ({ provider, onClick })
     <button
       type="button"
       onClick={onClick}
-      className="flex-1 flex items-center justify-center gap-2.5 bg-[#18191D] hover:bg-[#202228] active:bg-[#252830] text-white py-3.5 px-4 rounded-xl border border-white/5 transition-all duration-200 cursor-pointer"
+      className="flex-1 flex items-center justify-center gap-2.5 bg-[#202421] hover:bg-[#202228] active:bg-[#252830] text-white py-3.5 px-4 rounded-xl border border-white/5 transition-all duration-200 cursor-pointer"
     >
       {provider === 'Google' ? (
         <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">

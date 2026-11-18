@@ -54,12 +54,12 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
-            className="flex flex-col items-center justify-center gap-1 py-1 px-2.5 transition-all duration-200 cursor-pointer select-none group"
+            className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 py-1 px-2.5 transition-colors duration-150 cursor-pointer select-none group"
           >
             <div className="relative">
               <Icon
                 className={`w-5 h-5 transition-transform duration-200 group-hover:scale-110 ${
-                  isActive ? 'text-[#34745A]' : 'text-[#AAB5AE] hover:text-[#E7ECE8]'
+                  isActive ? 'text-[#5FA780]' : 'text-[#AAB5AE] hover:text-[#E7ECE8]'
                 }`}
               />
               {isActive && (
@@ -68,7 +68,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             </div>
             <span
               className={`text-[10px] font-semibold tracking-wider transition-colors duration-200 ${
-                isActive ? 'text-[#34745A]' : 'text-[#AAB5AE] group-hover:text-[#E7ECE8]'
+                isActive ? 'text-[#5FA780]' : 'text-[#AAB5AE] group-hover:text-[#E7ECE8]'
               }`}
             >
               {tab.label}

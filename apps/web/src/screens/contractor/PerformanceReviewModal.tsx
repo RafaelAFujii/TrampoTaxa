@@ -100,11 +100,11 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
+      <div className="w-full max-w-lg bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl flex flex-col">
         {/* Header */}
-        <div className="p-6 bg-gradient-to-br from-[#181a20] to-[#121418] border-b border-white/5 flex items-center justify-between">
+        <div className="p-6 bg-[#202421] border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#00E676]/15 border border-[#00E676]/30 flex items-center justify-center text-[#00E676]">
+            <div className="w-10 h-10 rounded-lg bg-[#5FA780]/15 border border-[#5FA780]/30 flex items-center justify-center text-[#5FA780]">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
@@ -123,7 +123,7 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
 
         {isSuccess ? (
           <div className="p-10 flex flex-col items-center justify-center text-center">
-            <div className="w-16 h-16 rounded-3xl bg-[#00E676]/20 border border-[#00E676] flex items-center justify-center text-[#00E676] mb-4 shadow-[0_0_25px_rgba(0,230,118,0.4)]">
+            <div className="w-16 h-16 rounded-xl bg-[#5FA780]/20 border border-[#5FA780] flex items-center justify-center text-[#5FA780] mb-4 ">
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <h4 className="text-xl font-extrabold text-white mb-2">Avaliação Registrada!</h4>
@@ -136,25 +136,25 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
           <form onSubmit={handleSubmit} className="p-6 space-y-5 overflow-y-auto max-h-[75vh]">
             {/* Identificação do Freelancer */}
             {applicant && (
-              <div className="flex items-center gap-3 p-3 bg-[#181a20] rounded-2xl border border-white/5">
+              <div className="flex items-center gap-3 p-3 bg-[#202421] rounded-lg border border-white/5">
                 <img
                   src={applicant.avatarUrl}
                   alt={applicant.name}
-                  className="w-12 h-12 rounded-xl object-cover border border-[#00E676]/40"
+                  className="w-12 h-12 rounded-xl object-cover border border-[#5FA780]/40"
                 />
                 <div className="flex-1">
                   <h4 className="text-sm font-bold text-white">{applicant.name}</h4>
                   <p className="text-xs text-zinc-400">{applicant.profession} • Turno Concluído</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-black text-[#00E676]">{gig.rateFormatted}</span>
+                  <span className="text-xs font-black text-[#5FA780]">{gig.rateFormatted}</span>
                   <p className="text-[10px] text-zinc-400">Pago via PIX</p>
                 </div>
               </div>
             )}
 
             {/* Seletor de Estrelas (1 a 5) */}
-            <div className="flex flex-col items-center justify-center py-2 bg-[#181a20] p-4 rounded-2xl border border-white/5">
+            <div className="flex flex-col items-center justify-center py-2 bg-[#202421] p-4 rounded-lg border border-white/5">
               <label className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
                 PONTUAÇÃO GERAL DO TURNO
               </label>
@@ -174,7 +174,7 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
                       <Star
                         className={`w-8 h-8 transition-colors ${
                           isFilled
-                            ? 'text-amber-400 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+                            ? 'text-amber-400 fill-amber-400'
                             : 'text-zinc-600'
                         }`}
                       />
@@ -203,8 +203,8 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
                       onClick={() => toggleTag(tag)}
                       className={`text-xs px-3 py-1.5 rounded-xl font-medium transition-all cursor-pointer border ${
                         isSelected
-                          ? 'bg-[#00E676]/15 border-[#00E676]/40 text-[#00E676]'
-                          : 'bg-[#181a20] border-white/5 text-zinc-400 hover:text-white'
+                          ? 'bg-[#5FA780]/15 border-[#5FA780]/40 text-[#5FA780]'
+                          : 'bg-[#202421] border-white/5 text-zinc-400 hover:text-white'
                       }`}
                     >
                       {tag}
@@ -224,12 +224,12 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
                 placeholder="Ex: Pontual, atencioso e seguiu todas as regras do dress code da casa com perfeição..."
-                className="w-full bg-[#181a20] border border-white/10 rounded-2xl p-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00E676] resize-none"
+                className="w-full bg-[#202421] border border-white/10 rounded-lg p-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#5FA780] resize-none"
               />
             </div>
 
             {/* Opção de favoritar o freelancer */}
-            <div className="p-3.5 bg-[#181a20] rounded-2xl border border-white/5 flex items-center justify-between">
+            <div className="p-3.5 bg-[#202421] rounded-lg border border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div
                   className={`p-2 rounded-xl border ${
@@ -252,7 +252,7 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
                 type="checkbox"
                 checked={isFavorite}
                 onChange={(e) => setIsFavorite(e.target.checked)}
-                className="w-5 h-5 accent-[#00E676] rounded cursor-pointer"
+                className="w-5 h-5 accent-[#5FA780] rounded cursor-pointer"
               />
             </div>
 
@@ -261,7 +261,7 @@ export const PerformanceReviewModal: React.FC<PerformanceReviewModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-[#00E676] text-black font-extrabold text-xs shadow-[0_0_20px_rgba(0,230,118,0.4)] hover:brightness-110 transition-all cursor-pointer disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-lg bg-[#5FA780] text-black font-extrabold text-xs  hover:brightness-110 transition-all cursor-pointer disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
                 <span>{isSubmitting ? 'SALVANDO AVALIAÇÃO...' : 'ENVIAR AVALIAÇÃO'}</span>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Modal,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Animated,
+  AccessibilityInfo,
 } from 'react-native';
 
 interface VenueReviewModalProps {
@@ -32,10 +33,24 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
     'Ambiente Seguro',
     'Bar Organizado',
   ]);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   // Animação de celebração instantânea (Scale & Fade comemorativo)
   const celebrationScale = useRef(new Animated.Value(1)).current;
   const celebrationOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+
+    return () => {
+      active = false;
+      subscription.remove();
+    };
+  }, []);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
@@ -45,6 +60,17 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
 
   const handleSubmit = () => {
     if (rating === 0) return;
+
+    const completeReview = () => {
+      onCompleteReview(rating, selectedTags);
+      celebrationScale.setValue(1);
+      celebrationOpacity.setValue(1);
+    };
+
+    if (reduceMotion) {
+      completeReview();
+      return;
+    }
 
     // Transição comemorativa direta: micro-feedback de impacto sem loader chato
     Animated.parallel([
@@ -65,12 +91,7 @@ export const VenueReviewModal: React.FC<VenueReviewModalProps> = ({
         duration: 320,
         useNativeDriver: true,
       }),
-    ]).start(() => {
-      onCompleteReview(rating, selectedTags);
-      // Reset para a próxima abertura
-      celebrationScale.setValue(1);
-      celebrationOpacity.setValue(1);
-    });
+    ]).start(completeReview);
   };
 
   return (
@@ -150,22 +171,22 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    backgroundColor: '#12141C',
-    borderRadius: 24,
+    backgroundColor: '#202421',
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.12)',
     padding: 24,
     alignItems: 'center',
   },
   badge: {
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 8,
     marginBottom: 12,
   },
   badgeText: {
-    color: '#00E676',
+    color: '#5FA780',
     fontSize: 10,
     fontWeight: '900',
     letterSpacing: 0.5,
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
   },
   starFilled: {
-    color: '#00E676',
+    color: '#5FA780',
   },
   starEmpty: {
     color: '#334155',
@@ -206,7 +227,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   tagPill: {
-    backgroundColor: '#1E232E',
+    backgroundColor: '#202421',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 12,
@@ -214,8 +235,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   tagPillActive: {
-    backgroundColor: 'rgba(0, 230, 118, 0.15)',
-    borderColor: '#00E676',
+    backgroundColor: 'rgba(95,167,128, 0.15)',
+    borderColor: '#5FA780',
   },
   tagText: {
     color: '#94A3B8',
@@ -223,15 +244,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   tagTextActive: {
-    color: '#00E676',
+    color: '#5FA780',
   },
   submitButton: {
     width: '100%',
-    backgroundColor: '#00E676',
-    borderRadius: 16,
+    backgroundColor: '#5FA780',
+    borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
-    shadowColor: '#00E676',
+    shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
     shadowRadius: 10,
@@ -241,7 +262,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#334155',
   },
   submitButtonText: {
-    color: '#0A0B0E',
+    color: '#171B1A',
     fontSize: 14,
     fontWeight: '900',
     letterSpacing: 0.5,

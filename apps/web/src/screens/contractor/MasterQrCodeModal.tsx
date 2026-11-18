@@ -41,11 +41,11 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
+      <div className="w-full max-w-md bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl flex flex-col">
         {/* Header */}
         <div className="p-5 border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#00E676]/15 border border-[#00E676]/30 flex items-center justify-center text-[#00E676]">
+            <div className="w-9 h-9 rounded-xl bg-[#5FA780]/15 border border-[#5FA780]/30 flex items-center justify-center text-[#5FA780]">
               <QrCode className="w-5 h-5" />
             </div>
             <div>
@@ -65,7 +65,7 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
 
         {/* QR Code Container */}
         <div className="p-6 flex flex-col items-center text-center space-y-4">
-          <div className="p-4 bg-white rounded-3xl shadow-xl border-4 border-[#00E676]/40 relative group">
+          <div className="p-4 bg-white rounded-xl shadow-xl border-4 border-[#5FA780]/40 relative group">
             {/* Visual SVG QR Code representation */}
             <svg
               className="w-48 h-48"
@@ -74,35 +74,35 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
               xmlns="http://www.w3.org/2000/svg"
             >
               {/* Corner 1 */}
-              <rect x="5" y="5" width="28" height="28" rx="4" fill="#0A0B0E" />
+              <rect x="5" y="5" width="28" height="28" rx="4" fill="#171B1A" />
               <rect x="9" y="9" width="20" height="20" rx="2" fill="white" />
-              <rect x="13" y="13" width="12" height="12" rx="1" fill="#0A0B0E" />
+              <rect x="13" y="13" width="12" height="12" rx="1" fill="#171B1A" />
 
               {/* Corner 2 */}
-              <rect x="67" y="5" width="28" height="28" rx="4" fill="#0A0B0E" />
+              <rect x="67" y="5" width="28" height="28" rx="4" fill="#171B1A" />
               <rect x="71" y="9" width="20" height="20" rx="2" fill="white" />
-              <rect x="75" y="13" width="12" height="12" rx="1" fill="#0A0B0E" />
+              <rect x="75" y="13" width="12" height="12" rx="1" fill="#171B1A" />
 
               {/* Corner 3 */}
-              <rect x="5" y="67" width="28" height="28" rx="4" fill="#0A0B0E" />
+              <rect x="5" y="67" width="28" height="28" rx="4" fill="#171B1A" />
               <rect x="9" y="71" width="20" height="20" rx="2" fill="white" />
-              <rect x="13" y="75" width="12" height="12" rx="1" fill="#0A0B0E" />
+              <rect x="13" y="75" width="12" height="12" rx="1" fill="#171B1A" />
 
               {/* Data dots pattern representing MASTER QR */}
-              <rect x="38" y="10" width="8" height="8" fill="#0A0B0E" />
-              <rect x="50" y="10" width="8" height="8" fill="#0A0B0E" />
-              <rect x="38" y="24" width="8" height="8" fill="#0A0B0E" />
-              <rect x="50" y="24" width="8" height="8" fill="#0A0B0E" />
-              <rect x="10" y="38" width="8" height="8" fill="#0A0B0E" />
-              <rect x="24" y="38" width="8" height="8" fill="#0A0B0E" />
-              <rect x="38" y="38" width="24" height="24" rx="3" fill="#00E676" />
-              <rect x="68" y="38" width="8" height="8" fill="#0A0B0E" />
-              <rect x="82" y="38" width="8" height="8" fill="#0A0B0E" />
-              <rect x="38" y="68" width="8" height="8" fill="#0A0B0E" />
-              <rect x="50" y="68" width="8" height="8" fill="#0A0B0E" />
-              <rect x="38" y="82" width="8" height="8" fill="#0A0B0E" />
-              <rect x="68" y="68" width="8" height="8" fill="#0A0B0E" />
-              <rect x="82" y="82" width="8" height="8" fill="#0A0B0E" />
+              <rect x="38" y="10" width="8" height="8" fill="#171B1A" />
+              <rect x="50" y="10" width="8" height="8" fill="#171B1A" />
+              <rect x="38" y="24" width="8" height="8" fill="#171B1A" />
+              <rect x="50" y="24" width="8" height="8" fill="#171B1A" />
+              <rect x="10" y="38" width="8" height="8" fill="#171B1A" />
+              <rect x="24" y="38" width="8" height="8" fill="#171B1A" />
+              <rect x="38" y="38" width="24" height="24" rx="3" fill="#5FA780" />
+              <rect x="68" y="38" width="8" height="8" fill="#171B1A" />
+              <rect x="82" y="38" width="8" height="8" fill="#171B1A" />
+              <rect x="38" y="68" width="8" height="8" fill="#171B1A" />
+              <rect x="50" y="68" width="8" height="8" fill="#171B1A" />
+              <rect x="38" y="82" width="8" height="8" fill="#171B1A" />
+              <rect x="68" y="68" width="8" height="8" fill="#171B1A" />
+              <rect x="82" y="82" width="8" height="8" fill="#171B1A" />
             </svg>
 
             <span className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
@@ -117,7 +117,7 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
               Código Alfanumérico de Contingência:
             </span>
             <div className="flex items-center justify-center gap-2">
-              <span className="font-mono text-sm font-black text-[#00E676] bg-[#00E676]/10 px-3 py-1 rounded-lg border border-[#00E676]/30">
+              <span className="font-mono text-sm font-black text-[#5FA780] bg-[#5FA780]/10 px-3 py-1 rounded-lg border border-[#5FA780]/30">
                 {qrPayload}
               </span>
               <button
@@ -126,13 +126,13 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
                 className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 transition-colors"
                 title="Copiar código"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-[#00E676]" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-[#5FA780]" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
           </div>
 
-          <div className="p-3.5 bg-[#181a20] rounded-2xl border border-white/5 text-left text-xs space-y-1.5">
-            <div className="flex items-center gap-2 text-[#00E676] font-bold">
+          <div className="p-3.5 bg-[#202421] rounded-lg border border-white/5 text-left text-xs space-y-1.5">
+            <div className="flex items-center gap-2 text-[#5FA780] font-bold">
               <ShieldCheck className="w-4 h-4" />
               <span>Validação de Presença Sem Fraude</span>
             </div>
@@ -149,7 +149,7 @@ export const MasterQrCodeModal: React.FC<MasterQrCodeModalProps> = ({
             disabled={checkInDone}
             className={`w-full py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               checkInDone
-                ? 'bg-[#00E676] text-black'
+                ? 'bg-[#5FA780] text-black'
                 : 'bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10'
             }`}
           >

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0A0B0E',
+    backgroundColor: '#171B1A',
     padding: 24,
   },
   title: {

@@ -70,7 +70,7 @@ export const ContractorChatScreen: React.FC = () => {
       <div className="mb-4 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded border border-[#00E676]/20">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded border border-[#5FA780]/20">
               COMUNICAÇÃO INTERNA
             </span>
             <span className="text-xs text-zinc-400">Canal Direto com Freelancers</span>
@@ -83,16 +83,16 @@ export const ContractorChatScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/contractor/gigs')}
-          className="text-xs text-zinc-400 hover:text-white px-3 py-1.5 rounded-xl border border-white/5 bg-[#171A22] transition-colors cursor-pointer"
+          className="text-xs text-zinc-400 hover:text-white px-3 py-1.5 rounded-xl border border-white/5 bg-[#202421] transition-colors cursor-pointer"
         >
           Voltar às Vagas
         </button>
       </div>
 
       {/* Grid do Chat: Lista de conversas + Janela ativa */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 bg-[#121418] border border-white/10 rounded-3xl overflow-hidden shadow-2xl h-[72vh] min-h-[550px]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 bg-[#202421] border border-white/10 rounded-xl overflow-hidden shadow-2xl h-[72vh] min-h-[550px]">
         {/* Painel Esquerdo: Lista de Vagas / Conversas (4 colunas) */}
-        <div className="lg:col-span-4 border-r border-white/5 flex flex-col bg-[#14161c]">
+        <div className="lg:col-span-4 border-r border-white/5 flex flex-col bg-[#202421]">
           {/* Busca de conversas */}
           <div className="p-3.5 border-b border-white/5">
             <div className="relative">
@@ -102,7 +102,7 @@ export const ContractorChatScreen: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar conversa ou taxa..."
-                className="w-full bg-[#181a20] border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00E676]"
+                className="w-full bg-[#202421] border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#5FA780]"
               />
             </div>
           </div>
@@ -130,7 +130,7 @@ export const ContractorChatScreen: React.FC = () => {
                     onClick={() => setSelectedGigId(gig.id)}
                     className={`w-full p-3.5 text-left flex items-start gap-3 transition-colors cursor-pointer ${
                       isSelected
-                        ? 'bg-[#1a1e27] border-l-2 border-[#00E676]'
+                        ? 'bg-[#1a1e27] border-l-2 border-[#5FA780]'
                         : 'hover:bg-white/[0.02]'
                     }`}
                   >
@@ -141,9 +141,9 @@ export const ContractorChatScreen: React.FC = () => {
                           'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80'
                         }
                         alt={applicant?.name || 'Freelancer'}
-                        className="w-10 h-10 rounded-xl object-cover border border-[#00E676]/30"
+                        className="w-10 h-10 rounded-xl object-cover border border-[#5FA780]/30"
                       />
-                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00E676] border-2 border-[#121418]" />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#5FA780] border-2 border-[#202421]" />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -156,7 +156,7 @@ export const ContractorChatScreen: React.FC = () => {
                         </span>
                       </div>
 
-                      <p className="text-[11px] text-[#00E676] font-medium truncate">{gig.title}</p>
+                      <p className="text-[11px] text-[#5FA780] font-medium truncate">{gig.title}</p>
 
                       <p className="text-[11px] text-zinc-400 truncate mt-0.5">
                         {lastMsg ? lastMsg.text : 'Nenhuma mensagem trocada ainda'}
@@ -169,10 +169,10 @@ export const ContractorChatScreen: React.FC = () => {
         </div>
 
         {/* Painel Direito: Janela de Chat Ativa (8 colunas) */}
-        <div className="lg:col-span-8 flex flex-col justify-between bg-[#0f1013]">
+        <div className="lg:col-span-8 flex flex-col justify-between bg-[#171B1A]">
           {/* Header do Chat Ativo */}
           {currentGig ? (
-            <div className="p-4 bg-[#14161c] border-b border-white/5 flex items-center justify-between">
+            <div className="p-4 bg-[#202421] border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <img
@@ -181,9 +181,9 @@ export const ContractorChatScreen: React.FC = () => {
                       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80'
                     }
                     alt={approvedApplicant?.name || 'Freelancer'}
-                    className="w-10 h-10 rounded-xl object-cover border border-[#00E676]/40"
+                    className="w-10 h-10 rounded-xl object-cover border border-[#5FA780]/40"
                   />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00E676] border-2 border-[#14161c]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#5FA780] border-2 border-[#202421]" />
                 </div>
 
                 <div>
@@ -191,7 +191,7 @@ export const ContractorChatScreen: React.FC = () => {
                     <h3 className="text-sm font-bold text-white">
                       {approvedApplicant?.name || 'Freelancer Selecionado'}
                     </h3>
-                    <span className="text-[10px] font-bold text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-bold text-[#5FA780] bg-[#5FA780]/10 px-2 py-0.5 rounded">
                       {approvedApplicant?.profession || currentGig.role}
                     </span>
                   </div>
@@ -221,7 +221,7 @@ export const ContractorChatScreen: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="p-4 bg-[#14161c] border-b border-white/5 text-xs text-zinc-400">
+            <div className="p-4 bg-[#202421] border-b border-white/5 text-xs text-zinc-400">
               Selecione uma vaga para conversar
             </div>
           )}
@@ -253,10 +253,10 @@ export const ContractorChatScreen: React.FC = () => {
                     className={`flex flex-col ${isContratante ? 'items-end' : 'items-start'}`}
                   >
                     <div
-                      className={`max-w-[85%] sm:max-w-[70%] rounded-2xl px-4 py-2.5 text-xs shadow-md ${
+                      className={`max-w-[85%] sm:max-w-[70%] rounded-lg px-4 py-2.5 text-xs shadow-md ${
                         isContratante
-                          ? 'bg-[#00E676] text-black font-medium rounded-br-xs'
-                          : 'bg-[#181a20] text-zinc-200 border border-white/10 rounded-bl-xs'
+                          ? 'bg-[#5FA780] text-black font-medium rounded-br-xs'
+                          : 'bg-[#202421] text-zinc-200 border border-white/10 rounded-bl-xs'
                       }`}
                     >
                       <p className="leading-relaxed">{msg.text}</p>
@@ -264,7 +264,7 @@ export const ContractorChatScreen: React.FC = () => {
 
                     <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 mt-1 px-1">
                       <span>{msg.timestamp}</span>
-                      {isContratante && <CheckCheck className="w-3 h-3 text-[#00E676]" />}
+                      {isContratante && <CheckCheck className="w-3 h-3 text-[#5FA780]" />}
                     </div>
                   </div>
                 );
@@ -275,14 +275,14 @@ export const ContractorChatScreen: React.FC = () => {
           </div>
 
           {/* Sugestões Rápidas de Mensagens */}
-          <div className="px-4 py-2 bg-[#121418] border-t border-white/5 overflow-x-auto scrollbar-none flex items-center gap-2">
+          <div className="px-4 py-2 bg-[#202421] border-t border-white/5 overflow-x-auto scrollbar-none flex items-center gap-2">
             <span className="text-[10px] uppercase font-bold text-zinc-400 shrink-0">Rápido:</span>
             {QUICK_MESSAGES.map((qm) => (
               <button
                 key={qm}
                 type="button"
                 onClick={() => handleSendQuick(qm)}
-                className="text-[11px] bg-[#181a20] hover:bg-[#20232c] text-zinc-300 hover:text-white px-2.5 py-1 rounded-xl border border-white/5 whitespace-nowrap transition-colors cursor-pointer shrink-0"
+                className="text-[11px] bg-[#202421] hover:bg-[#292E2A] text-zinc-300 hover:text-white px-2.5 py-1 rounded-xl border border-white/5 whitespace-nowrap transition-colors cursor-pointer shrink-0"
               >
                 {qm}
               </button>
@@ -292,20 +292,20 @@ export const ContractorChatScreen: React.FC = () => {
           {/* Input de Envio */}
           <form
             onSubmit={handleSend}
-            className="p-3 sm:p-4 bg-[#14161c] border-t border-white/5 flex items-center gap-2"
+            className="p-3 sm:p-4 bg-[#202421] border-t border-white/5 flex items-center gap-2"
           >
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Digite uma mensagem sobre a taxa (ex: ponto de encontro, regras)..."
-              className="flex-1 bg-[#181a20] border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#00E676]"
+              className="flex-1 bg-[#202421] border border-white/10 rounded-lg px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#5FA780]"
             />
 
             <button
               type="submit"
               disabled={!inputText.trim()}
-              className="p-3 rounded-2xl bg-[#00E676] text-black font-bold shadow-[0_0_15px_rgba(0,230,118,0.3)] hover:brightness-110 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              className="p-3 rounded-lg bg-[#5FA780] text-black font-bold  hover:brightness-110 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4" />
             </button>
