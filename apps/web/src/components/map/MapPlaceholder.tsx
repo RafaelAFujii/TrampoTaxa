@@ -529,10 +529,7 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
     };
 
     const handleWindowError = (event: ErrorEvent) => {
-      if (
-        event.message?.includes('BillingNotEnabledMapError') ||
-        event.message?.includes('Google Maps')
-      ) {
+      if (event.message?.includes('BillingNotEnabledMapError')) {
         handleAuthFailure();
       }
     };
@@ -579,6 +576,7 @@ export const MapPlaceholder: React.FC<MapPlaceholderProps> = ({
               id="cwb-radar-map"
               mapId={GOOGLE_MAP_ID}
               colorScheme={ColorScheme.DARK}
+              internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
               defaultCenter={CURITIBA_CENTER}
               defaultZoom={13}
               gestureHandling="greedy"

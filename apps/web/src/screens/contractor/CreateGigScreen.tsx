@@ -10,9 +10,11 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useContractor } from '@trampotaxa/shared';
 import { ContractorGigCategory, formatCurrencyInput, formatCurrency } from '@trampotaxa/shared';
 import { useAuth } from '../../context/AuthContext';
+import { QUERY_KEYS } from '../../hooks/useGigsQuery';
 
 const DEFAULT_ROLES = ['Bartender', 'Garçom', 'Recepcionista', 'Hostess', 'Copeiro'] as const;
 
@@ -46,6 +48,7 @@ const RULES_PRESETS = [
 
 export const CreateGigScreen: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { addGig } = useContractor();
 
   const [role, setRole] = useState<string>('Bartender');
@@ -109,9 +112,9 @@ export const CreateGigScreen: React.FC = () => {
     const venueAddress = user?.venue?.address || address;
     const venueNeighborhood = user?.venue?.neighborhood || neighborhood;
 
-    // Envio real ao backend .NET / PostgreSQL
+    // Envio real ao backend / PostgreSQL
     try {
-      await fetch('/api/contractor/gigs', {
+      const response = await fetch('/api/contractor/gigs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,6 +132,9 @@ export const CreateGigScreen: React.FC = () => {
           vacancies,
         }),
       });
+      if (response.ok) {
+        await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.gigs });
+      }
     } catch {
       // Continua e atualiza a store local
     }

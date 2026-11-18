@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Map, useMapsLibrary, useMap } from '@vis.gl/react-google-maps';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  AdvancedMarker,
+  ColorScheme,
+  Map,
+  useMapsLibrary,
+  useMap,
+} from '@vis.gl/react-google-maps';
 import {
   Navigation,
   MapPin,
@@ -33,66 +39,123 @@ interface ActiveGigScreenProps {
 // Local de partida do Freelancer (Praça Tiradentes, Curitiba)
 const USER_ORIGIN = { lat: -25.4297, lng: -49.2719 };
 
-// Componente interno para cálculo e renderização da rota real do Google Maps
-function RealRouteRenderer({ destination }: { destination: { lat: number; lng: number } }) {
+// Cálculo de fallback aproximado caso a Routes API não esteja disponível no projeto
+function computeFallbackRouteInfo(
+  origin: { lat: number; lng: number },
+  destination: { lat: number; lng: number }
+): { distance: string; duration: string } {
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(destination.lat - origin.lat);
+  const dLng = toRad(destination.lng - origin.lng);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(origin.lat)) * Math.cos(toRad(destination.lat)) * Math.sin(dLng / 2) ** 2;
+  const straightKm = 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const roadKm = Math.max(0.5, straightKm * 1.3);
+  const mins = Math.max(4, Math.round((roadKm / 26) * 60));
+  return {
+    distance: `${roadKm.toFixed(1)} km`,
+    duration: `${mins} min`,
+  };
+}
+
+// Componente interno para cálculo e renderização da rota via Routes API moderna (Route.computeRoutes)
+// Ref: https://developers.google.com/maps/documentation/javascript/routes?utm_campaign=gmp_mcp_codeassist_v1_aistudio
+function RealRouteRenderer({
+  destination,
+  venueName,
+}: {
+  destination: { lat: number; lng: number };
+  venueName: string;
+}) {
   const map = useMap();
   const routesLibrary = useMapsLibrary('routes');
-  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(
-    null
-  );
-  const [directionsRenderer, setDirectionsRenderer] =
-    useState<google.maps.DirectionsRenderer | null>(null);
+  const polylinesRef = useRef<google.maps.Polyline[]>([]);
   const [routeInfo, setRouteInfo] = useState<{ distance: string; duration: string } | null>(null);
+  const [routeError, setRouteError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!routesLibrary || !map) return;
 
-    const renderer = new routesLibrary.DirectionsRenderer({
-      map,
-      suppressMarkers: false,
-      polylineOptions: {
-        strokeColor: '#00E676',
-        strokeWeight: 6,
-        strokeOpacity: 0.95,
-      },
-    });
+    let cancelled = false;
 
-    setDirectionsService(new routesLibrary.DirectionsService());
-    setDirectionsRenderer(renderer);
+    polylinesRef.current.forEach((p) => p.setMap(null));
+    polylinesRef.current = [];
+    setRouteError(null);
 
-    return () => {
-      renderer.setMap(null);
+    const request: google.maps.routes.ComputeRoutesRequest = {
+      origin: USER_ORIGIN,
+      destination,
+      travelMode: 'DRIVING',
+      fields: ['path', 'distanceMeters', 'durationMillis', 'viewport'],
+      internalUsageAttributionIds: ['gmp_mcp_codeassist_v1_aistudio'],
     };
-  }, [routesLibrary, map]);
 
-  useEffect(() => {
-    if (!directionsService || !directionsRenderer) return;
+    routesLibrary.Route.computeRoutes(request)
+      .then(({ routes }) => {
+        if (cancelled) return;
+        const primaryRoute = routes?.[0];
+        if (!primaryRoute) {
+          setRouteInfo(computeFallbackRouteInfo(USER_ORIGIN, destination));
+          return;
+        }
 
-    directionsService
-      .route({
-        origin: USER_ORIGIN,
-        destination: destination,
-        travelMode: google.maps.TravelMode.DRIVING,
-      })
-      .then((res: google.maps.DirectionsResult | null) => {
-        if (res) {
-          directionsRenderer.setDirections(res);
-          const leg = res.routes[0]?.legs[0];
-          if (leg) {
-            setRouteInfo({
-              distance: leg.distance?.text || '3.8 km',
-              duration: leg.duration?.text || '11 mins',
-            });
-          }
+        const newPolylines = primaryRoute.createPolylines({
+          polylineOptions: {
+            strokeColor: '#00E676',
+            strokeWeight: 6,
+            strokeOpacity: 0.95,
+          },
+        });
+        newPolylines.forEach((polyline) => {
+          polyline.setMap(map);
+        });
+        polylinesRef.current = newPolylines;
+
+        if (primaryRoute.viewport) {
+          map.fitBounds(primaryRoute.viewport);
+        }
+
+        const distanceMeters = primaryRoute.distanceMeters ?? 0;
+        const durationMillis = primaryRoute.durationMillis ?? 0;
+        if (distanceMeters > 0 || durationMillis > 0) {
+          setRouteInfo({
+            distance: `${(distanceMeters / 1000).toFixed(1)} km`,
+            duration: `${Math.max(1, Math.round(durationMillis / 60000))} min`,
+          });
+        } else {
+          setRouteInfo(computeFallbackRouteInfo(USER_ORIGIN, destination));
         }
       })
       .catch((err: unknown) => {
-        console.warn('Google Directions route error:', err);
+        if (cancelled) return;
+        console.warn('Google Routes API error:', err);
+        setRouteError('Não foi possível carregar o traçado da rota. Exibindo estimativa.');
+        setRouteInfo(computeFallbackRouteInfo(USER_ORIGIN, destination));
       });
-  }, [directionsService, directionsRenderer, destination]);
+
+    return () => {
+      cancelled = true;
+      polylinesRef.current.forEach((p) => p.setMap(null));
+      polylinesRef.current = [];
+    };
+  }, [routesLibrary, map, destination]);
 
   return (
     <>
+      <AdvancedMarker position={USER_ORIGIN} title="Sua localização atual">
+        <div className="flex items-center justify-center">
+          <span className="w-4 h-4 rounded-full bg-white border-2 border-[#00E676] shadow-[0_0_10px_#00E676]" />
+        </div>
+      </AdvancedMarker>
+
+      <AdvancedMarker position={destination} title={venueName}>
+        <div className="px-2.5 py-1 rounded-full bg-[#00E676] text-black text-[11px] font-black shadow-lg border border-black/20">
+          {venueName}
+        </div>
+      </AdvancedMarker>
+
       {routeInfo && (
         <>
           <div className="absolute top-4 left-4 z-20 bg-black/85 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 flex items-center gap-2 shadow-lg">
@@ -107,19 +170,15 @@ function RealRouteRenderer({ destination }: { destination: { lat: number; lng: n
           </div>
         </>
       )}
+
+      {routeError && (
+        <div className="absolute bottom-4 left-4 z-20 bg-amber-500/15 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-500/30 text-[11px] font-medium text-amber-200 shadow-lg">
+          {routeError}
+        </div>
+      )}
     </>
   );
 }
-
-// Estilo noturno do mapa para a rota
-const darkMapStyles: google.maps.MapTypeStyle[] = [
-  { elementType: 'geometry', stylers: [{ color: '#0d1017' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#090b10' }, { weight: 3 }] },
-  { elementType: 'labels.text.fill', stylers: [{ color: '#94a3b8' }] },
-  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#171c26' }] },
-  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#222938' }] },
-  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#06080b' }] },
-];
 
 import { useActiveGigQuery } from '../hooks/useGigsQuery';
 
@@ -185,10 +244,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
     };
 
     const handleWindowError = (event: ErrorEvent) => {
-      if (
-        event.message?.includes('BillingNotEnabledMapError') ||
-        event.message?.includes('Google Maps')
-      ) {
+      if (event.message?.includes('BillingNotEnabledMapError')) {
         handleAuthFailure();
       }
     };
@@ -453,7 +509,8 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                     <Map
                       id="active-gig-map"
                       mapId="DEMO_MAP_ID"
-                      styles={darkMapStyles}
+                      colorScheme={ColorScheme.DARK}
+                      internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
                       defaultCenter={gigLocation}
                       defaultZoom={14}
                       gestureHandling="greedy"
@@ -461,7 +518,7 @@ export const ActiveGigScreen: React.FC<ActiveGigScreenProps> = ({
                       className="w-full h-full"
                       style={{ width: '100%', height: '100%' }}
                     >
-                      <RealRouteRenderer destination={gigLocation} />
+                      <RealRouteRenderer destination={gigLocation} venueName={gig.venueName} />
                     </Map>
                   </ErrorBoundary>
                 ) : (

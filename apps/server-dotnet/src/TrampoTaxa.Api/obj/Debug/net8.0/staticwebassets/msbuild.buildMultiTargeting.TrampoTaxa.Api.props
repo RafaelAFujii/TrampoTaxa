@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/TrampoTaxa.Api.props" />
-</Project>

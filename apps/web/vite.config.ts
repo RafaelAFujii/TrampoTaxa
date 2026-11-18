@@ -1,8 +1,21 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { closeDevApiServer, ensureDevApiServer } from './devApiServer';
+
+function localApiFallbackPlugin(): Plugin {
+  return {
+    name: 'trampotaxa-local-api-fallback',
+    async configureServer(server) {
+      await ensureDevApiServer(5000);
+      server.httpServer?.once('close', () => {
+        closeDevApiServer();
+      });
+    },
+  };
+}
 
 const rootNodeModules = path.resolve(import.meta.dirname || '.', '../../node_modules');
 
@@ -10,6 +23,7 @@ export default defineConfig(() => {
   return {
     base: './',
     plugins: [
+      localApiFallbackPlugin(),
       react(),
       tailwindcss(),
       VitePWA({

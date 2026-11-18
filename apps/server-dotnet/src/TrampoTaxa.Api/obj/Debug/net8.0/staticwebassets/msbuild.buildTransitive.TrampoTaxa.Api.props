@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/TrampoTaxa.Api.props" />
-</Project>

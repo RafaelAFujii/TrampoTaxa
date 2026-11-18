@@ -245,19 +245,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <div className="flex items-center gap-3">
               <SocialButton
                 provider="Google"
-                onClick={() => {
-                  login('google.user@curitiba.com', role).then(() => {
-                    navigate('/map');
-                  });
-                }}
+                onClick={() =>
+                  setErrorMessage(
+                    'Login social via Google requer configuração OAuth externa. Utilize seu e-mail e senha ou as credenciais de demonstração acima.'
+                  )
+                }
               />
               <SocialButton
                 provider="Apple"
-                onClick={() => {
-                  login('apple.user@curitiba.com', role).then(() => {
-                    navigate('/map');
-                  });
-                }}
+                onClick={() =>
+                  setErrorMessage(
+                    'Login social via Apple requer configuração OAuth externa. Utilize seu e-mail e senha ou as credenciais de demonstração acima.'
+                  )
+                }
               />
             </div>
 

@@ -43,6 +43,8 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <APIProvider
         apiKey={activeKey}
+        language="pt-BR"
+        region="BR"
         onError={(err) => {
           console.warn('[Google Maps APIProvider] Erro ao carregar motor:', err);
           try {
