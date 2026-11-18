@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Database=trampotaxa_db;Username=trampotaxa_user;Password=TrampoTaxa2026!";
+    ?? throw new InvalidOperationException(
+        "Connection string 'DefaultConnection' is required. Set it with .NET User Secrets or ConnectionStrings__DefaultConnection.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));

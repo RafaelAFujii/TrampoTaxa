@@ -39,7 +39,7 @@ apps/server-dotnet/
 │       │   └── Entities.cs          # Entidades canônicas (User, Venue, Gig, Application, Shift, Chat)
 │       ├── Services/
 │       │   └── TokenService.cs      # Geração e validação de tokens JWT
-│       ├── appsettings.json         # String de conexão do PostgreSQL e segredo JWT
+│       ├── appsettings.json         # Configurações padrão do ambiente
 │       ├── Program.cs               # Configuração do pipeline HTTP e inicialização
 │       └── TrampoTaxa.Api.csproj    # Dependências de pacotes NuGet
 │
@@ -102,12 +102,9 @@ dotnet run --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj
 
 ## 🗄️ Conexão com o PostgreSQL
 
-String de conexão configurada em `appsettings.json`:
-```
-Host=localhost;Database=trampotaxa_db;Username=trampotaxa_user;Password=TrampoTaxa2026!
+Armazene a senha local fora do repositório usando .NET User Secrets. Execute na raiz do monorepo, substituindo `SUA_SENHA_LOCAL` pela senha definida para `trampotaxa_user`:
+```powershell
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=trampotaxa_db;Username=trampotaxa_user;Password=SUA_SENHA_LOCAL" --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj
 ```
 
-Para verificar via terminal psql:
-```bash
-PGPASSWORD='TrampoTaxa2026!' psql -h localhost -U trampotaxa_user -d trampotaxa_db -c "SELECT \"Id\", \"Name\", \"Email\", \"Role\" FROM \"Users\";"
-```
+Também é possível fornecer a variável de ambiente `ConnectionStrings__DefaultConnection`. Não coloque senhas em `appsettings.json`, no histórico de comandos compartilhado ou no Git.

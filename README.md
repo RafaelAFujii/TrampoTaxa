@@ -203,18 +203,10 @@ VITE_GOOGLE_MAPS_API_KEY=sua_chave_aqui
 DISABLE_HMR=false
 ```
 
-### Backend .NET (`apps/server-dotnet/src/TrampoTaxa.Api/appsettings.json`)
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=trampotaxa_db;Username=trampotaxa_user;Password=TrampoTaxa2026!"
-  },
-  "Jwt": {
-    "Secret": "TrampoTaxaSecretKeyUltraSecure2026!CuritibaBatelSoho",
-    "Issuer": "TrampoTaxa",
-    "Audience": "TrampoTaxaClients"
-  }
-}
+### Backend .NET (User Secrets)
+Configure a conexão PostgreSQL local com .NET User Secrets, substituindo `SUA_SENHA_LOCAL` pela senha de `trampotaxa_user`:
+```powershell
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=trampotaxa_db;Username=trampotaxa_user;Password=SUA_SENHA_LOCAL" --project apps/server-dotnet/src/TrampoTaxa.Api/TrampoTaxa.Api.csproj
 ```
 
 ---
